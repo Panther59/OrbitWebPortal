@@ -24,6 +24,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
 
 import { LoginService } from '@core/authentication/login.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app.routing.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +33,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     CoreModule,
     ThemeModule,
-    RoutesModule,
+    AppRoutingModule,
     SharedModule,
     FormlyConfigModule.forRoot(),
     NgxPermissionsModule.forRoot(),

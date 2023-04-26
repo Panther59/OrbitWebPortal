@@ -1,6 +1,8 @@
 {
   "menu": {
     "dashboard": "Dashboard",
+    "company": "Company",
+    "clients": "Clients",
     "design": "Design",
     "design.colors": "Color System",
     "design.icons": "Material Icons",

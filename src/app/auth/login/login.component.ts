@@ -7,7 +7,7 @@ import { AuthService, LoginService, TokenService } from '@core/authentication';
 import { DOCUMENT } from '@angular/common';
 import { environment } from '@env/environment';
 import { CredentialResponse } from 'google-one-tap';
-import { UserTokenRequest, Token, User } from '../../../core/authentication/interface';
+import { UserTokenRequest, Token, User } from '../../core/authentication/interface';
 
 @Component({
   selector: 'app-login',
@@ -62,22 +62,17 @@ export class LoginComponent implements OnInit, AfterViewInit {
     };
   }
   async handleCredentialResponse(response: CredentialResponse) {
-    this.authService.LoginWithGoogle(response.credential).subscribe(
-      (x: any) => {
-        this._ngZone.run(() => {
-          this.router.navigate(['/dashboard']);
-        });
-      },
-      (error: any) => {
-        console.log(error);
-      }
-    );
+    this.loginUser(response.credential, undefined);
   }
 
   login() {
+    this.loginUser(undefined, this.loginForm.value.email);
+  }
+
+  loginUser(credential?: string, email?: string) {
     this.isSubmitting = true;
 
-    this.authService.LoginWithGoogle(undefined, this.loginForm.value.email).subscribe(
+    this.authService.LoginWithGoogle(credential, email).subscribe(
       (x: any) => {
         this._ngZone.run(() => {
           this.router.navigate(['/dashboard']);
