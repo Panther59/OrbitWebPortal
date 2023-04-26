@@ -10,7 +10,6 @@ import { User } from './interface';
   providedIn: 'root',
 })
 export class AuthService {
-
   private user$ = new BehaviorSubject<User>({});
   private change$ = merge(
     this.tokenService.change(),
@@ -59,10 +58,8 @@ export class AuthService {
   }
 
   logout() {
-    return this.loginService.logout().pipe(
-      tap(() => this.tokenService.clear()),
-      map(() => !this.check())
-    );
+    this.tokenService.clear();
+    return !this.check();
   }
 
   user() {

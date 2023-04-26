@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SettingsService } from '@core';
 
 @Component({
   selector: 'app-branding',
@@ -6,6 +7,7 @@ import { Component } from '@angular/core';
     <span class="d-md-inline toolBarBrand">
       <button
         type="button"
+        *ngIf="isDark"
         mat-button
         class="nav-button"
         [routerLinkActive]="['active']"
@@ -40,6 +42,44 @@ import { Component } from '@angular/core';
           <span class="brand-name">Orbit</span>
         </div>
       </button>
+
+      <button
+        type="button"
+        *ngIf="!isDark"
+        mat-button
+        class="nav-button"
+        [routerLinkActive]="['active']"
+        routerLink="#"
+      >
+        <div class="brand-button">
+          <div class="navbar-brand" style="display: inline-flex">
+            <img
+              class="under"
+              alt="innerorbit.black.png"
+              src="assets/images/innerorbit.black.png"
+              width="40"
+              height="40"
+            />
+            <img
+              class="myHomeIcon"
+              alt="outerorbit.black.png"
+              src="assets/images/outerorbit.black.png"
+              width="40"
+              height="40"
+              style="position: absolute"
+            />
+            <img
+              class="oppositeRotateSlow"
+              alt="outerorbit.black.png"
+              src="assets/images/outerorbit.black.png"
+              width="40"
+              height="40"
+              style="position: absolute"
+            />
+          </div>
+          <span class="brand-name">Orbit</span>
+        </div>
+      </button>
     </span>
   `,
   styles: [
@@ -51,4 +91,10 @@ import { Component } from '@angular/core';
     `,
   ],
 })
-export class BrandingComponent {}
+export class BrandingComponent {
+  isDark = true;
+  constructor(private settingsService: SettingsService){
+    this.isDark = settingsService.getOptions().theme === 'dark';
+    settingsService.notify.subscribe(x => this.isDark = x.theme === 'dark');
+  }
+}
