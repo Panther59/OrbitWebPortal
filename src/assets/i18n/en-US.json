@@ -125,6 +125,7 @@
   "edit_profile": "Edit profile",
   "logout": "logout",
   "login": "Login",
+  "company_title": "Add/Update Company",
   "login_title": "Welcome Back to Orbit",
   "have_no_account": "Don't have an account",
   "create_one_account": "Click here to create one",
@@ -140,5 +141,16 @@
   "read_and_agree": "I have read and agree to the terms of service",
   "have_an_account": "Already have an account",
   "restore_defaults": "Restore defaults",
-  "impersonate": "Impersonate User"
+  "impersonate": "Impersonate User",
+  "name": "Name",
+  "code": "Code",
+  "addressLine1": "Address Line 1",
+  "addressLine2": "Address Line 2",
+  "city": "City",
+  "state": "State",
+  "country": "Country",
+  "zipCode": "Zip Code",
+  "isActive": "Active",
+  "save": "Save",
+  "cancel": "Cancel"
 }

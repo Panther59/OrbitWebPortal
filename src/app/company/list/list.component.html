@@ -1,2 +1,27 @@
 <page-header></page-header>
-<p>list works!</p>
+<div class="company-container">
+  <div *ngFor="let i of companies">
+    <mat-card class="company-card">
+      <mat-card-header>
+        <mat-card-title>{{ i.name }}</mat-card-title>
+        <mat-card-subtitle>{{ i.code }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          {{ i.addressLine1 }}
+        </div>
+        <div>
+          {{ i.addressLine2 }}
+        </div>
+        <div>{{ i.city }}, {{ i.zipCode }}</div>
+        <div>Email: {{ i.email }}</div>
+        <mat-slide-toggle disabled="true" [checked]="i.isActive">{{ 'isActive' | translate }}</mat-slide-toggle>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button (click)="UpdateOrg(i)">Update</button>
+        <button mat-button (click)="DeleteOrg(i)">Remove</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+<button mat-raised-button (click)="addNewCompany()">Add Company</button>

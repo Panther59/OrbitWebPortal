@@ -1,0 +1,172 @@
+<div class="d-flex w-full h-full">
+  <mat-card class="m-auto" style="max-width: 380px">
+    <mat-card-header class="m-b-24">
+      <mat-card-title>{{ 'company_title' | translate }}!</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form class="form-field-full" [formGroup]="form">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'name' | translate }}: </mat-label>
+          <input
+            matInput
+            placeholder="{{ 'name' | translate }}"
+            formControlName="name"
+            type="name"
+            required
+          />
+          <mat-error *ngIf="form.get('name')!.invalid">
+            <span *ngIf="form.get('name')!.errors?.required"
+              >{{ 'please_enter' | translate }}
+              <strong>{{ 'name' | translate }}</strong>
+            </span>
+            <span *ngIf="form.get('name')!.errors?.remote"
+              >{{ form.get('name')!.errors?.remote }}</span
+            >
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'code' | translate }}: </mat-label>
+          <input
+            matInput
+            placeholder="{{ 'code' | translate }}"
+            formControlName="code"
+            type="code"
+            required
+          />
+          <mat-error *ngIf="form.get('code')!.invalid">
+            <span *ngIf="form.get('code')!.errors?.required"
+              >{{ 'please_enter' | translate }}
+              <strong>{{ 'code' | translate }}</strong>
+            </span>
+            <span *ngIf="form.get('code')!.errors?.remote"
+              >{{ form.get('code')!.errors?.remote }}</span
+            >
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'email' | translate }}: </mat-label>
+          <input
+            matInput
+            placeholder="{{ 'email' | translate }}"
+            formControlName="email"
+            type="email"
+            required
+          />
+          <mat-error *ngIf="form.get('email')!.invalid">
+            <span *ngIf="form.get('email')!.errors?.required"
+              >{{ 'please_enter' | translate }}
+              <strong>{{ 'email' | translate }}</strong>
+            </span>
+            <span *ngIf="form.get('email')!.errors?.remote"
+              >{{ form.get('email')!.errors?.remote }}</span
+            >
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'addressLine1' | translate }}: </mat-label>
+          <input
+            matInput
+            placeholder="{{ 'addressLine1' | translate }}"
+            formControlName="addressLine1"
+            type="addressLine1"
+            required
+          />
+          <mat-error *ngIf="form.get('addressLine1')!.invalid">
+            <span *ngIf="form.get('addressLine1')!.errors?.required"
+              >{{ 'please_enter' | translate }}
+              <strong>{{ 'addressLine1' | translate }}</strong>
+            </span>
+            <span *ngIf="form.get('addressLine1')!.errors?.remote"
+              >{{ form.get('addressLine1')!.errors?.remote }}</span
+            >
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'addressLine2' | translate }}: </mat-label>
+          <input
+            matInput
+            placeholder="{{ 'addressLine2' | translate }}"
+            formControlName="addressLine2"
+            type="addressLine2"
+            required
+          />
+          <mat-error *ngIf="form.get('addressLine2')!.invalid">
+            <span *ngIf="form.get('addressLine2')!.errors?.required"
+              >{{ 'please_enter' | translate }}
+              <strong>{{ 'addressLine2' | translate }}</strong>
+            </span>
+            <span *ngIf="form.get('addressLine2')!.errors?.remote"
+              >{{ form.get('addressLine2')!.errors?.remote }}</span
+            >
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'zipCode' | translate }}: </mat-label>
+          <input
+            matInput
+            placeholder="{{ 'zipCode' | translate }}"
+            formControlName="zipCode"
+            type="zipCode"
+            required
+          />
+          <mat-error *ngIf="form.get('zipCode')!.invalid">
+            <span *ngIf="form.get('zipCode')!.errors?.required"
+              >{{ 'please_enter' | translate }}
+              <strong>{{ 'zipCode' | translate }}</strong>
+            </span>
+            <span *ngIf="form.get('zipCode')!.errors?.remote"
+              >{{ form.get('zipCode')!.errors?.remote }}</span
+            >
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'city' | translate }}: </mat-label>
+          <input
+            matInput
+            placeholder="{{ 'city' | translate }}"
+            formControlName="city"
+            type="city"
+            required
+          />
+          <mat-error *ngIf="form.get('city')!.invalid">
+            <span *ngIf="form.get('city')!.errors?.required"
+              >{{ 'please_enter' | translate }}
+              <strong>{{ 'city' | translate }}</strong>
+            </span>
+            <span *ngIf="form.get('city')!.errors?.remote"
+              >{{ form.get('city')!.errors?.remote }}</span
+            >
+          </mat-error>
+        </mat-form-field>
+
+        <mat-slide-toggle formControlName="isActive">{{ 'isActive' | translate }}</mat-slide-toggle>
+
+        <div class="w-full m-y-16">
+          <button
+            class="m-x-16"
+            mat-raised-button
+            color="primary"
+            [disabled]="!!form.invalid"
+            [loading]="isSubmitting"
+            (click)="saveData()"
+          >
+            {{ 'save' | translate }}
+          </button>
+
+          <button class="m-x-16" mat-raised-button color="primary" (click)="cancelSaving()">
+            {{ 'cancel' | translate }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="d-flex w-full h-full"></div>
