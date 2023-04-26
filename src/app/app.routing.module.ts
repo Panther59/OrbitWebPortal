@@ -19,6 +19,11 @@ const routes: Routes = [
     component: AuthLayoutComponent,
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
+  {
+    path: 'error',
+    component: AuthLayoutComponent,
+    loadChildren: () => import('./error-pages/error-pages.module').then(m => m.ErrorPagesModule)
+  },
   { path: '**', redirectTo: '' },
 ];
 
