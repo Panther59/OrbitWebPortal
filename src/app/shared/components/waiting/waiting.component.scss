@@ -1,0 +1,38 @@
+:host {
+    color: #1976D2;
+}
+
+.blockWaiting {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.under {
+    z-index: -1;
+}
+
+.over {
+    z-index: -1;
+}
+
+.waitingDiv {
+    display: -webkit-flex; /* Safari */
+    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.imageContainer {
+    display: -ms-grid; /* Safari */
+    -webkit-flex-wrap: nowrap; /* Safari 6.1+ */
+}
+
+.blockMessage{
+    margin:10px;
+}

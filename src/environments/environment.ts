@@ -6,6 +6,8 @@ export const environment = {
   production: false,
   baseUrl: '',
   useHash: false,
+  apiUrl: 'https://localhost:7005/',
+  googleClientId: '1041750308104-74k6urufne1vul8na090rafqv1jthg2j.apps.googleusercontent.com'
 };
 
 /*

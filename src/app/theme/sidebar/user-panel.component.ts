@@ -6,7 +6,16 @@ import { AuthService, User } from '@core/authentication';
   selector: 'app-user-panel',
   template: `
     <div class="matero-user-panel">
-      <img class="matero-user-panel-avatar" [src]="user.avatar" alt="avatar" width="64" />
+      <img
+        *ngIf="user.picture"
+        class="matero-user-panel-avatar"
+        [src]="user.picture"
+        alt="picture"
+        width="64"
+      />
+      <div *ngIf="!user.picture" class="matero-user-panel-initials-circle">
+        <div class="matero-user-panel-initials">{{ user.initial }}</div>
+      </div>
       <h4 class="matero-user-panel-name">{{ user.name }}</h4>
       <h5 class="matero-user-panel-email">{{ user.email }}</h5>
       <div class="matero-user-panel-icons">

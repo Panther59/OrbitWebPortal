@@ -21,6 +21,7 @@ import { ErrorCodeComponent } from './components/error-code/error-code.component
 import { DisableControlDirective } from './directives/disable-control.directive';
 import { SafeUrlPipe } from './pipes/safe-url.pipe';
 import { ToObservablePipe } from './pipes/to-observable.pipe';
+import { BlockwaitingComponent, WaitingComponent } from './components/waiting';
 
 const MODULES: any[] = [
   CommonModule,
@@ -38,7 +39,13 @@ const MODULES: any[] = [
   ToastrModule,
   TranslateModule,
 ];
-const COMPONENTS: any[] = [BreadcrumbComponent, PageHeaderComponent, ErrorCodeComponent];
+const COMPONENTS: any[] = [
+  BreadcrumbComponent,
+  PageHeaderComponent,
+  WaitingComponent,
+  BlockwaitingComponent,
+  ErrorCodeComponent,
+];
 const COMPONENTS_DYNAMIC: any[] = [];
 const DIRECTIVES: any[] = [DisableControlDirective];
 const PIPES: any[] = [SafeUrlPipe, ToObservablePipe];

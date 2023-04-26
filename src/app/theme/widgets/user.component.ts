@@ -8,7 +8,17 @@ import { debounceTime, tap } from 'rxjs/operators';
   selector: 'app-user',
   template: `
     <button class="r-full" mat-button [matMenuTriggerFor]="menu">
-      <img matButtonIcon class="avatar r-full" [src]="user.avatar" width="24" alt="avatar" />
+      <img
+        *ngIf="user.picture"
+        matButtonIcon
+        class="avatar r-full"
+        [src]="user.picture"
+        width="24"
+        alt="avatar"
+      />
+      <div *ngIf="!user.picture" class="avatar r-full circle">
+        <div class="initials">{{ user.initial }}</div>
+      </div>
       <span class="m-x-8">{{ user.name }}</span>
     </button>
 
@@ -36,6 +46,22 @@ import { debounceTime, tap } from 'rxjs/operators';
       .avatar {
         width: 24px;
         height: 24px;
+      }
+
+      .circle {
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: inline-table;
+        justify-content: center;
+        align-items: center;
+        background-color: gray;
+      }
+      .initials {
+        color: #ffffff;
+        font-size: 12px;
+        line-height: 24px;
+        letter-spacing: 0.2625px;
       }
     `,
   ],

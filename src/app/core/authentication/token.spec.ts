@@ -12,16 +12,16 @@ describe('Token', () => {
 
     const exp = currentTimestamp() + 3600;
     const token = new JwtToken({
-      access_token: generateToken({ exp }, 'at+JWT'),
+      token: generateToken({ exp }, 'at+JWT'),
       token_type: 'Bearer',
     });
 
-    it('test access_token is JWT', () => {
-      expect(JwtToken.is(token.access_token)).toBeTrue();
+    it('test token is JWT', () => {
+      expect(JwtToken.is(token.token)).toBeTrue();
     });
 
     it('test bearer token', function () {
-      expect(token.getBearerToken()).toBe(`Bearer ${token.access_token}`);
+      expect(token.getBearerToken()).toBe(`Bearer ${token.token}`);
     });
 
     it('test payload has exp attribute', () => {
@@ -33,7 +33,7 @@ describe('Token', () => {
     });
 
     it('test does not has exp attribute', () => {
-      const token = new JwtToken({ access_token: generateToken({}), token_type: 'Bearer' });
+      const token = new JwtToken({ token: generateToken({}), token_type: 'Bearer' });
 
       expect(token.exp).toBeUndefined();
     });

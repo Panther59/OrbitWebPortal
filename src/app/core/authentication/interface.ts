@@ -1,10 +1,13 @@
-export interface User {
+export class User {
   [prop: string]: any;
 
   id?: number | string | null;
   name?: string;
+  initial?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
-  avatar?: string;
+  picture?: string;
   roles?: any[];
   permissions?: any[];
 }
@@ -12,9 +15,14 @@ export interface User {
 export interface Token {
   [prop: string]: any;
 
-  access_token: string;
+  token: string;
   token_type?: string;
   expires_in?: number;
   exp?: number;
-  refresh_token?: string;
+  refreshToken?: string;
+}
+
+export interface UserTokenRequest {
+  googleToken: string;
+  email?: string;
 }

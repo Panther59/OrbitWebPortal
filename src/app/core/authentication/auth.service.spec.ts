@@ -14,7 +14,7 @@ describe('AuthService', () => {
   let httpMock: HttpTestingController;
   let user$: Observable<User>;
   const email = 'foo@bar.com';
-  const token = { access_token: 'token', token_type: 'bearer' };
+  const token = { token: 'token', token_type: 'bearer' };
   const user = { id: 1, email };
 
   beforeEach(() => {
@@ -78,7 +78,7 @@ describe('AuthService', () => {
     expect(authService.check()).toBeFalse();
   });
 
-  it('should refresh token when access_token is valid', fakeAsync(() => {
+  it('should refresh token when token is valid', fakeAsync(() => {
     tokenService.set(Object.assign({ expires_in: 5 }, token));
     expect(authService.check()).toBeTrue();
     httpMock.expectOne('/me').flush(user);
@@ -93,7 +93,7 @@ describe('AuthService', () => {
     tokenService.ngOnDestroy();
   }));
 
-  it('should refresh token when access_token is invalid and refresh_token is valid', fakeAsync(() => {
+  it('should refresh token when token is invalid and refresh_token is valid', fakeAsync(() => {
     tokenService.set(Object.assign({ expires_in: 5, refresh_token: 'foo' }, token));
     const match = (req: HttpRequest<any>) =>
       req.url === '/auth/refresh' && req.body.refresh_token === 'foo';
@@ -109,7 +109,7 @@ describe('AuthService', () => {
     tokenService.ngOnDestroy();
   }));
 
-  it('it should clear token when access_token is invalid and refresh token response is 401', fakeAsync(() => {
+  it('it should clear token when token is invalid and refresh token response is 401', fakeAsync(() => {
     spyOn(tokenService, 'set').and.callThrough();
     tokenService.set(Object.assign({ expires_in: 5, refresh_token: 'foo' }, token));
     const match = (req: HttpRequest<any>) =>

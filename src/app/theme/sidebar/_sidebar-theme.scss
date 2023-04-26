@@ -14,4 +14,12 @@
   .matero-user-panel {
     border-bottom: 1px solid mat.get-color-from-palette($foreground, divider);
   }
+
+  .matero-user-panel-initials-circle{
+    background-color: mat.get-color-from-palette($background, app-bar);
+  }
+
+  .matero-user-panel-initials{
+    color: mat.get-color-from-palette($foreground, text);
+  }
 }

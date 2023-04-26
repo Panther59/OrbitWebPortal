@@ -13,7 +13,7 @@ class JWT {
     const refreshTokenExpiresIn = 86400;
 
     return filterObject({
-      access_token: this.createToken(user, expiresIn),
+      token: this.createToken(user, expiresIn),
       token_type: 'bearer',
       expires_in: user.refresh_token ? expiresIn : undefined,
       refresh_token: user.refresh_token ? this.createToken(user, refreshTokenExpiresIn) : undefined,
@@ -91,7 +91,7 @@ export class InMemDataService implements InMemoryDbService {
       password: 'ng-matero',
       name: 'uchauhan',
       email: 'uchauhan@163.com',
-      avatar: './assets/images/avatar.jpg',
+      picture: './assets/images/avatar.jpg',
     },
     {
       id: 2,
@@ -99,7 +99,7 @@ export class InMemDataService implements InMemoryDbService {
       password: 'password',
       name: 'recca0120',
       email: 'recca0120@gmail.com',
-      avatar: './assets/images/avatars/avatar-10.jpg',
+      picture: './assets/images/avatars/avatar-10.jpg',
       refresh_token: true,
     },
   ];

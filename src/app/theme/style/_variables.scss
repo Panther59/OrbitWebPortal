@@ -1,11 +1,12 @@
 @use '@angular/material' as mat;
 
+$collapsedWidth: 53px;
 // Layout
 $gutter: 16px !default;
 
 // Sidenav
 $sidenav-width: 240px !default;
-$sidenav-collapsed-width: 50px !default;
+$sidenav-collapsed-width: $collapsedWidth !default;
 $sidenav-width-mobile: 280px !default;
 
 // Toolbar

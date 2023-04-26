@@ -10,6 +10,7 @@ import { User } from './interface';
   providedIn: 'root',
 })
 export class AuthService {
+
   private user$ = new BehaviorSubject<User>({});
   private change$ = merge(
     this.tokenService.change(),
@@ -31,6 +32,13 @@ export class AuthService {
 
   check() {
     return this.tokenService.valid();
+  }
+
+  LoginWithGoogle(credential?: any, email?: string) {
+    return this.loginService.loginWithGoogle(credential, email).pipe(
+      tap(token => this.tokenService.set(token)),
+      map(() => this.check())
+    );
   }
 
   login(username: string, password: string, rememberMe = false) {

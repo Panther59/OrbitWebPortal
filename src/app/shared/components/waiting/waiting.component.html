@@ -1,0 +1,25 @@
+<div class="waitingDiv" *ngIf="!backgroundDark">
+  <div class="imageContainer">
+      <img class="under" alt="innerorbit.black.png" src="../../../../Images/innerorbit.black.png" width="50" height="50" />
+      <img class="over myHomeIcon rotateFaster" alt="outerorbit.black.png" src="../../../../Images/outerorbit.black.png" width="50" height="50" />
+      <img class="over oppositeRotateFast" alt="outerorbit.black.png" src="../../../../Images/outerorbit.black.png" width="50" height="50" />
+  </div>
+  <div class="blockMessage">
+      <span>
+          {{message}}
+      </span>
+  </div>
+</div>
+
+<div class="waitingDiv" *ngIf="backgroundDark">
+  <div class="imageContainer">
+      <img class="under" alt="innerorbit.white.png" src="../../../../Images/innerorbit.white.png" width="50" height="50" />
+      <img class="over myHomeIcon rotateFaster"  alt="outerorbit.white.png"  src="../../../../Images/outerorbit.white.png" width="50" height="50" />
+      <img class="over oppositeRotateFast" alt="outerorbit.white.png"  src="../../../../Images/outerorbit.white.png" width="50" height="50" />
+  </div>
+  <div class="blockMessage">
+      <span style="color:white">
+          {{message}}
+      </span>
+  </div>
+</div>

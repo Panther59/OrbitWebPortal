@@ -20,19 +20,19 @@ describe('TokenService', () => {
   });
 
   it('should get authorization header value', () => {
-    tokenService.set({ access_token: 'token', token_type: 'bearer' });
+    tokenService.set({ token: 'token', token_type: 'bearer' });
 
     expect(tokenService.getBearerToken()).toEqual('Bearer token');
   });
 
   it('cannot get authorization header value', () => {
-    tokenService.set({ access_token: '', token_type: 'bearer' });
+    tokenService.set({ token: '', token_type: 'bearer' });
 
     expect(tokenService.getBearerToken()).toBe('');
   });
 
   it('should not has exp when token has expires_in', () => {
-    tokenService.set({ access_token: 'token', token_type: 'bearer' });
+    tokenService.set({ token: 'token', token_type: 'bearer' });
 
     tokenService
       .change()
@@ -42,7 +42,7 @@ describe('TokenService', () => {
 
   it('should has exp when token has expires_in', () => {
     const expiresIn = 3600;
-    tokenService.set({ access_token: 'token', token_type: 'bearer', expires_in: expiresIn });
+    tokenService.set({ token: 'token', token_type: 'bearer', expires_in: expiresIn });
 
     tokenService
       .change()

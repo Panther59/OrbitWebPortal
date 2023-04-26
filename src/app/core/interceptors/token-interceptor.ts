@@ -11,6 +11,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { TokenService } from '@core/authentication';
 import { BASE_URL } from './base-url-interceptor';
+import { environment } from '@env/environment';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -56,7 +57,8 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 
   private shouldAppendToken(url: string) {
-    return !this.hasHttpScheme(url) || this.includeBaseUrl(url);
+    const shd = !this.hasHttpScheme(url) || this.includeBaseUrl(url) || this.isApiUrl(url);
+    return shd;
   }
 
   private includeBaseUrl(url: string) {
@@ -67,5 +69,15 @@ export class TokenInterceptor implements HttpInterceptor {
     const baseUrl = this.baseUrl.replace(/\/$/, '');
 
     return new RegExp(`^${baseUrl}`, 'i').test(url);
+  }
+
+  private isApiUrl(url: string) {
+    if (!environment.apiUrl) {
+      return false;
+    }
+
+    const apiUrl = environment.apiUrl.replace(/\/$/, '');
+
+    return new RegExp(`^${apiUrl}`, 'i').test(url);
   }
 }

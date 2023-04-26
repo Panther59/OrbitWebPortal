@@ -88,10 +88,10 @@
   }
 
   &.level-1 > li > .menu-heading {
-    padding-left: 50px;
+    padding-left: variables.$collapsedWidth;
 
     [dir='rtl'] & {
-      padding-right: 50px;
+      padding-right: variables.$collapsedWidth;
       padding-left: 16px;
     }
   }

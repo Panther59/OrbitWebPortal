@@ -56,10 +56,16 @@
       opacity: 0;
     }
 
+    .matero-user-panel-initials {
+      color         : #FFFFFF;
+      font-size     : 20px;
+      line-height   : 19px;
+      letter-spacing: 0.2625px;
+    }
+
     .matero-user-panel-avatar {
       transform: scale(.5);
     }
-
     &:hover {
       width: variables.$sidenav-width;
 

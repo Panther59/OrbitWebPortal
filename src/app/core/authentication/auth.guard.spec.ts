@@ -43,7 +43,7 @@ describe('AuthGuard', () => {
   });
 
   it('should be authenticated', () => {
-    tokenService.set({ access_token: 'token', token_type: 'bearer' });
+    tokenService.set({ token: 'token', token_type: 'bearer' });
 
     expect(authGuard.canActivate(route, state)).toBeTrue();
   });
