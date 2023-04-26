@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { environment } from '@env/environment';
 
-import { AdminLayoutComponent } from './theme/admin-layout/admin-layout.component';
-import { AuthLayoutComponent } from './theme/auth-layout/auth-layout.component';
+import { AdminLayoutComponent } from './app-layout/admin-layout/admin-layout.component';
 import { AuthGuard } from '@core';
+import { AuthLayoutComponent } from './app-layout/auth-layout/auth-layout.component';
 
 const routes: Routes = [
   {
@@ -12,17 +12,27 @@ const routes: Routes = [
     component: AdminLayoutComponent,
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+      },
+    ],
   },
   {
-    path: 'auth',
+    path: '',
     component: AuthLayoutComponent,
-    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
-  },
-  {
-    path: 'error',
-    component: AuthLayoutComponent,
-    loadChildren: () => import('./error-pages/error-pages.module').then(m => m.ErrorPagesModule)
+    children: [
+      {
+        path: 'auth',
+        loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+      },
+      {
+        path: 'error',
+        loadChildren: () =>
+          import('./error-pages/error-pages.module').then(m => m.ErrorPagesModule),
+      },
+    ],
   },
   { path: '**', redirectTo: '' },
 ];

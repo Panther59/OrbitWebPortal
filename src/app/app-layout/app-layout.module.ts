@@ -45,4 +45,4 @@ import { CustomizerComponent } from './customizer/customizer.component';
   ],
   imports: [SharedModule],
 })
-export class ThemeModule {}
+export class AppLayoutModule {}

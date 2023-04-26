@@ -5,7 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 
 import { CoreModule } from '@core/core.module';
-import { ThemeModule } from '@theme/theme.module';
 import { SharedModule } from '@shared/shared.module';
 import { FormlyConfigModule } from './formly-config.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
@@ -24,6 +23,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
 import { LoginService } from '@core/authentication/login.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app.routing.module';
+import { AppLayoutModule } from './app-layout/app-layout.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,7 +31,7 @@ import { AppRoutingModule } from './app.routing.module';
     BrowserModule,
     HttpClientModule,
     CoreModule,
-    ThemeModule,
+    AppLayoutModule,
     AppRoutingModule,
     SharedModule,
     FormlyConfigModule.forRoot(),

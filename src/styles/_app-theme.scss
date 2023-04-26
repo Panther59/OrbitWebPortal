@@ -1,11 +1,11 @@
 @use '@angular/material' as mat;
 @use '@ng-matero/extensions' as mtx;
 
-@use '../app/theme/style/reboot-theme';
-@use '../app/theme/header/header-theme';
-@use '../app/theme/sidebar/sidebar-theme';
-@use '../app/theme/sidemenu/sidemenu-theme';
-@use '../app/theme/topmenu/topmenu-theme';
+@use '../app/app-layout/style/reboot-theme';
+@use '../app/app-layout/header/header-theme';
+@use '../app/app-layout/sidebar/sidebar-theme';
+@use '../app/app-layout/sidemenu/sidemenu-theme';
+@use '../app/app-layout/topmenu/topmenu-theme';
 @use '../app/shared/components/error-code/error-code-theme';
 
 @use './custom/table-theme';
