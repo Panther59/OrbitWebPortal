@@ -17,6 +17,10 @@ const routes: Routes = [
         path: '',
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
       },
+      {
+        path: 'company',
+        loadChildren: () => import('./company/company.module').then(m => m.CompanyModule),
+      },
     ],
   },
   {
@@ -41,6 +45,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       useHash: environment.useHash,
+      enableTracing: true
     }),
   ],
   exports: [RouterModule],

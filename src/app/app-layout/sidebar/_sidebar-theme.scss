@@ -4,6 +4,7 @@
 @mixin theme($theme) {
   $background: map.get($theme, background);
   $foreground: map.get($theme, foreground);
+  $primary: map.get($theme, primary);
 
   .matero-sidebar-header {
     color: mat.get-color-from-palette($foreground, text);
@@ -16,7 +17,7 @@
   }
 
   .matero-user-panel-initials-circle{
-    background-color: mat.get-color-from-palette($background, app-bar);
+    background-color: mat.get-color-from-palette($primary);
   }
 
   .matero-user-panel-initials{

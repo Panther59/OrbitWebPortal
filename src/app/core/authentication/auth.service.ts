@@ -4,7 +4,7 @@ import { catchError, map, share, switchMap, tap } from 'rxjs/operators';
 import { TokenService } from './token.service';
 import { LoginService } from './login.service';
 import { filterObject, isEmptyObject } from './helpers';
-import { User } from './interface';
+import { User } from 'app/_models';
 
 @Injectable({
   providedIn: 'root',

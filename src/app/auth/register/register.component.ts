@@ -1,10 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Component, Inject, NgZone, OnInit, Renderer2 } from '@angular/core';
-import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService, LoginService } from '@core';
+import { LoginService } from '@core';
 import { environment } from '@env/environment';
-import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
+import { CredentialResponse } from 'google-one-tap';
 
 @Component({
   selector: 'app-register',

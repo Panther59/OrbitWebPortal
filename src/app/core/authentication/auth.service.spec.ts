@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 import { skip } from 'rxjs/operators';
 import { HttpRequest } from '@angular/common/http';
 import { LocalStorageService, MemoryStorageService } from '@shared/services/storage.service';
-import { AuthService, LoginService, TokenService, User } from '@core/authentication';
+import { AuthService, LoginService, TokenService } from '@core/authentication';
+import { User } from 'app/_models';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -59,7 +60,7 @@ describe('AuthService', () => {
     spyOn(loginService, 'logout').and.callThrough();
     expect(authService.check()).toBeFalse();
 
-    authService.logout().subscribe();
+    authService.logout();
     httpMock.expectOne('/auth/logout');
 
     expect(authService.check()).toBeFalse();
@@ -72,7 +73,7 @@ describe('AuthService', () => {
     httpMock.expectOne('/me').flush(user);
 
     user$.pipe(skip(1)).subscribe(currentUser => expect(currentUser.id).toBeUndefined());
-    authService.logout().subscribe();
+    authService.logout();
     httpMock.expectOne('/auth/logout').flush({});
 
     expect(authService.check()).toBeFalse();

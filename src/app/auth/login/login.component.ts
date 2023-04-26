@@ -1,13 +1,10 @@
 import { AfterViewInit, Component, Inject, NgZone, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import { filter } from 'rxjs/operators';
-import { AuthService, LoginService, TokenService } from '@core/authentication';
+import { AuthService, TokenService } from '@core/authentication';
 import { DOCUMENT } from '@angular/common';
 import { environment } from '@env/environment';
 import { CredentialResponse } from 'google-one-tap';
-import { UserTokenRequest, Token, User } from '../../core/authentication/interface';
 
 @Component({
   selector: 'app-login',
