@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { tap } from 'rxjs/operators';
-import { MemoryStorageService, LocalStorageService } from '@shared/services/storage.service';
-import { TokenFactory, TokenService, currentTimestamp } from '.';
+import { LocalStorageService, MemoryStorageService, TokenFactory, TokenService, currentTimestamp } from '.';
 
 describe('TokenService', () => {
   let tokenService: TokenService;

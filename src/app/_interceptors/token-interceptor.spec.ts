@@ -6,9 +6,8 @@ import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { STATUS } from 'angular-in-memory-web-api';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-import { LocalStorageService, MemoryStorageService } from '@shared/services/storage.service';
 import { BASE_URL } from './base-url-interceptor';
-import { TokenService } from 'app/_services';
+import { LocalStorageService, MemoryStorageService, TokenService } from 'app/_services';
 import { User } from 'app/_models';
 
 describe('TokenInterceptor', () => {

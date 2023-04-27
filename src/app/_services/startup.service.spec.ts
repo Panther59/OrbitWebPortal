@@ -1,8 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { NgxPermissionsModule, NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
-import { LocalStorageService, MemoryStorageService } from '@shared/services/storage.service';
-import { MenuService, StartupService, TokenService } from '.';
+import { LocalStorageService, MemoryStorageService, MenuService, StartupService, TokenService } from '.';
 
 describe('StartupService', () => {
   let httpMock: HttpTestingController;

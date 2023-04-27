@@ -2,9 +2,8 @@ import { Directionality } from '@angular/cdk/bidi';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { DOCUMENT } from '@angular/common';
 import { Component, OnInit, AfterViewInit, Inject, Optional } from '@angular/core';
-import { AppDirectionality } from '@shared';
 import { AppSettings } from './_models';
-import { PreloaderService, SettingsService } from './_services';
+import { AppDirectionality, PreloaderService, SettingsService } from './_services';
 
 @Component({
   selector: 'app-root',
