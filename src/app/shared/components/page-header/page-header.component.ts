@@ -11,7 +11,6 @@ import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 })
 export class PageHeaderComponent implements OnInit {
   @HostBinding('class') class = 'matero-page-header';
-
   @Input() title = '';
   @Input() subtitle = '';
   @Input() nav: string[] = [];
@@ -22,7 +21,17 @@ export class PageHeaderComponent implements OnInit {
   set hideBreadcrumb(value: boolean) {
     this._hideBreadCrumb = coerceBooleanProperty(value);
   }
+
+  @Input()
+  get hideTitle() {
+    return this._hideTitle;
+  }
+  set hideTitle(value: boolean) {
+    this._hideTitle = coerceBooleanProperty(value);
+  }
+
   private _hideBreadCrumb = false;
+  private _hideTitle = false;
 
   constructor(private router: Router, private menu: MenuService) {}
 

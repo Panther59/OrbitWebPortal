@@ -11,7 +11,12 @@ import { MenuService } from '@core/bootstrap/menu.service';
 export class BreadcrumbComponent implements OnInit {
   @Input() nav: string[] = [];
 
-  constructor(private router: Router, private menu: MenuService) {}
+  constructor(private router: Router, private menu: MenuService) {
+    router.events.subscribe((val) => {
+      // see also
+      this.genBreadcrumb();
+  });
+  }
 
   ngOnInit() {
     this.nav = Array.isArray(this.nav) ? this.nav : [];
@@ -23,6 +28,10 @@ export class BreadcrumbComponent implements OnInit {
 
   trackByNavlink(index: number, navLink: string): string {
     return navLink;
+  }
+
+  navigateTo(url: string){
+    this.router.navigateByUrl(url);
   }
 
   genBreadcrumb() {
