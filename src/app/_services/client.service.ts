@@ -4,6 +4,6 @@ import { OrganizationService } from './organization.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CompanyService extends OrganizationService {
-  public type = 'company';
+export class ClientService extends OrganizationService {
+  public type = 'client';
 }

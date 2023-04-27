@@ -21,6 +21,10 @@ const routes: Routes = [
         path: 'company',
         loadChildren: () => import('./company/company.module').then(m => m.CompanyModule),
       },
+      {
+        path: 'clients',
+        loadChildren: () => import('./client/client.module').then(m => m.ClientModule),
+      },
     ],
   },
   {
@@ -38,7 +42,6 @@ const routes: Routes = [
       },
     ],
   },
-  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

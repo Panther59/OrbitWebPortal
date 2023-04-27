@@ -126,6 +126,7 @@
   "logout": "logout",
   "login": "Login",
   "company_title": "Add/Update Company",
+  "client_title": "Add/Update Client",
   "login_title": "Welcome Back to Orbit",
   "have_no_account": "Don't have an account",
   "create_one_account": "Click here to create one",
