@@ -14,7 +14,7 @@ export class PermissionsService {
   }
 
   getAll() {
-    return this.http.get<Array<UserRole>>(this.baseUrl + 'api/roles');
+    return this.http.get<Array<UserRole>>(this.baseUrl + 'api/roles/users');
   }
 
   getAllForUser(userId: number) {

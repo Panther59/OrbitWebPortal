@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SettingsService } from 'app/_services';
+import { SettingsService, ThemeService } from 'app/_services';
 
 @Component({
   selector: 'app-branding',
@@ -93,8 +93,8 @@ import { SettingsService } from 'app/_services';
 })
 export class BrandingComponent {
   isDark = true;
-  constructor(private settingsService: SettingsService){
-    this.isDark = settingsService.getOptions().theme === 'dark';
-    settingsService.notify.subscribe(x => this.isDark = x.theme === 'dark');
+  constructor(themeService: ThemeService) {
+    this.isDark = themeService.getTheme() === 'dark';
+    themeService.themeModeChanged.subscribe(x => (this.isDark = x === 'dark'));
   }
 }

@@ -30,7 +30,15 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              {
+                "input": "src/styles/dx/dx.dark.scss",
+                "bundleName": "dx.theme.blue.dark"
+              },
+              {
+                "input": "src/styles/dx/dx.light.scss",
+                "bundleName": "dx.theme.blue.light"
+              }
             ],
             "scripts": []
           },

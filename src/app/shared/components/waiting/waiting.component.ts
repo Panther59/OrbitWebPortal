@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SettingsService } from 'app/_services';
+import { ThemeService } from 'app/_services';
 
 @Component({
   moduleId: module.id,
@@ -9,8 +9,9 @@ import { SettingsService } from 'app/_services';
 })
 export class WaitingComponent {
   backgroundDark = true;
-  constructor(settingsService: SettingsService) {
-    this.backgroundDark = settingsService.getOptions().theme !== 'light';
+  constructor(themeService: ThemeService) {
+    this.backgroundDark = themeService.getTheme() === 'dark';
+    themeService.themeModeChanged.subscribe(x => (this.backgroundDark = x === 'dark'));
   }
 
   @Input() message = '';
