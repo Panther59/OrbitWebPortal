@@ -1,8 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SettingsService } from '@core';
-import { AuthService } from '@core/authentication';
 import { User } from 'app/_models';
+import { AuthService, SettingsService } from 'app/_services';
 import { debounceTime, tap } from 'rxjs/operators';
 
 @Component({

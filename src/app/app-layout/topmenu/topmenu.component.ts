@@ -1,6 +1,7 @@
 import { Component, HostBinding, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router, RouterLinkActive } from '@angular/router';
-import { Menu, MenuService } from '@core';
+import { Menu } from 'app/_models';
+import { MenuService } from 'app/_services';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 

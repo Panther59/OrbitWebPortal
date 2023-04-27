@@ -5,7 +5,8 @@ import { from, Observable } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { find, map, switchMap } from 'rxjs/operators';
 import { environment } from '@env/environment';
-import { base64, currentTimestamp, filterObject, User } from '@core/authentication';
+import { User } from 'app/_models';
+import { base64, currentTimestamp, filterObject } from 'app/_services';
 
 class JWT {
   generate(user: User) {

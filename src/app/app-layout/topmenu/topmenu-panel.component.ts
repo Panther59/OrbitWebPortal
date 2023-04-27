@@ -9,10 +9,11 @@ import {
 } from '@angular/core';
 import { MatMenu } from '@angular/material/menu';
 import { NavigationEnd, Router, RouterLinkActive } from '@angular/router';
-import { MenuChildrenItem, MenuService } from '@core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { TopmenuState } from './topmenu.component';
+import { MenuChildrenItem } from 'app/_models';
+import { MenuService } from 'app/_services';
 
 @Component({
   selector: 'app-topmenu-panel',

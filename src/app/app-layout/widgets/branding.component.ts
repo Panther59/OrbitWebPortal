@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SettingsService } from '@core';
+import { SettingsService } from 'app/_services';
 
 @Component({
   selector: 'app-branding',

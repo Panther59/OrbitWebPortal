@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UserTokenRequest, Token, User } from 'app/_models';
-import { Menu } from '@core';
+import { UserTokenRequest, Token, User, Menu } from 'app/_models';
 import { map } from 'rxjs/operators';
 import { environment } from '@env/environment';
 

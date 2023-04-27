@@ -2,8 +2,8 @@ import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Component, Inject, NgZone, OnInit, Renderer2 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from '@core';
 import { environment } from '@env/environment';
+import { LoginService } from 'app/_services';
 import { CredentialResponse } from 'google-one-tap';
 
 @Component({

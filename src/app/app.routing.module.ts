@@ -3,8 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { environment } from '@env/environment';
 
 import { AdminLayoutComponent } from './app-layout/admin-layout/admin-layout.component';
-import { AuthGuard } from '@core';
 import { AuthLayoutComponent } from './app-layout/auth-layout/auth-layout.component';
+import { AuthGuard } from './_guards/auth.guard';
 
 const routes: Routes = [
   {

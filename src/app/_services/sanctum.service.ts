@@ -1,7 +1,7 @@
 import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BASE_URL } from '../interceptors/base-url-interceptor';
+import { BASE_URL } from '../_interceptors/base-url-interceptor';
 
 export const SANCTUM_PREFIX = new InjectionToken<string>('SANCTUM_PREFIX');
 

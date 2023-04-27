@@ -15,8 +15,9 @@ import { BreakpointObserver, MediaMatcher } from '@angular/cdk/layout';
 import { Directionality } from '@angular/cdk/bidi';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 
-import { SettingsService, AppSettings } from '@core';
 import { AppDirectionality } from '@shared';
+import { SettingsService } from 'app/_services';
+import { AppSettings } from 'app/_models';
 
 const MOBILE_MEDIAQUERY = 'screen and (max-width: 599px)';
 const TABLET_MEDIAQUERY = 'screen and (min-width: 600px) and (max-width: 959px)';

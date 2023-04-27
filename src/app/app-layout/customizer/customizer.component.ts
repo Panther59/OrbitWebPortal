@@ -7,11 +7,12 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
-import { AppSettings, SettingsService } from '@core';
 import { CdkDragStart } from '@angular/cdk/drag-drop';
 import { MtxDrawer, MtxDrawerRef } from '@ng-matero/extensions/drawer';
 import { FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { AppSettings } from 'app/_models';
+import { SettingsService } from 'app/_services';
 
 @Component({
   selector: 'app-customizer',

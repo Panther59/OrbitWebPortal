@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SimpleToken, JwtToken, BaseToken } from './token';
+import { SimpleToken, JwtToken, BaseToken } from '../_models/token';
 import { Token } from 'app/_models';
 
 @Injectable({

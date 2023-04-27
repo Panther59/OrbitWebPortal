@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, Input, HostBinding } from '@angular/core';
-import { MenuService } from '@core/bootstrap/menu.service';
+import { MenuService } from 'app/_services/menu.service';
 import { Router } from '@angular/router';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 

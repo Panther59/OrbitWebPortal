@@ -7,8 +7,9 @@ import { STATUS } from 'angular-in-memory-web-api';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { LocalStorageService, MemoryStorageService } from '@shared/services/storage.service';
-import { TokenService, User } from '@core/authentication';
 import { BASE_URL } from './base-url-interceptor';
+import { TokenService } from 'app/_services';
+import { User } from 'app/_models';
 
 describe('TokenInterceptor', () => {
   let httpMock: HttpTestingController;
@@ -32,7 +33,7 @@ describe('TokenInterceptor', () => {
     httpMock = TestBed.inject(HttpTestingController);
     http = TestBed.inject(HttpClient);
     router = TestBed.inject(Router);
-    tokenService = TestBed.inject(TokenService).set({ token: token, token_type: 'bearer' });
+    tokenService = TestBed.inject(TokenService).set({ token, token_type: 'bearer' });
   }
 
   function mockRequest(url: string, body?: any, headers?: any) {

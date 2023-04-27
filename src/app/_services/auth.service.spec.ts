@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { skip } from 'rxjs/operators';
 import { HttpRequest } from '@angular/common/http';
 import { LocalStorageService, MemoryStorageService } from '@shared/services/storage.service';
-import { AuthService, LoginService, TokenService } from '@core/authentication';
 import { User } from 'app/_models';
+import { AuthService, LoginService, TokenService } from '.';
 
 describe('AuthService', () => {
   let authService: AuthService;

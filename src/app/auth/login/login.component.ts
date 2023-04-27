@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, Inject, NgZone, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService, TokenService } from '@core/authentication';
 import { DOCUMENT } from '@angular/common';
 import { environment } from '@env/environment';
 import { CredentialResponse } from 'google-one-tap';
+import { AuthService, TokenService } from 'app/_services';
 
 @Component({
   selector: 'app-login',
