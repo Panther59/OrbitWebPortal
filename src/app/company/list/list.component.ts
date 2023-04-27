@@ -10,6 +10,7 @@ import { AddCompanyDialog } from '../add-company/add-company.dialog';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
+  loading = false;
   companies: Organization[] = [];
   constructor(private companyService: CompanyService, public dialog: MatDialog) {}
 
@@ -41,9 +42,16 @@ export class ListComponent implements OnInit {
   }
 
   loadData() {
+    this.loading = true;
     this.companyService.getAll().subscribe({
-      next: orgs => (this.companies = orgs),
-      error: e => console.error(e),
+      next: orgs => {
+        this.companies = orgs;
+        this.loading = false;
+      },
+      error: e => {
+        this.loading = false;
+        console.error(e);
+      },
       complete: () => console.info('complete'),
     });
   }
