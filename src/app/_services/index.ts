@@ -1,8 +1,6 @@
+export * from './apis';
+
 export * from './auth.service';
-export * from './company.service';
-export * from './client.service';
-export * from './organization.service';
-export * from './login.service';
 export * from './menu.service';
 export * from './preloader.service';
 export * from './settings.service';
