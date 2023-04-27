@@ -17,6 +17,12 @@
       "name": "clients",
       "type": "link",
       "icon": "store"
+    },
+    {
+      "route": "permissions",
+      "name": "permissions",
+      "type": "link",
+      "icon": "manage_accounts"
     }
   ]
 }

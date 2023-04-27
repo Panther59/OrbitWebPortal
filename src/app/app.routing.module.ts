@@ -25,6 +25,10 @@ const routes: Routes = [
         path: 'clients',
         loadChildren: () => import('./client/client.module').then(m => m.ClientModule),
       },
+      {
+        path: 'permissions',
+        loadChildren: () => import('./permissions/permissions.module').then(m => m.PermissionsModule),
+      },
     ],
   },
   {
