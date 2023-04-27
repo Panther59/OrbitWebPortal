@@ -21,7 +21,7 @@ import { SettingsService } from 'app/_services';
   encapsulation: ViewEncapsulation.None,
 })
 export class CustomizerComponent implements OnInit, OnDestroy {
-  @Output() optionsChange = new EventEmitter<AppSettings>();
+  // @Output() optionsChange = new EventEmitter<AppSettings>();
 
   options = this.settings.getOptions();
 
@@ -67,7 +67,7 @@ export class CustomizerComponent implements OnInit, OnDestroy {
     this.form.patchValue(this.options);
 
     this.formSubscription = this.form.valueChanges.subscribe(value => {
-      this.sendOptions(value as AppSettings);
+      this.settings.setOptions(value as AppSettings);
     });
   }
 
@@ -95,7 +95,7 @@ export class CustomizerComponent implements OnInit, OnDestroy {
     this.drawerRef?.dismiss();
   }
 
-  sendOptions(options: AppSettings) {
-    this.optionsChange.emit(options);
-  }
+  // sendOptions(options: AppSettings) {
+  //   this.optionsChange.emit(options);
+  // }
 }

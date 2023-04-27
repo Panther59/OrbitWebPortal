@@ -65,16 +65,10 @@ export class AdminLayoutComponent implements OnDestroy {
 
   constructor(
     private router: Router,
-    private mediaMatcher: MediaMatcher,
     private breakpointObserver: BreakpointObserver,
     private settings: SettingsService,
     private themeService: ThemeService,
-    @Optional() @Inject(DOCUMENT) private document: Document,
-    @Inject(Directionality) public dir: AppDirectionality
   ) {
-    this.dir.value = this.options.dir;
-    this.document.body.dir = this.dir.value;
-
     this.layoutChangesSubscription = this.breakpointObserver
       .observe([MOBILE_MEDIAQUERY, TABLET_MEDIAQUERY, MONITOR_MEDIAQUERY])
       .subscribe(state => {
@@ -93,7 +87,7 @@ export class AdminLayoutComponent implements OnDestroy {
       this.content.scrollTo({ top: 0 });
     });
 
-    this.actualTheme = this.themeService.getTheme();
+    this.themeService.themeModeChanged.subscribe(x => this.actualTheme = x);
   }
 
   ngOnDestroy() {
@@ -123,16 +117,4 @@ export class AdminLayoutComponent implements OnDestroy {
 
   // Demo purposes only
 
-  receiveOptions(options: AppSettings): void {
-    this.options = options;
-    this.settings.setOptions(options);
-    this.actualTheme = this.themeService.getTheme();
-    this.themeService.applyTheme();
-    this.toggleDirection(options);
-  }
-
-  toggleDirection(options: AppSettings) {
-    this.dir.value = options.dir;
-    this.document.body.dir = this.dir.value;
-  }
 }

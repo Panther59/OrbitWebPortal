@@ -2,9 +2,10 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { Inject, Injectable, Optional } from '@angular/core';
 import { currentTheme, refreshTheme } from 'devextreme/viz/themes';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { SettingsService } from '.';
+import { AppDirectionality, SettingsService } from '.';
 import { DOCUMENT } from '@angular/common';
 import { AppSettings } from 'app/_models';
+import { Direction, Directionality } from '@angular/cdk/bidi';
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +17,12 @@ export class ThemeService {
   constructor(
     private mediaMatcher: MediaMatcher,
     private settings: SettingsService,
-    @Optional() @Inject(DOCUMENT) private document: Document){
+    @Optional() @Inject(DOCUMENT) private document: Document,
+    @Inject(Directionality) public dir: AppDirectionality    ){
       this.htmlElement = this.document.querySelector('html')!;
-
+      this.settings.notify.subscribe(x => {
+        this.applyTheme();
+      });
   }
   themeModeChanged = new BehaviorSubject(this.getTheme());
 
@@ -47,6 +51,9 @@ export class ThemeService {
       this.htmlElement.classList.remove('theme-dark');
       this.applyDxTheme('light');
     }
+
+    this.toggleDirection(this.options.dir);
+
   }
 
   applyDxTheme(mode?: string) {
@@ -71,6 +78,11 @@ export class ThemeService {
     currentTheme(theme);
     refreshTheme();
     this.themeModeChanged.next(mode);
+  }
+
+  toggleDirection(dir: Direction) {
+    this.dir.value = dir;
+    this.document.body.dir = this.dir.value;
   }
 
 }
