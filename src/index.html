@@ -1,80 +1,173 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Orbit</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="assets/fonts/Material_Icons.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <style type="text/css">
-    .global-loader {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1;
-      width: 100%;
-      height: 100%;
-      background-color: #fff;
-      opacity: 1;
-      transition: opacity .5s ease-in-out;
-    }
-
-    .global-loader-fade-out {
-      opacity: 0;
-    }
-
-    .global-loader-hidden {
-      display: none;
-    }
-
-    .global-loader h1 {
-      font-family: "Helvetica Neue", Helvetica, sans-serif;
-      font-weight: normal;
-      font-size: 24px;
-      letter-spacing: .04rem;
-      white-space: pre;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-image:
-        repeating-linear-gradient(
-          to right,
-          #f44336,
-          #9c27b0,
-          #3f51b5,
-          #03a9f4,
-          #009688,
-          #8bc34a,
-          #ffeb3b,
-          #ff9800
-        );
-      background-size: 750% auto;
-      background-position: 0 100%;
-      animation: gradient 20s infinite;
-      animation-fill-mode: forwards;
-      animation-timing-function: linear;
-    }
-
-    @keyframes gradient {
-      0% {
-        background-position: 0 0;
+  <head>
+    <meta charset="utf-8" />
+    <title>Orbit</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="assets/fonts/Material_Icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style type="text/css">
+      .under {
+        z-index: 1;
       }
 
-      100% {
-        background-position: -750% 0;
+      .over {
+        z-index: 2;
+        position: absolute;
       }
-    }
+
+      .brand-button {
+        display: inline-flex;
+      }
+
+      .waitingDiv {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      .darkBackground {
+        background-color: rgb(41, 40, 40);
+      }
+
+      .waitingContainer {
+        display: block;
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+
+      .waitingImageContainer {
+        display: flex;
+        justify-content: center;
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+
+      .blockMessage {
+        margin: 10px;
+      }
+
+      .brand-name {
+        height: 100%;
+        display: flex;
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+
+      .myHomeIcon {
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-animation: load8 5s infinite linear;
+        animation: load8 5s infinite linear;
+      }
+
+      .oppositeRotateSlow {
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-animation: load9 4.4s infinite linear;
+        animation: load9 4.4s infinite linear;
+      }
+
+      .oppositeRotateFast {
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-animation: load9 1.4s infinite linear;
+        animation: load9 1.4s infinite linear;
+      }
+
+      .rotateFaster {
+        -webkit-animation: load8 1s infinite linear;
+        animation: load8 1s infinite linear;
+      }
+
+      @-webkit-keyframes load8 {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+
+        100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes load8 {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+
+        100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+
+      @-webkit-keyframes load9 {
+        0% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+
+        100% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+      }
+
+      @keyframes load9 {
+        0% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+
+        100% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+      }
     </style>
-</head>
-<body>
-  <app-root></app-root>
-  <div id="globalLoader" class="global-loader"><h1>LOADING</h1></div>
-</body>
+  </head>
+  <body class="dx-viewport">
+    <app-root>
+      <div class="waitingDiv darkBackground">
+        <div class="waitingContainer">
+          <div class="waitingImageContainer">
+            <img
+              class="under"
+              alt="innerorbit.white.png"
+              src="assets/images/innerorbit.white.png"
+              width="100"
+              height="100"
+            />
+            <img
+              class="over myHomeIcon rotateFaster"
+              alt="outerorbit.white.png"
+              src="assets/images/outerorbit.white.png"
+              width="100"
+              height="100"
+            />
+            <img
+              class="over oppositeRotateFast"
+              alt="outerorbit.white.png"
+              src="assets/images/outerorbit.white.png"
+              width="100"
+              height="100"
+            />
+          </div>
+          <div class="blockMessage">
+            <span style="color: white"> Loading Orbit... please wait... </span>
+          </div>
+        </div>
+      </div>
+    </app-root>
+  </body>
 </html>
