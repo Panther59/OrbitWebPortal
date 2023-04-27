@@ -3,7 +3,6 @@
   margin-right: 10px;
 }
 
-
 .address {
   display: table-caption;
 }
@@ -13,4 +12,40 @@
   flex-wrap: wrap;
   margin-top: 3px;
   margin-bottom: 10px;
+}
+
+.titleContainer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 1fr min-content;
+  grid-template-areas:
+    'title title'
+    'subtitle status';
+  grid-gap: 3px;
+  width: -webkit-fill-available;
+  margin-bottom: 10px;
+}
+
+.title {
+  grid-area: title;
+}
+
+.subtitle {
+  grid-area: subtitle;
+}
+
+.status {
+  grid-area: status;
+}
+
+.inActive{
+  color: red;
+}
+
+.titleContainerItem {
+  background-color: #444;
+  color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 150%;
 }
