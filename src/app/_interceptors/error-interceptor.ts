@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { getMessage } from 'app/global';
 
 export enum STATUS {
   UNAUTHORIZED = 401,
@@ -21,18 +22,6 @@ export enum STATUS {
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   private errorPages: Array<number> = [];
-
-  private getMessage = (error: HttpErrorResponse) => {
-    if (error.error?.message) {
-      return error.error.message;
-    }
-
-    if (error.error?.msg) {
-      return error.error.msg;
-    }
-
-    return `${error.status} ${error.statusText}`;
-  };
 
   constructor(private router: Router, private toast: ToastrService) {}
 
@@ -48,8 +37,8 @@ export class ErrorInterceptor implements HttpInterceptor {
         skipLocationChange: true,
       });
     } else {
-      this.toast.error(this.getMessage(error));
       if (error.status === STATUS.UNAUTHORIZED) {
+        this.toast.error(getMessage(error));
         this.router.navigateByUrl('/auth/login');
       }
     }

@@ -49,7 +49,6 @@ const COMPONENTS: any[] = [
   ErrorCodeComponent,
 ];
 
-const DIALOGS: any[] = [MessageDialog, ConfirmDialog];
 const COMPONENTS_DYNAMIC: any[] = [];
 const DIRECTIVES: any[] = [DisableControlDirective];
 const PIPES: any[] = [SafeUrlPipe, ToObservablePipe];
@@ -58,13 +57,7 @@ const SERVICES: any[] = [MessageService];
 @NgModule({
   imports: [...MODULES],
   exports: [...MODULES, ...COMPONENTS, ...DIRECTIVES, ...PIPES],
-  declarations: [
-    ...COMPONENTS,
-    ...COMPONENTS_DYNAMIC,
-    ...DIALOGS,
-    ...DIRECTIVES,
-    ...PIPES,
-  ],
-  providers: [...DIALOGS, ...SERVICES],
+  declarations: [...COMPONENTS, ...COMPONENTS_DYNAMIC, ...DIRECTIVES, ...PIPES],
+  providers: [...SERVICES],
 })
 export class SharedModule {}

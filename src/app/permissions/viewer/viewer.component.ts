@@ -4,6 +4,8 @@ import { Organization, Role, UserRole } from 'app/_models';
 import { ClientService, CompanyService, UsersService } from 'app/_services';
 import { PermissionsService } from 'app/_services/apis/permissions.service';
 import { EditPermissionDialog } from '../edit-permission/edit-permission.dialog';
+import { getMessage } from 'app/global';
+import { DialogMessageService } from 'app/app-dialogs';
 
 @Component({
   selector: 'app-viewer',
@@ -23,6 +25,7 @@ export class ViewerComponent implements OnInit {
     private permissionsService: PermissionsService,
     private companyService: CompanyService,
     private clientService: ClientService,
+    private dialogMessageService: DialogMessageService,
     public dialog: MatDialog,
     private usersService: UsersService
   ) {}
@@ -48,38 +51,47 @@ export class ViewerComponent implements OnInit {
         this.userRoles = data;
         this.loading = false;
       },
-      error: error => {
+      error: async error => {
         this.loading = false;
+        const message = getMessage(error);
+        await this.dialogMessageService.showMessage('Permissions', message);
         console.error(error);
       },
     });
   }
   async loadRoles() {
-    /// Ensure roles are only loaded once
-    if (!this.rolesLoaded) {
-      const result = await this.permissionsService.getAllRoles().toPromise();
-      if (result) {
-        this.roles = result;
-        this.rolesLoaded = true;
+    try {
+      /// Ensure roles are only loaded once
+      if (!this.rolesLoaded) {
+        const result = await this.permissionsService.getAllRoles().toPromise();
+        if (result) {
+          this.roles = result;
+          this.rolesLoaded = true;
+        }
       }
-    }
 
-    /// Ensure roles are only loaded once
-    if (!this.companiesLoaded) {
-      const result = await this.companyService.getAll().toPromise();
-      if (result) {
-        this.companies = result;
-        this.companiesLoaded = true;
+      /// Ensure roles are only loaded once
+      if (!this.companiesLoaded) {
+        const result = await this.companyService.getAll().toPromise();
+        if (result) {
+          this.companies = result;
+          this.companiesLoaded = true;
+        }
       }
-    }
 
-    /// Ensure roles are only loaded once
-    if (!this.clientsLoaded) {
-      const result = await this.clientService.getAll().toPromise();
-      if (result) {
-        this.clients = result;
-        this.clientsLoaded = true;
+      /// Ensure roles are only loaded once
+      if (!this.clientsLoaded) {
+        const result = await this.clientService.getAll().toPromise();
+        if (result) {
+          this.clients = result;
+          this.clientsLoaded = true;
+        }
       }
+    } catch (error) {
+      this.loading = false;
+      const message = getMessage(error);
+      await this.dialogMessageService.showMessage('Permissions', message);
+      console.error(error);
     }
   }
 
@@ -90,6 +102,7 @@ export class ViewerComponent implements OnInit {
           data: {
             type,
             permissionsService: this.permissionsService,
+            dialogMessageService: this.dialogMessageService,
             roles: this.roles.filter(x => !x.forClient),
             companies: this.companies,
             clients: this.clients,
@@ -99,14 +112,16 @@ export class ViewerComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-          this.loadData();
+          if (result === true) {
+            this.loadData();
+          }
         });
       },
       error: e => {},
     });
   }
 
-  addSuperUser () {
+  addSuperUser() {
     const type = 'add_super_user';
     this.addNewUser(type);
   }

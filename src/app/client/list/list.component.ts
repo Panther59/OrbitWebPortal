@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ClientService, CompanyService } from 'app/_services';
+import { DialogMessageService } from 'app/app-dialogs';
 import { BaseListComponent } from 'app/organization/list/list.component';
 
 @Component({
@@ -10,8 +11,11 @@ import { BaseListComponent } from 'app/organization/list/list.component';
 
 })
 export class ListComponent extends BaseListComponent {
-  constructor(clientService: ClientService, public dialog: MatDialog) {
-    super(clientService, dialog);
+  constructor(
+    clientService: ClientService,
+    dialogMessageService: DialogMessageService,
+    public dialog: MatDialog) {
+    super(clientService, dialogMessageService, dialog);
     this.type = 'client';
     this.displayName = 'Client';
   }

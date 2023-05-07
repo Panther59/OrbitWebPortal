@@ -1,12 +1,11 @@
 <div class="d-flex w-full h-full">
   <mat-card class="m-auto" style="max-width: 380px">
     <mat-card-header class="m-b-24">
-      <mat-card-title>{{ 'add_super_user' | translate }}!</mat-card-title>
+      <mat-card-title>{{ type | translate }}!</mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
       <form class="form-field-full" [formGroup]="form">
-
         <mat-form-field appearance="outline" *ngIf="type === 'add_client_user'">
           <mat-label>{{ 'client' | translate }}</mat-label>
           <mat-select matNativeControl formControlName="client" name="client">
@@ -14,7 +13,6 @@
             <mat-option *ngFor="let client of clients" [value]="client.id">
               {{client.name}}
             </mat-option>
-
           </mat-select>
 
           <mat-error *ngIf="form.get('client')!.invalid">
@@ -27,7 +25,6 @@
             >
           </mat-error>
         </mat-form-field>
-
 
         <mat-form-field appearance="outline" *ngIf="type === 'add_company_user'">
           <mat-label>{{ 'company' | translate }}</mat-label>
@@ -49,14 +46,14 @@
           </mat-error>
         </mat-form-field>
 
-
-
         <mat-form-field appearance="outline">
           <mat-label>{{ 'user' | translate }}</mat-label>
           <mat-select matNativeControl formControlName="user" name="user">
-            <mat-option value="" selected></mat-option>
-            <mat-option *ngFor="let user of users" [value]="user.id">
-              {{user.name}}
+            <mat-select-trigger>{{ getName(form.get('user')!.value) }}</mat-select-trigger>
+            <mat-option value="" selected>Select User</mat-option>
+            <mat-option class="multi-line-option" *ngFor="let user of users" [value]="user.id">
+              <h4 class="mat-line-1" mat-line>{{ user.name }}</h4>
+              <p class="mat-line-2" mat-line>{{ user.email }}</p>
             </mat-option>
           </mat-select>
 
@@ -75,9 +72,7 @@
           <mat-label>{{ 'role' | translate }}</mat-label>
           <mat-select matNativeControl formControlName="role" name="role">
             <mat-option value="" selected></mat-option>
-            <mat-option *ngFor="let role of roles" [value]="role.id">
-              {{role.name}}
-            </mat-option>
+            <mat-option *ngFor="let role of roles" [value]="role.id"> {{role.name}} </mat-option>
           </mat-select>
 
           <mat-error *ngIf="form.get('role')!.invalid">

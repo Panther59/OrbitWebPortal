@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Organization } from 'app/_models';
 import { AddOrganizationDialog } from '../add-organization/add-organization.dialog';
 import { OrganizationService } from 'app/_services';
+import { getMessage } from 'app/global';
+import { DialogMessageService } from 'app/app-dialogs/_services/dialog-messsage.service';
 
 @Component({
   selector: 'app-list',
@@ -15,7 +17,10 @@ export class BaseListComponent implements OnInit {
 
   loading = false;
   orgs: Organization[] = [];
-  constructor(private organizationService: OrganizationService, public dialog: MatDialog) {}
+  constructor(
+    private organizationService: OrganizationService,
+    private dialogMessageService: DialogMessageService,
+    public dialog: MatDialog) {}
 
   addNewOrg(): void {
     this.UpdateOrg();
@@ -49,8 +54,10 @@ export class BaseListComponent implements OnInit {
         this.orgs = orgs;
         this.loading = false;
       },
-      error: e => {
+      error: async e => {
         this.loading = false;
+        const message = getMessage(e);
+        await this.dialogMessageService.showMessage('Register', message);
         console.error(e);
       },
       complete: () => console.info('complete'),

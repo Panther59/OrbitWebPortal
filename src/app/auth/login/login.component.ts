@@ -5,6 +5,8 @@ import { DOCUMENT } from '@angular/common';
 import { environment } from '@env/environment';
 import { CredentialResponse } from 'google-one-tap';
 import { AuthService, TokenService } from 'app/_services';
+import { ToastrService } from 'ngx-toastr';
+import { getMessage } from 'app/global';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +31,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private authService: AuthService,
     private tokenService: TokenService,
     private _ngZone: NgZone,
-    private router: Router
+    private router: Router,
+    private toast: ToastrService
   ) {}
 
   ngAfterViewInit() {
@@ -85,6 +88,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
       },
       (error: any) => {
         console.log(error);
+        const message = getMessage(error);
+        this.toast.error(message);
         this.isSubmitting = false;
       }
     );

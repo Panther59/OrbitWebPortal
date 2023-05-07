@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Organization, Role, User, UserRole } from 'app/_models';
 import { PermissionsService } from 'app/_services';
+import { DialogMessageService } from 'app/app-dialogs';
 
 @Component({
   selector: 'app-edit-permission',
@@ -20,15 +21,20 @@ export class EditPermissionDialog {
   clients: Array<Organization> = [];
   org: Organization = {};
   form: FormGroup = this.fb.group({});
+  dialogMessageService?: DialogMessageService;
+
   constructor(
     private _ngZone: NgZone,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<EditPermissionDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-
     if (data && data.permissionsService) {
       this.permissionsService = data.permissionsService;
+    }
+
+    if (data && data.dialogMessageService) {
+      this.dialogMessageService = data.dialogMessageService;
     }
 
     if (data && data.users) {
@@ -67,6 +73,15 @@ export class EditPermissionDialog {
     }
   }
 
+  getName(id?: number) {
+    if (id) {
+      const user = this.users.find(x => x.id === id);
+      return `${user?.name} (${user?.email})`;
+    }
+
+    return '';
+  }
+
   saveData() {
     if (this.form.valid) {
       this.isSubmitting = true;
@@ -85,10 +100,13 @@ export class EditPermissionDialog {
       if (this.permissionsService) {
         this.permissionsService.saveRole(req).subscribe(
           data => {
-            this.dialogRef.close();
+            this.dialogRef.close(true);
           },
-          err => {
+          async err => {
             console.error(err);
+            if (this.dialogMessageService) {
+              await this.dialogMessageService.error('Permissions', err);
+            }
             this.isSubmitting = false;
           }
         );
@@ -97,6 +115,6 @@ export class EditPermissionDialog {
   }
 
   cancelSaving = () => {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   };
 }
