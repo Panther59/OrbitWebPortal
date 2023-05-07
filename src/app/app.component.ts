@@ -1,10 +1,5 @@
-import { Directionality } from '@angular/cdk/bidi';
-import { MediaMatcher } from '@angular/cdk/layout';
-import { DOCUMENT } from '@angular/common';
-import { Component, OnInit, AfterViewInit, Inject, Optional } from '@angular/core';
-import { AppSettings } from './_models';
-import { AppDirectionality, PreloaderService, SettingsService, ThemeService } from './_services';
-import { currentTheme, refreshTheme } from 'devextreme/viz/themes';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { PreloaderService, ThemeService } from './_services';
 
 @Component({
   selector: 'app-root',

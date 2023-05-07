@@ -20,7 +20,7 @@ export enum STATUS {
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  private errorPages = [STATUS.FORBIDDEN, STATUS.NOT_FOUND, STATUS.INTERNAL_SERVER_ERROR];
+  private errorPages: Array<number> = [];
 
   private getMessage = (error: HttpErrorResponse) => {
     if (error.error?.message) {

@@ -31,7 +31,6 @@ import { appInitializerProviders } from './initializers';
     HttpClientModule,
     AppLayoutModule,
     AppRoutingModule,
-    SharedModule,
     FormlyConfigModule.forRoot(),
     NgxPermissionsModule.forRoot(),
     ToastrModule.forRoot(),
@@ -43,6 +42,7 @@ import { appInitializerProviders } from './initializers';
       },
     }),
     BrowserAnimationsModule,
+    SharedModule,
   ],
   providers: [
     { provide: BASE_URL, useValue: environment.baseUrl },

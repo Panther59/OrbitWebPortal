@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class MessageService {
   messages: string[] = [];
+
+  constructor(private dialog: MatDialog) {}
 
   add(message: string) {
     this.messages.push(message);

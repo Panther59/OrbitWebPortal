@@ -4,7 +4,7 @@ import { catchError, map, share, switchMap, tap } from 'rxjs/operators';
 import { TokenService } from './token.service';
 import { LoginService } from './apis/login.service';
 import { User } from 'app/_models';
-import { filterObject, isEmptyObject } from '.';
+import { UsersService, filterObject, isEmptyObject } from '.';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,10 @@ export class AuthService {
     share()
   );
 
-  constructor(private loginService: LoginService, private tokenService: TokenService) {}
+  constructor(
+    private loginService: LoginService,
+    private usersService: UsersService,
+    private tokenService: TokenService) {}
 
   init() {
     return new Promise<void>(resolve => this.change$.subscribe(() => resolve()));
@@ -79,6 +82,6 @@ export class AuthService {
       return of(this.user$.getValue());
     }
 
-    return this.loginService.me().pipe(tap(user => this.user$.next(user)));
+    return this.usersService.me().pipe(tap(user => this.user$.next(user)));
   }
 }

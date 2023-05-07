@@ -53,5 +53,5 @@ export function filterObject<T extends Record<string, unknown>>(obj: T) {
 }
 
 export function isEmptyObject(obj: Record<string, any>) {
-  return Object.keys(obj).length === 0;
+  return obj === undefined || Object.keys(obj).length === 0;
 }

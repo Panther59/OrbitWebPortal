@@ -3,21 +3,15 @@ import {
   OnDestroy,
   ViewChild,
   HostBinding,
-  Inject,
-  Optional,
   ViewEncapsulation,
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { BreakpointObserver, MediaMatcher } from '@angular/cdk/layout';
-import { Directionality } from '@angular/cdk/bidi';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 
-import { AppDirectionality, SettingsService, ThemeService } from 'app/_services';
-import { AppSettings } from 'app/_models';
-import { currentTheme, refreshTheme } from 'devextreme/viz/themes';
+import { SettingsService, ThemeService } from 'app/_services';
 
 const MOBILE_MEDIAQUERY = 'screen and (max-width: 599px)';
 const TABLET_MEDIAQUERY = 'screen and (min-width: 600px) and (max-width: 959px)';
@@ -67,7 +61,7 @@ export class AdminLayoutComponent implements OnDestroy {
     private router: Router,
     private breakpointObserver: BreakpointObserver,
     private settings: SettingsService,
-    private themeService: ThemeService,
+    private themeService: ThemeService
   ) {
     this.layoutChangesSubscription = this.breakpointObserver
       .observe([MOBILE_MEDIAQUERY, TABLET_MEDIAQUERY, MONITOR_MEDIAQUERY])
@@ -87,7 +81,7 @@ export class AdminLayoutComponent implements OnDestroy {
       this.content.scrollTo({ top: 0 });
     });
 
-    this.themeService.themeModeChanged.subscribe(x => this.actualTheme = x);
+    this.themeService.themeModeChanged.subscribe(x => (this.actualTheme = x));
   }
 
   ngOnDestroy() {
@@ -116,5 +110,4 @@ export class AdminLayoutComponent implements OnDestroy {
   }
 
   // Demo purposes only
-
 }

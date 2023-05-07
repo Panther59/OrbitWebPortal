@@ -22,6 +22,8 @@ import { DisableControlDirective } from './directives/disable-control.directive'
 import { SafeUrlPipe } from './pipes/safe-url.pipe';
 import { ToObservablePipe } from './pipes/to-observable.pipe';
 import { BlockwaitingComponent, WaitingComponent } from './components/waiting';
+import { ConfirmDialog, MessageDialog } from '../app-dialogs';
+import { MessageService } from 'app/_services';
 
 const MODULES: any[] = [
   CommonModule,
@@ -46,13 +48,23 @@ const COMPONENTS: any[] = [
   BlockwaitingComponent,
   ErrorCodeComponent,
 ];
+
+const DIALOGS: any[] = [MessageDialog, ConfirmDialog];
 const COMPONENTS_DYNAMIC: any[] = [];
 const DIRECTIVES: any[] = [DisableControlDirective];
 const PIPES: any[] = [SafeUrlPipe, ToObservablePipe];
+const SERVICES: any[] = [MessageService];
 
 @NgModule({
   imports: [...MODULES],
   exports: [...MODULES, ...COMPONENTS, ...DIRECTIVES, ...PIPES],
-  declarations: [...COMPONENTS, ...COMPONENTS_DYNAMIC, ...DIRECTIVES, ...PIPES],
+  declarations: [
+    ...COMPONENTS,
+    ...COMPONENTS_DYNAMIC,
+    ...DIALOGS,
+    ...DIRECTIVES,
+    ...PIPES,
+  ],
+  providers: [...DIALOGS, ...SERVICES],
 })
 export class SharedModule {}

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, NgZone, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import { environment } from '@env/environment';
 import { CredentialResponse } from 'google-one-tap';
@@ -12,6 +12,7 @@ import { AuthService, TokenService } from 'app/_services';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, AfterViewInit {
+  returnUrl = '';
   allowImpersonate = !environment.production;
   loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required]],
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
   isSubmitting = false;
   constructor(
+    private route: ActivatedRoute,
     private fb: FormBuilder,
     private _renderer2: Renderer2,
     @Inject(DOCUMENT) private _document: Document,
@@ -39,6 +41,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '';
+
     // @ts-ignore
     window.onGoogleLibraryLoad = () => {
       // @ts-ignore
@@ -72,7 +77,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.authService.LoginWithGoogle(credential, email).subscribe(
       (x: any) => {
         this._ngZone.run(() => {
-          this.router.navigate(['/dashboard']);
+          if (Boolean(this.returnUrl) == false || this.returnUrl == '') {
+            this.returnUrl = '/dashboard';
+          }
+          this.router.navigate([this.returnUrl]);
         });
       },
       (error: any) => {

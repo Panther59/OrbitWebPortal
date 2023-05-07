@@ -35,10 +35,6 @@ export class LoginService {
     return this.http.post<any>('/auth/logout', {});
   }
 
-  me() {
-    return this.http.get<User>(this.baseUrl + 'api/users/me');
-  }
-
   menu() {
     return this.http.get<{ menu: Menu[] }>('/assets/data/menu.json').pipe(map(res => res.menu));
   }

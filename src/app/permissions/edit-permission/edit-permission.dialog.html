@@ -1,0 +1,115 @@
+<div class="d-flex w-full h-full">
+  <mat-card class="m-auto" style="max-width: 380px">
+    <mat-card-header class="m-b-24">
+      <mat-card-title>{{ 'add_super_user' | translate }}!</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form class="form-field-full" [formGroup]="form">
+
+        <mat-form-field appearance="outline" *ngIf="type === 'add_client_user'">
+          <mat-label>{{ 'client' | translate }}</mat-label>
+          <mat-select matNativeControl formControlName="client" name="client">
+            <mat-option value="" selected></mat-option>
+            <mat-option *ngFor="let client of clients" [value]="client.id">
+              {{client.name}}
+            </mat-option>
+
+          </mat-select>
+
+          <mat-error *ngIf="form.get('client')!.invalid">
+            <span *ngIf="form.get('client')!.errors?.required"
+              >{{ 'please_enter' | translate }}
+              <strong>{{ 'client' | translate }}</strong>
+            </span>
+            <span *ngIf="form.get('client')!.errors?.remote"
+              >{{ form.get('client')!.errors?.remote }}</span
+            >
+          </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline" *ngIf="type === 'add_company_user'">
+          <mat-label>{{ 'company' | translate }}</mat-label>
+          <mat-select matNativeControl formControlName="company" name="company">
+            <mat-option value="" selected></mat-option>
+            <mat-option *ngFor="let company of companies" [value]="company.id">
+              {{company.name}}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="form.get('company')!.invalid">
+            <span *ngIf="form.get('company')!.errors?.required"
+              >{{ 'please_enter' | translate }}
+              <strong>{{ 'company' | translate }}</strong>
+            </span>
+            <span *ngIf="form.get('company')!.errors?.remote"
+              >{{ form.get('company')!.errors?.remote }}</span
+            >
+          </mat-error>
+        </mat-form-field>
+
+
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'user' | translate }}</mat-label>
+          <mat-select matNativeControl formControlName="user" name="user">
+            <mat-option value="" selected></mat-option>
+            <mat-option *ngFor="let user of users" [value]="user.id">
+              {{user.name}}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="form.get('user')!.invalid">
+            <span *ngIf="form.get('user')!.errors?.required"
+              >{{ 'please_enter' | translate }}
+              <strong>{{ 'user' | translate }}</strong>
+            </span>
+            <span *ngIf="form.get('user')!.errors?.remote"
+              >{{ form.get('user')!.errors?.remote }}</span
+            >
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'role' | translate }}</mat-label>
+          <mat-select matNativeControl formControlName="role" name="role">
+            <mat-option value="" selected></mat-option>
+            <mat-option *ngFor="let role of roles" [value]="role.id">
+              {{role.name}}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="form.get('role')!.invalid">
+            <span *ngIf="form.get('role')!.errors?.required"
+              >{{ 'please_enter' | translate }}
+              <strong>{{ 'role' | translate }}</strong>
+            </span>
+            <span *ngIf="form.get('role')!.errors?.remote"
+              >{{ form.get('role')!.errors?.remote }}</span
+            >
+          </mat-error>
+        </mat-form-field>
+
+        <div class="w-full m-y-16">
+          <button
+            class="m-x-16"
+            mat-raised-button
+            color="primary"
+            [disabled]="!!form.invalid"
+            [loading]="isSubmitting"
+            (click)="saveData()"
+          >
+            {{ 'save' | translate }}
+          </button>
+
+          <button class="m-x-16" mat-raised-button color="primary" (click)="cancelSaving()">
+            {{ 'cancel' | translate }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="d-flex w-full h-full"></div>

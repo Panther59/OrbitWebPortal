@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UserTokenRequest, Token, User, Menu, UserRole } from 'app/_models';
+import { UserTokenRequest, Token, User, Menu, UserRole, Role } from 'app/_models';
 import { map } from 'rxjs/operators';
 import { environment } from '@env/environment';
 
@@ -13,11 +13,19 @@ export class PermissionsService {
     this.baseUrl = environment.apiUrl;
   }
 
+  getAllRoles() {
+    return this.http.get<Array<Role>>(this.baseUrl + 'api/roles');
+  }
+
   getAll() {
     return this.http.get<Array<UserRole>>(this.baseUrl + 'api/roles/users');
   }
 
   getAllForUser(userId: number) {
     return this.http.get<Array<UserRole>>(this.baseUrl + 'api/roles/' + userId);
+  }
+
+  saveRole(role: UserRole) {
+    return this.http.put<UserRole>(this.baseUrl + 'api/roles/users', role);
   }
 }

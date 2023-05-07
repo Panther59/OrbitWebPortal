@@ -56,6 +56,11 @@
 
       <app-topmenu *ngIf="options.navPos === 'top'"></app-topmenu>
 
+      <!-- <div class="matero-content" [@contextTransitions]="o && o.activatedRouteData && o.activatedRouteData['animation']">
+        <page-header [hideTitle]="true"></page-header>
+        <router-outlet #o="outlet"></router-outlet>
+      </div> -->
+
       <div class="matero-content">
         <page-header [hideTitle]="true"></page-header>
         <router-outlet></router-outlet>

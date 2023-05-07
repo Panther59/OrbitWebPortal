@@ -22,7 +22,7 @@
       "route": "permissions",
       "name": "permissions",
       "type": "link",
-      "icon": "manage_accounts"
+      "icon": "supervisor_account"
     }
   ]
 }
