@@ -1,3 +1,5 @@
+import { Organization } from './orgnanization';
+
 export interface AppSettings {
   navPos: 'side' | 'top';
   theme: 'light' | 'dark' | 'auto';
@@ -8,8 +10,6 @@ export interface AppSettings {
   sidenavOpened: boolean;
   sidenavCollapsed: boolean;
   language: string;
-  selectedOrganizationType?: 'client' | 'company';
-  selectedOrganization?: number;
 }
 
 export const defaults: AppSettings = {
@@ -23,3 +23,9 @@ export const defaults: AppSettings = {
   sidenavCollapsed: false,
   language: 'en-US',
 };
+
+export interface UserSettings {
+  userId?: number;
+  selectedOrganizationType?: 'client' | 'company';
+  selectedOrganization?: Organization;
+}

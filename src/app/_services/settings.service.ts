@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppSettings, Organization, defaults } from 'app/_models';
+import { AppSettings, Organization, UserSettings, defaults } from 'app/_models';
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorageService } from '.';
 
@@ -8,21 +8,19 @@ import { LocalStorageService } from '.';
 })
 export class SettingsService {
   private key = 'orbit-settings';
-  private orgKey = 'orbit-org';
+  private userKey = 'orbit-user-setting';
 
   private options: AppSettings;
 
   private readonly notify$ = new BehaviorSubject<Partial<AppSettings>>({});
-  private readonly notifyOrganization$ = new BehaviorSubject<Organization | undefined>(
-    this.Organization
-  );
+  private readonly notifyUserSetting$ = new BehaviorSubject<UserSettings>({});
 
   get notify() {
     return this.notify$.asObservable();
   }
 
-  get notifyOrganization() {
-    return this.notifyOrganization$.asObservable();
+  get notifyUserSetting() {
+    return this.notifyUserSetting$.asObservable();
   }
 
   constructor(private store: LocalStorageService) {
@@ -50,24 +48,24 @@ export class SettingsService {
     this.notify$.next(this.options);
   }
 
-  get Organization(): Organization | undefined {
-    if (this.store.has(this.orgKey)) {
-      const org = this.store.get(this.orgKey);
+  getUserSetting(userId: number): UserSettings | undefined {
+    const finalKey = `${this.userKey}-${userId}`;
+    if (this.store.has(finalKey)) {
+      const org = this.store.get(finalKey);
       return org;
     }
 
     return undefined;
   }
 
-  set Organization(org: Organization | undefined) {
-    if (org) {
-      const oldOrg = this.Organization;
-      if (org.id !== oldOrg?.id || org.name !== oldOrg?.name) {
-        this.store.set(this.orgKey, org);
-        this.notifyOrganization$.next(org);
-      }
+  setUserSetting(userId: number, setting: UserSettings | undefined) {
+    const finalKey = `${this.userKey}-${userId}`;
+    if (setting) {
+      this.store.set(finalKey, setting);
+      this.notifyUserSetting$.next(setting);
     } else {
-      this.store.remove(this.orgKey);
+      this.store.remove(finalKey);
+      this.notifyUserSetting$.next({});
     }
   }
 

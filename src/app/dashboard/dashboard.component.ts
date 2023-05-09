@@ -18,9 +18,9 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.setOrganizationDetail(this.settings.getOrganization());
-    this.settings.notifyOrganization.subscribe(x => {
-      this.setOrganizationDetail(x);
+    //this.setOrganizationDetail(this.settings.getOrganization());
+    this.settings.notifyUserSetting.subscribe(x => {
+      this.setOrganizationDetail(x.selectedOrganization);
       this.cdr.detectChanges();
     });
   }

@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Organization } from 'app/_models';
+import { Organization, User } from 'app/_models';
 import {
   AuthService,
   ClientService,
@@ -19,6 +19,7 @@ export class OrgSelectorComponent implements OnInit {
   organization?: Organization;
   clients?: Organization[];
   companies?: Organization[];
+  user?: User;
   constructor(
     private auth: AuthService,
     private companyService: CompanyService,
@@ -33,7 +34,8 @@ export class OrgSelectorComponent implements OnInit {
       .user()
       .pipe(
         tap(user => {
-          if (user.id) {
+          this.user = user;
+          if (user.id !== undefined) {
             const clientsApiCall = this.clientService.getAll();
             const companysApiCall = this.companyService.getAll();
             const permissionApiCall = this.permissionsService.getAllForUser(user.id);
@@ -43,37 +45,52 @@ export class OrgSelectorComponent implements OnInit {
               this.companies = results[2].filter(x =>
                 permissions.some(p => p.companyID === x.id || (!p.companyID && !p.clientID))
               );
-              const settings = this.settings.Options;
-              if (settings.selectedOrganizationType === 'company') {
-                this.settings.Organization =
-                this.companies?.find(x => x.id === settings.selectedOrganization);
-              } else if (settings.selectedOrganizationType === 'client') {
-                this.settings.Organization =
-                  this.clients?.find(x => x.id === settings.selectedOrganization);
+              const userSettings = this.settings.getUserSetting(user.id!);
+              if (userSettings) {
+                if (userSettings.selectedOrganizationType === 'company') {
+                  userSettings.selectedOrganization = this.companies?.find(
+                    x => x.id === userSettings.selectedOrganization?.id
+                  );
+                } else if (userSettings.selectedOrganizationType === 'client') {
+                  userSettings.selectedOrganization = this.clients?.find(
+                    x => x.id === userSettings.selectedOrganization?.id
+                  );
+                }
+                if (user.id) {
+                  this.settings.setUserSetting(user.id, userSettings);
+                }
               }
-
               this.loaded = true;
               this.cdr.detectChanges();
             });
+          } else {
+            this.organization = undefined;
+            this.cdr.detectChanges();
           }
         }),
         debounceTime(10)
       )
       .subscribe(() => this.cdr.detectChanges());
 
-    this.settings.notifyOrganization.subscribe(x => {
-      this.organization = x;
+    this.settings.notifyUserSetting.subscribe(x => {
+      if (this.user && this.user.id === x.userId) {
+        this.organization = x.selectedOrganization;
+      } else {
+        this.organization = undefined;
+      }
+
       this.cdr.detectChanges();
     });
   }
 
   private selectOrg(organization: Organization, orgType: 'client' | 'company') {
-    const setting = this.settings.Options;
-    setting.selectedOrganization = organization.id;
-    setting.selectedOrganizationType = orgType;
-    this.settings.Options = setting;
-
-    this.settings.Organization = organization;
+    if (this.user?.id) {
+      const setting = this.settings.getUserSetting(this.user?.id) ?? {};
+      setting.userId = this.user?.id;
+      setting.selectedOrganization = organization;
+      setting.selectedOrganizationType = orgType;
+      this.settings.setUserSetting(this.user?.id, setting);
+    }
   }
 
   selectClient(organization: Organization) {
