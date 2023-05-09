@@ -11,16 +11,17 @@ import { SettingsService } from 'app/_services';
 export class DashboardComponent implements OnInit {
   loaded = false;
   selectedOrg?: Organization;
-  constructor(private cdr: ChangeDetectorRef, private settings: SettingsService) {
-    this.settings.notifyOrganization.subscribe(x => {
-      this.setOrganizationDetail(x);
-    });
-  }
+  constructor(private cdr: ChangeDetectorRef, private settings: SettingsService) {}
   setOrganizationDetail(x?: Organization) {
     this.selectedOrg = x;
     this.loaded = true;
-    this.cdr.detectChanges();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // this.setOrganizationDetail(this.settings.getOrganization());
+    this.settings.notifyOrganization.subscribe(x => {
+      this.setOrganizationDetail(x);
+      this.cdr.detectChanges();
+    });
+  }
 }

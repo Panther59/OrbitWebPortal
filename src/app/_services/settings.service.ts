@@ -13,7 +13,9 @@ export class SettingsService {
   private options: AppSettings;
 
   private readonly notify$ = new BehaviorSubject<Partial<AppSettings>>({});
-  private readonly notifyOrganization$ = new BehaviorSubject<Organization | undefined>(undefined);
+  private readonly notifyOrganization$ = new BehaviorSubject<Organization | undefined>(
+    this.getOrganization()
+  );
 
   get notify() {
     return this.notify$.asObservable();
@@ -59,8 +61,11 @@ export class SettingsService {
 
   setOrganization(org?: Organization) {
     if (org) {
-      this.store.set(this.orgKey, org);
-      this.notifyOrganization$.next(org);
+      const oldOrg = this.getOrganization();
+      if (org.id !== oldOrg?.id || org.name !== oldOrg?.name) {
+        this.store.set(this.orgKey, org);
+        this.notifyOrganization$.next(org);
+      }
     } else {
       this.store.remove(this.orgKey);
     }
