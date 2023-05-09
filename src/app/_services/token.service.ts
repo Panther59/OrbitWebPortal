@@ -79,6 +79,19 @@ export class TokenService implements OnDestroy {
     this.buildRefresh();
   }
 
+  public partialSave(token?: Token): void {
+    this._token = undefined;
+
+    if (!token) {
+      this.store.remove(this.key);
+    } else {
+      const value = Object.assign({ token: '', token_type: 'Bearer' }, token, {
+        exp: token.expires_in ? currentTimestamp() + token.expires_in : null,
+      });
+      this.store.set(this.key, filterObject(value));
+    }
+  }
+
   private buildRefresh() {
     this.clearRefresh();
 

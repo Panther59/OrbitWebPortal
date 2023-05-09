@@ -10,8 +10,14 @@ export interface Organization {
   zipCode?: string;
   email?: string;
   isActive?: boolean;
-  created?: Date;
+  createdOn?: Date;
   createdBy?: number;
-  updated?: Date;
+  updatedOn?: Date;
   updatedBy?: number;
+  type?: OrgType;
+}
+
+export enum OrgType {
+  Company = 0,
+  Client = 1,
 }

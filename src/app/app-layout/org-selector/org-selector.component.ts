@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Organization, User } from 'app/_models';
+import { OrgType, Organization, User } from 'app/_models';
 import {
   AuthService,
   ClientService,
@@ -47,11 +47,11 @@ export class OrgSelectorComponent implements OnInit {
               );
               const userSettings = this.settings.getUserSetting(user.id!);
               if (userSettings) {
-                if (userSettings.selectedOrganizationType === 'company') {
+                if (userSettings.selectedOrganization?.type  === OrgType.Company) {
                   userSettings.selectedOrganization = this.companies?.find(
                     x => x.id === userSettings.selectedOrganization?.id
                   );
-                } else if (userSettings.selectedOrganizationType === 'client') {
+                } else if (userSettings.selectedOrganization?.type  === OrgType.Client) {
                   userSettings.selectedOrganization = this.clients?.find(
                     x => x.id === userSettings.selectedOrganization?.id
                   );
@@ -88,7 +88,6 @@ export class OrgSelectorComponent implements OnInit {
       const setting = this.settings.getUserSetting(this.user?.id) ?? {};
       setting.userId = this.user?.id;
       setting.selectedOrganization = organization;
-      setting.selectedOrganizationType = orgType;
       this.settings.setUserSetting(this.user?.id, setting);
     }
   }

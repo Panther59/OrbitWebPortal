@@ -24,7 +24,10 @@
             </mat-error>
           </mat-form-field>
 
+
+
           <button
+          *ngIf="!organizations"
             class="w-full m-y-16"
             mat-raised-button
             color="primary"
@@ -33,6 +36,38 @@
             (click)="login()"
           >
             {{ 'impersonate' | translate }}
+          </button>
+
+          <mat-form-field appearance="outline" *ngIf="organizations">
+            <mat-label>{{ 'org' | translate }}</mat-label>
+            <mat-select matNativeControl formControlName="org" name="org">
+              <mat-option value="" selected></mat-option>
+              <mat-option *ngFor="let org of organizations" [value]="org.id">
+                {{org.name}}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="loginForm.get('org')!.invalid">
+              <span *ngIf="loginForm.get('org')!.errors?.required"
+                >{{ 'please_enter' | translate }}
+                <strong>{{ 'org' | translate }}</strong>
+              </span>
+              <span *ngIf="loginForm.get('org')!.errors?.remote"
+                >{{ loginForm.get('org')!.errors?.remote }}</span
+              >
+            </mat-error>
+          </mat-form-field>
+
+          <button
+          *ngIf="organizations"
+            class="w-full m-y-16"
+            mat-raised-button
+            color="primary"
+            [disabled]="!!loginForm.invalid"
+            [loading]="isSubmitting"
+            (click)="loginForOrg()"
+          >
+            {{ 'login' | translate }}
           </button>
         </form>
         <div class="">

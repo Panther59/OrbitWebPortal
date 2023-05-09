@@ -22,7 +22,10 @@
       "route": "permissions",
       "name": "permissions",
       "type": "link",
-      "icon": "supervisor_account"
+      "icon": "supervisor_account",
+      "permissions": {
+        "only": "Admin"
+      }
     }
   ]
 }

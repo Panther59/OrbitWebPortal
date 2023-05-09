@@ -8,6 +8,7 @@ export interface Token {
   expires_in?: number;
   exp?: number;
   refreshToken?: string;
+  userID?: number;
 }
 
 export abstract class BaseToken {

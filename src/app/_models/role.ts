@@ -2,8 +2,8 @@ export interface Role {
     id?: number;
     name?: string;
     forClient?: number;
-    created?: Date;
+    createdOn?: Date;
     createdBy?: number;
-    updated?: Date;
+    updatedOn?: Date;
     updatedBy?: number;
   }

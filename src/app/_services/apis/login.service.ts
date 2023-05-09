@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UserTokenRequest, Token, User, Menu } from 'app/_models';
+import { UserTokenRequest, Token, User, Menu, Organization } from 'app/_models';
 import { map } from 'rxjs/operators';
 import { environment } from '@env/environment';
 
@@ -20,6 +20,10 @@ export class LoginService {
   loginWithGoogle(credential?: any, email?: string) {
     const req: UserTokenRequest = { googleToken: credential, email };
     return this.http.post<Token>(this.baseUrl + 'api/auth/loginWithGoogle', req);
+  }
+
+  loginForOrg(org: Organization) {
+    return this.http.post<Token>(this.baseUrl + 'api/auth/LoginForOrg', org);
   }
 
   registerWithGoogle(credential: string) {

@@ -26,6 +26,5 @@ export const defaults: AppSettings = {
 
 export interface UserSettings {
   userId?: number;
-  selectedOrganizationType?: 'client' | 'company';
   selectedOrganization?: Organization;
 }

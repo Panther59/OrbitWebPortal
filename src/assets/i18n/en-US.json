@@ -160,5 +160,6 @@
   "zipCode": "Zip Code",
   "isActive": "Active",
   "save": "Save",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "org": "Organization"
 }

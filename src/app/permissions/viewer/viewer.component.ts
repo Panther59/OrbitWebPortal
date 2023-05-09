@@ -14,6 +14,7 @@ import { DialogMessageService } from 'app/app-dialogs';
 })
 export class ViewerComponent implements OnInit {
   loading = false;
+  superUserRoles: UserRole[] = [];
   companyUserRoles: UserRole[] = [];
   clientUserRoles: UserRole[] = [];
   roles: Role[] = [];
@@ -39,16 +40,10 @@ export class ViewerComponent implements OnInit {
     this.permissionsService.getAll().subscribe({
       next: async data => {
         await this.loadRoles();
-        this.companyUserRoles = data.filter(x => x.clientID === undefined);
-        this.companyUserRoles.forEach(x => {
-          if (x.clientID === undefined && x.companyID === undefined) {
-            x.client = 'All';
-            x.company = 'All';
-          } else if (x.clientID === undefined && x.companyID !== undefined) {
-            x.client = 'All';
-          }
-        });
-
+        this.superUserRoles = data.filter(
+          x => x.companyID === undefined && x.clientID === undefined
+        );
+        this.companyUserRoles = data.filter(x => x.companyID !== undefined);
         this.clientUserRoles = data.filter(x => x.clientID !== undefined);
 
         this.loading = false;

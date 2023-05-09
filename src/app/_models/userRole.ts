@@ -6,8 +6,8 @@ export interface UserRole {
   roleID?: number;
   role?: string;
   userID?: number;
-  created?: Date;
+  createdOn?: Date;
   createdBy?: number;
-  updated?: Date;
+  updatedOn?: Date;
   updatedBy?: number;
 }

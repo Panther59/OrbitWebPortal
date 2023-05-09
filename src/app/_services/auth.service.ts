@@ -3,7 +3,7 @@ import { BehaviorSubject, iif, merge, of } from 'rxjs';
 import { catchError, map, share, switchMap, tap } from 'rxjs/operators';
 import { TokenService } from './token.service';
 import { LoginService } from './apis/login.service';
-import { User } from 'app/_models';
+import { Organization, User } from 'app/_models';
 import { UsersService, filterObject, isEmptyObject } from '.';
 
 @Injectable({
@@ -22,7 +22,8 @@ export class AuthService {
   constructor(
     private loginService: LoginService,
     private usersService: UsersService,
-    private tokenService: TokenService) {}
+    private tokenService: TokenService
+  ) {}
 
   init() {
     return new Promise<void>(resolve => this.change$.subscribe(() => resolve()));
@@ -36,8 +37,8 @@ export class AuthService {
     return this.tokenService.valid();
   }
 
-  LoginWithGoogle(credential?: any, email?: string) {
-    return this.loginService.loginWithGoogle(credential, email).pipe(
+  loginForOrg(org: Organization) {
+    return this.loginService.loginForOrg(org).pipe(
       tap(token => this.tokenService.set(token)),
       map(() => this.check())
     );
@@ -63,6 +64,10 @@ export class AuthService {
   logout() {
     this.tokenService.clear();
     return !this.check();
+  }
+
+  get userData(): User {
+    return this.user$.getValue();
   }
 
   user() {

@@ -29,9 +29,9 @@ export class TokenInterceptor implements HttpInterceptor {
         this.router.navigateByUrl('/auth/login');
       }
 
-      if (this.router.url.includes('/auth/login')) {
-        this.router.navigateByUrl('/dashboard');
-      }
+      // if (this.router.url.includes('/auth/login')) {
+      //   this.router.navigateByUrl('/dashboard');
+      // }
     };
 
     if (this.tokenService.valid() && this.shouldAppendToken(request.url)) {
