@@ -19,7 +19,9 @@ import { debounceTime, tap } from 'rxjs/operators';
       <div *ngIf="!user.picture" class="avatar r-full circle">
         <div class="initials">{{ user.initial }}</div>
       </div>
-      <span class="m-x-8">{{ user.name }}</span>
+      <div class="userDetail">
+        <span class="m-x-8">{{ user.name }}</span>
+      </div>
     </button>
 
     <mat-menu #menu="matMenu">
@@ -62,6 +64,9 @@ import { debounceTime, tap } from 'rxjs/operators';
         font-size: 12px;
         line-height: 24px;
         letter-spacing: 0.2625px;
+      }
+      .userDetail{
+        display: inline-grid
       }
     `,
   ],

@@ -1,0 +1,25 @@
+<button *ngIf="loaded" class="r-full" mat-button [matMenuTriggerFor]="menu">
+  <span *ngIf="organization === undefined">Select Your Orgnanization</span>
+  <span *ngIf="organization !== undefined">{{ organization.name }}</span>
+</button>
+
+<mat-menu #menu="matMenu">
+  <button *ngIf="companies && companies.length > 0" mat-menu-item [matMenuTriggerFor]="companiesMenu">
+    <span>Companies</span>
+  </button>
+  <button *ngIf="clients && clients.length > 0" mat-menu-item [matMenuTriggerFor]="clientMenu">
+    <span>Clients</span>
+  </button>
+</mat-menu>
+
+<mat-menu #companiesMenu="matMenu">
+  <button mat-menu-item *ngFor="let company of companies" (click)="selectCompnay(company)">
+    <span>{{ company.name }}</span>
+  </button>
+</mat-menu>
+
+<mat-menu #clientMenu="matMenu">
+  <button mat-menu-item *ngFor="let client of clients" (click)="selectClient(client)">
+    <span>{{ client.name }}</span>
+  </button>
+</mat-menu>

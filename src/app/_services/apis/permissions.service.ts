@@ -22,7 +22,7 @@ export class PermissionsService {
   }
 
   getAllForUser(userId: number) {
-    return this.http.get<Array<UserRole>>(this.baseUrl + 'api/roles/' + userId);
+    return this.http.get<Array<UserRole>>(`${this.baseUrl}api/roles/users?userId=${userId}`);
   }
 
   saveRole(role: UserRole) {

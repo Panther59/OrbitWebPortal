@@ -1,1 +1,3 @@
-<div>This is a dashboard</div>
+<div *ngIf="loaded && !selectedOrg">You have not selected your organization, please select organization from top right corner of the page. If you don't see any option then please reach out to admin to provide you neccessary permissions</div>
+
+<div *ngIf="loaded && selectedOrg && selectedOrg.name">This is a dashboard for {{ selectedOrg.name }}</div>

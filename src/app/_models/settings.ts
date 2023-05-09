@@ -8,6 +8,8 @@ export interface AppSettings {
   sidenavOpened: boolean;
   sidenavCollapsed: boolean;
   language: string;
+  selectedOrganizationType?: 'client' | 'company';
+  selectedOrganization?: number;
 }
 
 export const defaults: AppSettings = {

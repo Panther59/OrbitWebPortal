@@ -22,6 +22,7 @@ import { NotificationComponent } from './widgets/notification.component';
 import { TranslateComponent } from './widgets/translate.component';
 import { UserComponent } from './widgets/user.component';
 import { CustomizerComponent } from './customizer/customizer.component';
+import { OrgSelectorComponent } from './org-selector/org-selector.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { CustomizerComponent } from './customizer/customizer.component';
     NotificationComponent,
     TranslateComponent,
     UserComponent,
+    OrgSelectorComponent,
   ],
   imports: [SharedModule],
 })

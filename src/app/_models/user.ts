@@ -1,7 +1,7 @@
 export class User {
   [prop: string]: any;
 
-  id?: number | string | null;
+  id?: number;
   name?: string;
   initial?: string;
   firstName?: string;

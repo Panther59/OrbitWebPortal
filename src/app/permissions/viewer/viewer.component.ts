@@ -14,7 +14,8 @@ import { DialogMessageService } from 'app/app-dialogs';
 })
 export class ViewerComponent implements OnInit {
   loading = false;
-  userRoles: UserRole[] = [];
+  companyUserRoles: UserRole[] = [];
+  clientUserRoles: UserRole[] = [];
   roles: Role[] = [];
   clients: Organization[] = [];
   companies: Organization[] = [];
@@ -38,17 +39,18 @@ export class ViewerComponent implements OnInit {
     this.permissionsService.getAll().subscribe({
       next: async data => {
         await this.loadRoles();
-        data.forEach(x => {
+        this.companyUserRoles = data.filter(x => x.clientID === undefined);
+        this.companyUserRoles.forEach(x => {
           if (x.clientID === undefined && x.companyID === undefined) {
             x.client = 'All';
             x.company = 'All';
-          } else if (x.clientID !== undefined && x.companyID === undefined) {
-            x.client = 'All';
           } else if (x.clientID === undefined && x.companyID !== undefined) {
-            x.company = 'All';
+            x.client = 'All';
           }
         });
-        this.userRoles = data;
+
+        this.clientUserRoles = data.filter(x => x.clientID !== undefined);
+
         this.loading = false;
       },
       error: async error => {
@@ -95,7 +97,7 @@ export class ViewerComponent implements OnInit {
     }
   }
 
-  addNewUser(type: string) {
+  addNewUser(type: string, roles: Role[]) {
     this.usersService.getAll().subscribe({
       next: users => {
         const dialogRef = this.dialog.open(EditPermissionDialog, {
@@ -103,7 +105,7 @@ export class ViewerComponent implements OnInit {
             type,
             permissionsService: this.permissionsService,
             dialogMessageService: this.dialogMessageService,
-            roles: this.roles.filter(x => !x.forClient),
+            roles,
             companies: this.companies,
             clients: this.clients,
             users,
@@ -122,16 +124,19 @@ export class ViewerComponent implements OnInit {
   }
 
   addSuperUser() {
+    const roles = this.roles.filter(x => !x.forClient);
     const type = 'add_super_user';
-    this.addNewUser(type);
+    this.addNewUser(type, roles);
   }
   addClientUser() {
+    const roles = this.roles.filter(x => x.forClient);
     const type = 'add_client_user';
-    this.addNewUser(type);
+    this.addNewUser(type, roles);
   }
 
   addCompanyUser() {
+    const roles = this.roles.filter(x => !x.forClient);
     const type = 'add_company_user';
-    this.addNewUser(type);
+    this.addNewUser(type, roles);
   }
 }

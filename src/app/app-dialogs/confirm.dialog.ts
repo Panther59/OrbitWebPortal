@@ -7,6 +7,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     templateUrl: 'confirm.dialog.html'
 })
 
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class ConfirmDialog implements OnInit {
 
     @Input() title = '';

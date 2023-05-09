@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['message.dialog.scss'],
   templateUrl: 'message.dialog.html',
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class MessageDialog implements OnInit {
   @Input() title = '';
   @Input() message = '';
