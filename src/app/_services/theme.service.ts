@@ -13,7 +13,7 @@ import { Direction, Directionality } from '@angular/cdk/bidi';
 export class ThemeService {
   defaultThemeMode = 'light';
   private htmlElement!: HTMLHtmlElement;
-  options = this.settings.getOptions();
+  options = this.settings.Options;
   constructor(
     private mediaMatcher: MediaMatcher,
     private settings: SettingsService,

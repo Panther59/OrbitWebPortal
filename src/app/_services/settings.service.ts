@@ -14,7 +14,7 @@ export class SettingsService {
 
   private readonly notify$ = new BehaviorSubject<Partial<AppSettings>>({});
   private readonly notifyOrganization$ = new BehaviorSubject<Organization | undefined>(
-    this.getOrganization()
+    this.Organization
   );
 
   get notify() {
@@ -30,27 +30,27 @@ export class SettingsService {
     this.options = Object.assign(defaults, storedOptions);
   }
 
-  getOptions(): AppSettings {
+  get Options(): AppSettings {
     return this.options;
   }
 
-  setOptions(options: AppSettings) {
+  set Options(options: AppSettings) {
     this.options = Object.assign(defaults, options);
     this.store.set(this.key, this.options);
     this.notify$.next(this.options);
   }
 
-  getLanguage() {
+  get Language() {
     return this.options.language;
   }
 
-  setLanguage(lang: string) {
+  set Language(lang: string) {
     this.options.language = lang;
     this.store.set(this.key, this.options);
     this.notify$.next(this.options);
   }
 
-  getOrganization(): Organization | undefined {
+  get Organization(): Organization | undefined {
     if (this.store.has(this.orgKey)) {
       const org = this.store.get(this.orgKey);
       return org;
@@ -59,9 +59,9 @@ export class SettingsService {
     return undefined;
   }
 
-  setOrganization(org?: Organization) {
+  set Organization(org: Organization | undefined) {
     if (org) {
-      const oldOrg = this.getOrganization();
+      const oldOrg = this.Organization;
       if (org.id !== oldOrg?.id || org.name !== oldOrg?.name) {
         this.store.set(this.orgKey, org);
         this.notifyOrganization$.next(org);

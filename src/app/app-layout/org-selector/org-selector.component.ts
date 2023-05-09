@@ -43,15 +43,13 @@ export class OrgSelectorComponent implements OnInit {
               this.companies = results[2].filter(x =>
                 permissions.some(p => p.companyID === x.id || (!p.companyID && !p.clientID))
               );
-              const settings = this.settings.getOptions();
+              const settings = this.settings.Options;
               if (settings.selectedOrganizationType === 'company') {
-                this.settings.setOrganization(
-                  this.companies?.find(x => x.id === settings.selectedOrganization)
-                );
+                this.settings.Organization =
+                this.companies?.find(x => x.id === settings.selectedOrganization);
               } else if (settings.selectedOrganizationType === 'client') {
-                this.settings.setOrganization(
-                  this.clients?.find(x => x.id === settings.selectedOrganization)
-                );
+                this.settings.Organization =
+                  this.clients?.find(x => x.id === settings.selectedOrganization);
               }
 
               this.loaded = true;
@@ -70,12 +68,12 @@ export class OrgSelectorComponent implements OnInit {
   }
 
   private selectOrg(organization: Organization, orgType: 'client' | 'company') {
-    const setting = this.settings.getOptions();
+    const setting = this.settings.Options;
     setting.selectedOrganization = organization.id;
     setting.selectedOrganizationType = orgType;
-    this.settings.setOptions(setting);
+    this.settings.Options = setting;
 
-    this.settings.setOrganization(organization);
+    this.settings.Organization = organization;
   }
 
   selectClient(organization: Organization) {

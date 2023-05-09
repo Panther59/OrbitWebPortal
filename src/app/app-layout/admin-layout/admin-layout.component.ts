@@ -27,7 +27,7 @@ export class AdminLayoutComponent implements OnDestroy {
   @ViewChild('sidenav', { static: true }) sidenav!: MatSidenav;
   @ViewChild('content', { static: true }) content!: MatSidenavContent;
 
-  options = this.settings.getOptions();
+  options = this.settings.Options;
   actualTheme = '';
   private layoutChangesSubscription = Subscription.EMPTY;
 
@@ -96,7 +96,7 @@ export class AdminLayoutComponent implements OnDestroy {
 
   // TODO: Trigger when transition end
   resetCollapsedState(timer = 400) {
-    setTimeout(() => this.settings.setOptions(this.options), timer);
+    setTimeout(() => this.settings.Options = this.options, timer);
   }
 
   onSidenavClosedStart() {
@@ -106,7 +106,7 @@ export class AdminLayoutComponent implements OnDestroy {
   onSidenavOpenedChange(isOpened: boolean) {
     this.isCollapsedWidthFixed = !this.isOver;
     this.options.sidenavOpened = isOpened;
-    this.settings.setOptions(this.options);
+    this.settings.Options = this.options;
   }
 
   // Demo purposes only

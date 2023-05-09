@@ -27,6 +27,6 @@ export class TranslateComponent {
 
   useLanguage(language: string) {
     this.translate.use(language);
-    this.settings.setLanguage(language);
+    this.settings.Language = language;
   }
 }

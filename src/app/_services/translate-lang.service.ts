@@ -20,7 +20,7 @@ export class TranslateLangService {
         const browserLang = navigator.language;
         const defaultLang = browserLang.match(/en-US|zh-CN|zh-TW/) ? browserLang : 'en-US';
 
-        this.settings.setLanguage(defaultLang);
+        this.settings.Language = defaultLang;
         this.translate.setDefaultLang(defaultLang);
         this.translate.use(defaultLang).subscribe(
           () => console.log(`Successfully initialized '${defaultLang}' language.'`),

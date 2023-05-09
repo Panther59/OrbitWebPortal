@@ -23,7 +23,7 @@ import { SettingsService } from 'app/_services';
 export class CustomizerComponent implements OnInit, OnDestroy {
   // @Output() optionsChange = new EventEmitter<AppSettings>();
 
-  options = this.settings.getOptions();
+  options = this.settings.Options;
 
   dragging = false;
 
@@ -67,7 +67,7 @@ export class CustomizerComponent implements OnInit, OnDestroy {
     this.form.patchValue(this.options);
 
     this.formSubscription = this.form.valueChanges.subscribe(value => {
-      this.settings.setOptions(value as AppSettings);
+      this.settings.Options = value as AppSettings;
     });
   }
 
