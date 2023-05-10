@@ -1,0 +1,39 @@
+<waiting *ngIf="loading" message="Loading user permissions..."></waiting>
+
+<div *ngIf="!loading">
+  <h4>Company Users</h4>
+  <div class="permissionActionsContainer" *ngIf="!loading">
+    <button class="hover-scale-5" color="primary" mat-raised-button (click)="addCompanyUser()">{{ 'add_company_user' | translate }}</button>
+  </div>
+  <dx-data-grid id="gridContainer" [dataSource]="companyUserRoles">
+    <dxi-column dataField="user"></dxi-column>
+    <dxi-column dataField="email"></dxi-column>
+    <dxi-column dataField="role"></dxi-column>
+    <dxi-column dataField="organization" [groupIndex]="0"></dxi-column>
+  </dx-data-grid>
+</div>
+
+<div  *ngIf="!loading">
+  <h4>Client Users</h4>
+  <div class="permissionActionsContainer" *ngIf="!loading">
+    <button class="hover-scale-5" color="primary" mat-raised-button (click)="addClientUser()">{{ 'add_client_user' | translate }}</button>
+  </div>
+  <dx-data-grid id="gridContainer" [dataSource]="clientUserRoles">
+    <dxi-column dataField="user"></dxi-column>
+    <dxi-column dataField="email"></dxi-column>
+    <dxi-column dataField="role"></dxi-column>
+    <dxi-column dataField="organization" [groupIndex]="0"></dxi-column>
+  </dx-data-grid>
+</div>
+
+<div *ngIf="!loading">
+  <h4>Super Users</h4>
+  <div class="permissionActionsContainer" *ngIf="!loading">
+    <button class="hover-scale-5" color="primary" mat-raised-button (click)="addSuperUser()">{{ 'add_super_user' | translate }}</button>
+  </div>
+  <dx-data-grid id="gridContainer" [dataSource]="superUserRoles">
+    <dxi-column dataField="user"></dxi-column>
+    <dxi-column dataField="email"></dxi-column>
+    <dxi-column dataField="role"></dxi-column>
+  </dx-data-grid>
+</div>

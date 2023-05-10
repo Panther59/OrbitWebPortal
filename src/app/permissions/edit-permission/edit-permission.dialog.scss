@@ -1,0 +1,22 @@
+.multi-line-option {
+  .mat-option-text {
+    // @include mat.mat-line-wrapper-base();
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.multi-line-option {
+  // @include mat.mat-line-base(mat-font-size($config, body-1));
+  .mat-line {
+    line-height: 1em;
+    margin: 0;
+  }
+
+  .mat-line-1 {
+    font-size: medium;
+  }
+  .mat-line-2 {
+    font-size: small;
+  }
+}

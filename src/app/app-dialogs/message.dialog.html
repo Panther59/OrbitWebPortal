@@ -1,0 +1,11 @@
+﻿<div>
+  <h2 mat-dialog-title>{{title}}</h2>
+  <div class="modal-body">
+    <mat-icon class="model-body-icon error" *ngIf="isError === true">warning</mat-icon>
+    <mat-icon class="model-body-icon success"*ngIf="isError === false">check</mat-icon>
+    <p>{{message}}</p>
+  </div>
+  <div class="modal-footer">
+    <button mat-raised-button color="primary" (click)="close()">{{buttonText}}</button>
+  </div>
+</div>

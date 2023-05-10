@@ -1,0 +1,11 @@
+@use "../../../node_modules/devextreme/scss/widgets/material/colors" with ($color: "blue", $mode: "light");
+@use "../../../node_modules/devextreme/scss/widgets/material/sizes" with ($size: "compact");
+@use "../../../node_modules/devextreme/scss/widgets/material/icons";
+@use "../../../node_modules/devextreme/scss/widgets/material/widget";
+@use "../../../node_modules/devextreme/scss/widgets/material/card";
+@use "../../../node_modules/devextreme/scss/widgets/material/fieldset";
+@use "../../../node_modules/devextreme/scss/widgets/material/common";
+@use "../../../node_modules/devextreme/scss/widgets/base/resizable";
+@use "../../../node_modules/devextreme/scss/widgets/base/draggable";
+@use "../../../node_modules/devextreme/scss/widgets/base/ui";
+@use "../../../node_modules/devextreme/scss/widgets/material";

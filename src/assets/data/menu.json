@@ -1,0 +1,40 @@
+{
+  "menu": [
+    {
+      "route": "dashboard",
+      "name": "dashboard",
+      "type": "link",
+      "icon": "dashboard",
+      "permissions": {
+        "only": "ViewDashbaord"
+      }
+    },
+    {
+      "route": "company",
+      "name": "company",
+      "type": "link",
+      "icon": "work",
+      "permissions": {
+        "only": "ManageCompanies"
+      }
+    },
+    {
+      "route": "clients",
+      "name": "clients",
+      "type": "link",
+      "icon": "store",
+      "permissions": {
+        "only": "ManageClients"
+      }
+    },
+    {
+      "route": "permissions",
+      "name": "permissions",
+      "type": "link",
+      "icon": "supervisor_account",
+      "permissions": {
+        "only": "ManageAllPermissions"
+      }
+    }
+  ]
+}
