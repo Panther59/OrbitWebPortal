@@ -10,8 +10,9 @@
           <div id="loginBtn"></div>
         </div>
 
-        <span *ngIf="allowImpersonate"><strong> OR </strong></span>
-        <form *ngIf="allowImpersonate" class="form-field-full" [formGroup]="loginForm">
+        <span *ngIf="showImpersonate"><strong> OR </strong></span>
+
+        <form *ngIf="showImpersonate" class="form-field-full" [formGroup]="loginImpForm">
           <mat-form-field appearance="outline">
             <mat-label>{{ 'email' | translate }}: </mat-label>
             <input matInput placeholder="Email" formControlName="email" type="email" required />
@@ -25,18 +26,20 @@
           </mat-form-field>
 
           <button
-            *ngIf="!organizations"
             class="w-full m-y-16"
             mat-raised-button
             color="primary"
-            [disabled]="!!loginForm.invalid"
+            [disabled]="!!loginImpForm.invalid"
             [loading]="isSubmitting"
             (click)="login()"
           >
             {{ 'impersonate' | translate }}
           </button>
 
-          <mat-form-field appearance="outline" *ngIf="organizations">
+        </form>
+
+        <form class="m-y-16 form-field-full" [formGroup]="loginForm" *ngIf="showOrgSelection">
+          <mat-form-field appearance="outline" >
             <mat-label>{{ 'org' | translate }}</mat-label>
             <mat-select matNativeControl formControlName="org" name="org">
               <mat-option value="" selected></mat-option>
@@ -62,7 +65,6 @@
           </mat-form-field>
 
           <button
-            *ngIf="organizations"
             class="w-full m-y-16"
             mat-raised-button
             color="primary"
@@ -71,6 +73,14 @@
             (click)="loginForOrg()"
           >
             {{ 'login' | translate }}
+          </button>
+
+          <button
+            class="w-full m-y-16"
+            mat-raised-button
+            (click)="resetUser()"
+          >
+            {{ 'reset' | translate }}
           </button>
         </form>
         <div class="">

@@ -24,16 +24,21 @@ import { Organization, Token } from 'app/_models';
 export class LoginComponent implements OnInit, AfterViewInit {
   returnUrl = '';
   userId?: number;
+  showOrgSelection = false;
   allowImpersonate = !environment.production;
+  showImpersonate = this.allowImpersonate;
   loginForm = this.fb.nonNullable.group({
-    email: ['', [Validators.required]],
-    org: [''],
+    org: [0, [Validators.required]],
   });
+  loginImpForm = this.fb.nonNullable.group({
+    email: ['', [Validators.required]],
+  });
+
   organizations?: Organization[];
-  selectedOrganization?: Organization;
+  // selectedOrganization?: Organization;
   orgGroups: Group<Organization>[] = [];
   get email() {
-    return this.loginForm.get('email')!;
+    return this.loginImpForm.get('email')!;
   }
   isSubmitting = false;
   constructor(
@@ -87,69 +92,95 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   login() {
-    this.loginUser(undefined, this.loginForm.value.email);
+    this.loginUser(undefined, this.loginImpForm.value.email);
   }
 
   loginForOrg() {
     if (this.loginForm.valid) {
       const org = this.organizations?.find(x => x.id === this.loginForm.value.org);
-      if (org) {
-        this.isSubmitting = true;
-        this.authService.loginForOrg(org).subscribe(
-          x => {
-              const setting = this.settingsService.getUserSetting(this.userId!) ?? {};
-              setting.userId = this.userId!;
-              setting.selectedOrganization = org;
-              this.settingsService.setUserSetting(this.userId!, setting);
-            this.router.navigateByUrl('/');
-          },
-          (error: any) => {
-            console.log(error);
-            const message = getMessage(error);
-            this.toast.error(message);
-            this.isSubmitting = false;
+      this.loginForOrgData(org);
+    }
+  }
+
+  loginForOrgData(org?: Organization) {
+    if (org) {
+      this.isSubmitting = true;
+      this.authService.loginForOrg(org).subscribe(
+        x => {
+          const setting = this.settingsService.getUserSetting(this.userId!) ?? {};
+          setting.userId = this.userId!;
+          setting.selectedOrganization = org;
+          this.settingsService.setUserSetting(this.userId!, setting);
+          if (!this.returnUrl || this.returnUrl === '' || this.returnUrl === 'auth/login') {
+              this.returnUrl = '/';
           }
-        );
-      }
+
+          this.router.navigateByUrl(this.returnUrl);
+        },
+        (error: any) => {
+          console.log(error);
+          const message = getMessage(error);
+          this.toast.error(message);
+          this.isSubmitting = false;
+        }
+      );
     }
   }
 
   loginUser(credential?: string, email?: string) {
-    this.isSubmitting = true;
+    this._ngZone.run(() => {
+      this.isSubmitting = true;
 
-    this.loginService.loginWithGoogle(credential, email).subscribe(
-      (x: Token) => {
-        if (x.userID) {
-          this.userId = x.userID;
-          this.tokenService.partialSave(x);
-          this.permissionsService.getAllOrgsForUser(x.userID).subscribe(orgs => {
-            this.organizations = orgs;
-            this.orgGroups = orgs.groupBy('type');
-            this.loginForm.controls.org.addValidators(Validators.required);
-            const userSettings = this.settingsService.getUserSetting(x.userID!);
-            if (userSettings) {
-              if (userSettings.selectedOrganization) {
-                this.selectedOrganization = this.organizations.find(
-                  x =>
-                    x.type == userSettings.selectedOrganization!.type &&
-                    x.id == userSettings.selectedOrganization!.id
-                );
-
-                if (!this.selectedOrganization && this.organizations.length === 1) {
-                  this.selectedOrganization = this.organizations[0];
+      this.loginService.loginWithGoogle(credential, email).subscribe(
+        (x: Token) => {
+          if (x.userID) {
+            this.userId = x.userID;
+            this.tokenService.partialSave(x);
+            this.permissionsService.getAllOrgsForUser(x.userID).subscribe(orgs => {
+              this.organizations = orgs;
+              this.orgGroups = orgs.groupBy('type');
+              this.showImpersonate = false;
+              const userSettings = this.settingsService.getUserSetting(x.userID!);
+              let selectedOrganization: Organization | undefined;
+              if (this.organizations.length === 1) {
+                selectedOrganization = this.organizations[0];
+                this.loginForOrgData(selectedOrganization);
+              } else {
+                if (userSettings) {
+                  if (userSettings.selectedOrganization) {
+                    selectedOrganization = this.organizations.find(
+                      x =>
+                        x.type == userSettings.selectedOrganization!.type &&
+                        x.id == userSettings.selectedOrganization!.id
+                    );
+                  }
                 }
               }
-            }
-            this.isSubmitting = false;
-          });
+
+              if (selectedOrganization?.id) {
+                this.loginForm.patchValue({ org: selectedOrganization?.id });
+              }
+
+              this.showOrgSelection = true;
+              this.isSubmitting = false;
+            });
+          }
+        },
+        (error: any) => {
+          console.log(error);
+          const message = getMessage(error);
+          this.toast.error(message);
+          this.isSubmitting = false;
         }
-      },
-      (error: any) => {
-        console.log(error);
-        const message = getMessage(error);
-        this.toast.error(message);
-        this.isSubmitting = false;
-      }
-    );
+      );
+    });
+  }
+
+  resetUser() {
+    this.loginForm.reset();
+    this.loginImpForm.reset();
+    this.organizations = undefined;
+    this.showImpersonate = this.allowImpersonate;
+    this.showOrgSelection = false;
   }
 }

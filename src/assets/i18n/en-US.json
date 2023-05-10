@@ -161,5 +161,6 @@
   "isActive": "Active",
   "save": "Save",
   "cancel": "Cancel",
+  "reset": "Reset",
   "org": "Organization"
 }
