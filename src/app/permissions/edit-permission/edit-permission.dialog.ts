@@ -17,8 +17,7 @@ export class EditPermissionDialog {
   type = '';
   users: Array<User> = [];
   roles: Array<Role> = [];
-  companies: Array<Organization> = [];
-  clients: Array<Organization> = [];
+  organizations: Array<Organization> = [];
   org: Organization = {};
   form: FormGroup = this.fb.group({});
   dialogMessageService?: DialogMessageService;
@@ -45,12 +44,8 @@ export class EditPermissionDialog {
       this.roles = data.roles;
     }
 
-    if (data && data.companies) {
-      this.companies = data.companies;
-    }
-
-    if (data && data.clients) {
-      this.clients = data.clients;
+    if (data && data.organizations) {
+      this.organizations = data.organizations;
     }
 
     if (data && data.type) {
@@ -60,8 +55,7 @@ export class EditPermissionDialog {
     this.form = this.fb.group({
       user: ['', [Validators.required]],
       role: ['', [Validators.required]],
-      client: ['', [Validators.required]],
-      company: ['', [Validators.required]],
+      org: ['', [Validators.required]],
     });
 
     if (this.type !== 'add_company_user') {
@@ -89,12 +83,8 @@ export class EditPermissionDialog {
       req.userID = this.form.value.user;
       req.roleID = this.form.value.role;
 
-      if (this.type === 'add_client_user') {
-        req.clientID = this.form.value.client;
-      }
-
-      if (this.type === 'add_company_user') {
-        req.companyID = this.form.value.company;
+      if (this.type === 'add_client_user' || this.type === 'add_company_user') {
+        req.organizationID = this.form.value.org;
       }
 
       if (this.permissionsService) {

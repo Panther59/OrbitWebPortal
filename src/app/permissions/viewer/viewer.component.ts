@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Organization, Role, UserRole } from 'app/_models';
-import { ClientService, CompanyService, UsersService } from 'app/_services';
+import { OrgType, Organization, Role, RoleTypes, UserRole } from 'app/_models';
+import { OrganizationService, UsersService } from 'app/_services';
 import { PermissionsService } from 'app/_services/apis/permissions.service';
 import { EditPermissionDialog } from '../edit-permission/edit-permission.dialog';
 import { getMessage } from 'app/global';
@@ -22,11 +22,10 @@ export class ViewerComponent implements OnInit {
   companies: Organization[] = [];
   rolesLoaded = false;
   clientsLoaded = false;
-  companiesLoaded = false;
+  orgsLoaded = false;
   constructor(
     private permissionsService: PermissionsService,
-    private companyService: CompanyService,
-    private clientService: ClientService,
+    private organizationService: OrganizationService,
     private dialogMessageService: DialogMessageService,
     public dialog: MatDialog,
     private usersService: UsersService
@@ -40,11 +39,9 @@ export class ViewerComponent implements OnInit {
     this.permissionsService.getAll().subscribe({
       next: async data => {
         await this.loadRoles();
-        this.superUserRoles = data.filter(
-          x => x.companyID === undefined && x.clientID === undefined
-        );
-        this.companyUserRoles = data.filter(x => x.companyID !== undefined);
-        this.clientUserRoles = data.filter(x => x.clientID !== undefined);
+        this.superUserRoles = data.filter(x => x.roleType === RoleTypes.Infra);
+        this.companyUserRoles = data.filter(x => x.roleType === RoleTypes.Company);
+        this.clientUserRoles = data.filter(x => x.roleType === RoleTypes.Client);
 
         this.loading = false;
       },
@@ -68,20 +65,12 @@ export class ViewerComponent implements OnInit {
       }
 
       /// Ensure roles are only loaded once
-      if (!this.companiesLoaded) {
-        const result = await this.companyService.getAll().toPromise();
+      if (!this.orgsLoaded) {
+        const result = await this.organizationService.getAll().toPromise();
         if (result) {
-          this.companies = result;
-          this.companiesLoaded = true;
-        }
-      }
-
-      /// Ensure roles are only loaded once
-      if (!this.clientsLoaded) {
-        const result = await this.clientService.getAll().toPromise();
-        if (result) {
-          this.clients = result;
-          this.clientsLoaded = true;
+          this.companies = result.filter(x => x.type === OrgType.Company);
+          this.clients = result.filter(x => x.type === OrgType.Client);
+          this.orgsLoaded = true;
         }
       }
     } catch (error) {
@@ -92,7 +81,7 @@ export class ViewerComponent implements OnInit {
     }
   }
 
-  addNewUser(type: string, roles: Role[]) {
+  addNewUser(type: string, roles: Role[], organizations?: Organization[]) {
     this.usersService.getAll().subscribe({
       next: users => {
         const dialogRef = this.dialog.open(EditPermissionDialog, {
@@ -101,8 +90,7 @@ export class ViewerComponent implements OnInit {
             permissionsService: this.permissionsService,
             dialogMessageService: this.dialogMessageService,
             roles,
-            companies: this.companies,
-            clients: this.clients,
+            organizations,
             users,
           },
           disableClose: true,
@@ -119,19 +107,19 @@ export class ViewerComponent implements OnInit {
   }
 
   addSuperUser() {
-    const roles = this.roles.filter(x => !x.forClient);
+    const roles = this.roles.filter(x => x.type === RoleTypes.Infra);
     const type = 'add_super_user';
     this.addNewUser(type, roles);
   }
   addClientUser() {
-    const roles = this.roles.filter(x => x.forClient);
+    const roles = this.roles.filter(x => x.type === RoleTypes.Client);
     const type = 'add_client_user';
-    this.addNewUser(type, roles);
+    this.addNewUser(type, roles, this.clients);
   }
 
   addCompanyUser() {
-    const roles = this.roles.filter(x => !x.forClient);
+    const roles = this.roles.filter(x => x.type === RoleTypes.Company);
     const type = 'add_company_user';
-    this.addNewUser(type, roles);
+    this.addNewUser(type, roles, this.companies);
   }
 }

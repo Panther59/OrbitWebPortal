@@ -1,8 +1,8 @@
 import { Component, Inject, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Organization } from 'app/_models';
-import { CompanyService, OrganizationService } from 'app/_services';
+import { OrgType, Organization } from 'app/_models';
+import { OrganizationService } from 'app/_services';
 
 @Component({
   selector: 'app-add-organization',
@@ -12,6 +12,7 @@ import { CompanyService, OrganizationService } from 'app/_services';
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class AddOrganizationDialog {
   isSubmitting = false;
+  type?: OrgType;
   org: Organization = {};
   form: FormGroup = this.fb.group({});
   organizationService!: OrganizationService;
@@ -23,6 +24,10 @@ export class AddOrganizationDialog {
   ) {
     if (data && data.org) {
       this.org = data.org;
+    }
+
+    if (data && data.type) {
+      this.type = data.type;
     }
 
     this.organizationService = data.service as OrganizationService;
@@ -54,10 +59,11 @@ export class AddOrganizationDialog {
       req.isActive = this.form.value.isActive;
       req.name = this.form.value.name;
       req.zipCode = this.form.value.zipCode;
+      req.type = this.type;
 
       this.organizationService.addUpdate(req).subscribe({
         next: org => {
-          this.dialogRef.close();
+          this.dialogRef.close(true);
         },
         error: e => {
           this.isSubmitting = false;
@@ -70,6 +76,6 @@ export class AddOrganizationDialog {
     }
   }
   cancelSaving = () => {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   };
 }

@@ -4,19 +4,28 @@
       "route": "dashboard",
       "name": "dashboard",
       "type": "link",
-      "icon": "dashboard"
+      "icon": "dashboard",
+      "permissions": {
+        "only": "ViewDashbaord"
+      }
     },
     {
       "route": "company",
       "name": "company",
       "type": "link",
-      "icon": "work"
+      "icon": "work",
+      "permissions": {
+        "only": "ManageCompanies"
+      }
     },
     {
       "route": "clients",
       "name": "clients",
       "type": "link",
-      "icon": "store"
+      "icon": "store",
+      "permissions": {
+        "only": "ManageClients"
+      }
     },
     {
       "route": "permissions",
@@ -24,7 +33,7 @@
       "type": "link",
       "icon": "supervisor_account",
       "permissions": {
-        "only": "Admin"
+        "only": "ManageAllPermissions"
       }
     }
   ]

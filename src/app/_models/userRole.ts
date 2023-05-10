@@ -1,13 +1,20 @@
 export interface UserRole {
-  companyID?: number;
-  company?: string;
-  clientID?: number;
-  client?: string;
+  organizationID?: number;
+  organization?: string;
   roleID?: number;
   role?: string;
+  roleType?: RoleTypes;
   userID?: number;
+  user?: string;
+  email?: string;
   createdOn?: Date;
   createdBy?: number;
   updatedOn?: Date;
   updatedBy?: number;
+}
+
+export enum RoleTypes {
+  Infra = 'Infra',
+  Company = 'Company',
+  Client = 'Client',
 }

@@ -7,8 +7,9 @@
   </div>
   <dx-data-grid id="gridContainer" [dataSource]="companyUserRoles">
     <dxi-column dataField="user"></dxi-column>
+    <dxi-column dataField="email"></dxi-column>
     <dxi-column dataField="role"></dxi-column>
-    <dxi-column dataField="company" [groupIndex]="0"></dxi-column>
+    <dxi-column dataField="organization" [groupIndex]="0"></dxi-column>
   </dx-data-grid>
 </div>
 
@@ -19,8 +20,9 @@
   </div>
   <dx-data-grid id="gridContainer" [dataSource]="clientUserRoles">
     <dxi-column dataField="user"></dxi-column>
+    <dxi-column dataField="email"></dxi-column>
     <dxi-column dataField="role"></dxi-column>
-    <dxi-column dataField="client" [groupIndex]="0"></dxi-column>
+    <dxi-column dataField="organization" [groupIndex]="0"></dxi-column>
   </dx-data-grid>
 </div>
 
@@ -29,8 +31,9 @@
   <div class="permissionActionsContainer" *ngIf="!loading">
     <button class="hover-scale-5" color="primary" mat-raised-button (click)="addSuperUser()">{{ 'add_super_user' | translate }}</button>
   </div>
-  <dx-data-grid id="gridContainer" [dataSource]="companyUserRoles">
+  <dx-data-grid id="gridContainer" [dataSource]="superUserRoles">
     <dxi-column dataField="user"></dxi-column>
+    <dxi-column dataField="email"></dxi-column>
     <dxi-column dataField="role"></dxi-column>
   </dx-data-grid>
 </div>

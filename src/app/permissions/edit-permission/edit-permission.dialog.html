@@ -6,42 +6,24 @@
 
     <mat-card-content>
       <form class="form-field-full" [formGroup]="form">
-        <mat-form-field appearance="outline" *ngIf="type === 'add_client_user'">
-          <mat-label>{{ 'client' | translate }}</mat-label>
-          <mat-select matNativeControl formControlName="client" name="client">
+
+
+        <mat-form-field appearance="outline" *ngIf="type !== 'add_super_user'">
+          <mat-label>{{ 'org' | translate }}</mat-label>
+          <mat-select matNativeControl formControlName="org" name="org">
             <mat-option value="" selected></mat-option>
-            <mat-option *ngFor="let client of clients" [value]="client.id">
-              {{client.name}}
+            <mat-option *ngFor="let org of organizations" [value]="org.id">
+              {{org.name}}
             </mat-option>
           </mat-select>
 
-          <mat-error *ngIf="form.get('client')!.invalid">
-            <span *ngIf="form.get('client')!.errors?.required"
+          <mat-error *ngIf="form.get('org')!.invalid">
+            <span *ngIf="form.get('org')!.errors?.required"
               >{{ 'please_enter' | translate }}
-              <strong>{{ 'client' | translate }}</strong>
+              <strong>{{ 'org' | translate }}</strong>
             </span>
-            <span *ngIf="form.get('client')!.errors?.remote"
-              >{{ form.get('client')!.errors?.remote }}</span
-            >
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" *ngIf="type === 'add_company_user'">
-          <mat-label>{{ 'company' | translate }}</mat-label>
-          <mat-select matNativeControl formControlName="company" name="company">
-            <mat-option value="" selected></mat-option>
-            <mat-option *ngFor="let company of companies" [value]="company.id">
-              {{company.name}}
-            </mat-option>
-          </mat-select>
-
-          <mat-error *ngIf="form.get('company')!.invalid">
-            <span *ngIf="form.get('company')!.errors?.required"
-              >{{ 'please_enter' | translate }}
-              <strong>{{ 'company' | translate }}</strong>
-            </span>
-            <span *ngIf="form.get('company')!.errors?.remote"
-              >{{ form.get('company')!.errors?.remote }}</span
+            <span *ngIf="form.get('org')!.errors?.remote"
+              >{{ form.get('org')!.errors?.remote }}</span
             >
           </mat-error>
         </mat-form-field>

@@ -2,8 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { OrgType, Organization, User } from 'app/_models';
 import {
   AuthService,
-  ClientService,
-  CompanyService,
+  OrganizationService,
   PermissionsService,
   SettingsService,
 } from 'app/_services';
@@ -17,13 +16,11 @@ import { debounceTime, forkJoin, tap } from 'rxjs';
 export class OrgSelectorComponent implements OnInit {
   loaded = false;
   organization?: Organization;
-  clients?: Organization[];
-  companies?: Organization[];
+  organizations?: Organization[];
   user?: User;
   constructor(
     private auth: AuthService,
-    private companyService: CompanyService,
-    private clientService: ClientService,
+    private organizationService: OrganizationService,
     private permissionsService: PermissionsService,
     private cdr: ChangeDetectorRef,
     private settings: SettingsService
@@ -36,26 +33,18 @@ export class OrgSelectorComponent implements OnInit {
         tap(user => {
           this.user = user;
           if (user.id !== undefined) {
-            const clientsApiCall = this.clientService.getAll();
-            const companysApiCall = this.companyService.getAll();
+            const orgsApiCall = this.organizationService.getAll();
             const permissionApiCall = this.permissionsService.getAllForUser(user.id);
-            forkJoin([permissionApiCall, clientsApiCall, companysApiCall]).subscribe(results => {
+            forkJoin([permissionApiCall, orgsApiCall]).subscribe(results => {
               const permissions = results[0];
-              this.clients = results[1].filter(x => permissions.some(p => p.clientID === x.id));
-              this.companies = results[2].filter(x =>
-                permissions.some(p => p.companyID === x.id || (!p.companyID && !p.clientID))
+              this.organizations = results[1].filter(x =>
+                permissions.some(p => p.organizationID === x.id)
               );
               const userSettings = this.settings.getUserSetting(user.id!);
               if (userSettings) {
-                if (userSettings.selectedOrganization?.type  === OrgType.Company) {
-                  userSettings.selectedOrganization = this.companies?.find(
-                    x => x.id === userSettings.selectedOrganization?.id
-                  );
-                } else if (userSettings.selectedOrganization?.type  === OrgType.Client) {
-                  userSettings.selectedOrganization = this.clients?.find(
-                    x => x.id === userSettings.selectedOrganization?.id
-                  );
-                }
+                userSettings.selectedOrganization = this.organizations?.find(
+                  x => x.id === userSettings.selectedOrganization?.id
+                );
                 if (user.id) {
                   this.settings.setUserSetting(user.id, userSettings);
                 }
@@ -83,21 +72,13 @@ export class OrgSelectorComponent implements OnInit {
     });
   }
 
-  private selectOrg(organization: Organization, orgType: 'client' | 'company') {
+  selectOrg(organization: Organization) {
     if (this.user?.id) {
       const setting = this.settings.getUserSetting(this.user?.id) ?? {};
       setting.userId = this.user?.id;
       setting.selectedOrganization = organization;
       this.settings.setUserSetting(this.user?.id, setting);
     }
-  }
-
-  selectClient(organization: Organization) {
-    this.selectOrg(organization, 'client');
-  }
-
-  selectCompnay(organization: Organization) {
-    this.selectOrg(organization, 'company');
   }
 
   restore() {

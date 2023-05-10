@@ -1,7 +1,9 @@
+import { RoleTypes } from './userRole';
+
 export interface Role {
     id?: number;
     name?: string;
-    forClient?: number;
+    type?: RoleTypes;
     createdOn?: Date;
     createdBy?: number;
     updatedOn?: Date;

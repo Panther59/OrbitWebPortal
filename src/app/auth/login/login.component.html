@@ -24,10 +24,8 @@
             </mat-error>
           </mat-form-field>
 
-
-
           <button
-          *ngIf="!organizations"
+            *ngIf="!organizations"
             class="w-full m-y-16"
             mat-raised-button
             color="primary"
@@ -42,9 +40,14 @@
             <mat-label>{{ 'org' | translate }}</mat-label>
             <mat-select matNativeControl formControlName="org" name="org">
               <mat-option value="" selected></mat-option>
-              <mat-option *ngFor="let org of organizations" [value]="org.id">
-                {{org.name}}
-              </mat-option>
+              <mat-optgroup
+                *ngFor="let group of orgGroups"
+                [label]="group.key"
+              >
+                <mat-option *ngFor="let org of group.value" [value]="org.id">
+                  {{ org.name }}
+                </mat-option>
+              </mat-optgroup>
             </mat-select>
 
             <mat-error *ngIf="loginForm.get('org')!.invalid">
@@ -52,14 +55,14 @@
                 >{{ 'please_enter' | translate }}
                 <strong>{{ 'org' | translate }}</strong>
               </span>
-              <span *ngIf="loginForm.get('org')!.errors?.remote"
-                >{{ loginForm.get('org')!.errors?.remote }}</span
-              >
+              <span *ngIf="loginForm.get('org')!.errors?.remote">{{
+                loginForm.get('org')!.errors?.remote
+              }}</span>
             </mat-error>
           </mat-form-field>
 
           <button
-          *ngIf="organizations"
+            *ngIf="organizations"
             class="w-full m-y-16"
             mat-raised-button
             color="primary"

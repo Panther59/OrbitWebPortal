@@ -4,22 +4,13 @@
 </button>
 
 <mat-menu #menu="matMenu">
-  <button *ngIf="companies && companies.length > 0" mat-menu-item [matMenuTriggerFor]="companiesMenu">
-    <span>Companies</span>
-  </button>
-  <button *ngIf="clients && clients.length > 0" mat-menu-item [matMenuTriggerFor]="clientMenu">
-    <span>Clients</span>
+  <button *ngIf="organizations && organizations.length > 0" mat-menu-item [matMenuTriggerFor]="orgsMenu">
+    <span>Organizations</span>
   </button>
 </mat-menu>
 
-<mat-menu #companiesMenu="matMenu">
-  <button mat-menu-item *ngFor="let company of companies" (click)="selectCompnay(company)">
+<mat-menu #orgsMenu="matMenu">
+  <button mat-menu-item *ngFor="let company of organizations" (click)="selectOrg(company)">
     <span>{{ company.name }}</span>
-  </button>
-</mat-menu>
-
-<mat-menu #clientMenu="matMenu">
-  <button mat-menu-item *ngFor="let client of clients" (click)="selectClient(client)">
-    <span>{{ client.name }}</span>
   </button>
 </mat-menu>

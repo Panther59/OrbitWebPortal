@@ -7,15 +7,13 @@ import { environment } from '@env/environment';
 import { CredentialResponse } from 'google-one-tap';
 import {
   AuthService,
-  ClientService,
-  CompanyService,
   LoginService,
   PermissionsService,
   SettingsService,
   TokenService,
 } from 'app/_services';
 import { ToastrService } from 'ngx-toastr';
-import { getMessage } from 'app/global';
+import { Group, getMessage } from 'app/global';
 import { Organization, Token } from 'app/_models';
 
 @Component({
@@ -33,6 +31,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   });
   organizations?: Organization[];
   selectedOrganization?: Organization;
+  orgGroups: Group<Organization>[] = [];
   get email() {
     return this.loginForm.get('email')!;
   }
@@ -125,6 +124,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
           this.tokenService.partialSave(x);
           this.permissionsService.getAllOrgsForUser(x.userID).subscribe(orgs => {
             this.organizations = orgs;
+            this.orgGroups = orgs.groupBy('type');
             this.loginForm.controls.org.addValidators(Validators.required);
             const userSettings = this.settingsService.getUserSetting(x.userID!);
             if (userSettings) {

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Organization } from 'app/_models';
+import { OrgType, Organization } from 'app/_models';
 import { AddOrganizationDialog } from '../add-organization/add-organization.dialog';
 import { OrganizationService } from 'app/_services';
 import { getMessage } from 'app/global';
@@ -12,7 +12,7 @@ import { DialogMessageService } from 'app/app-dialogs/_services/dialog-messsage.
   styleUrls: ['./list.component.scss'],
 })
 export class BaseListComponent implements OnInit {
-  public type = '';
+  public type?: OrgType;
   public displayName = '';
 
   loading = false;
@@ -20,7 +20,8 @@ export class BaseListComponent implements OnInit {
   constructor(
     private organizationService: OrganizationService,
     private dialogMessageService: DialogMessageService,
-    public dialog: MatDialog) {}
+    public dialog: MatDialog
+  ) {}
 
   addNewOrg(): void {
     this.UpdateOrg();
@@ -38,7 +39,9 @@ export class BaseListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.loadData();
+      if (result) {
+        this.loadData();
+      }
     });
   }
 
@@ -51,7 +54,7 @@ export class BaseListComponent implements OnInit {
     this.loading = true;
     this.organizationService.getAll().subscribe({
       next: orgs => {
-        this.orgs = orgs;
+        this.orgs = orgs.filter(x => x.type === this.type);
         this.loading = false;
       },
       error: async e => {

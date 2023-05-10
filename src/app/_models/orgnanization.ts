@@ -18,6 +18,6 @@ export interface Organization {
 }
 
 export enum OrgType {
-  Company = 0,
-  Client = 1,
+  Company = 'Company',
+  Client = 'Client',
 }
