@@ -1,0 +1,37 @@
+.segmentContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 10px;
+  column-gap: 3px;
+}
+
+.segmentContainer .item {
+  text-align: center;
+  padding: 5px;
+}
+
+.lengthDisplayContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.lengthDisplayContainerItem {
+  flex: 1;
+}
+
+.segmentHeader {
+  margin-left: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.segmentHeaderActionButton {
+  padding-left: 0px;
+  padding-right: 0px;
+  width: auto;
+}

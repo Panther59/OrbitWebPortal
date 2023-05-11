@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { getMessage } from 'app/global';
 
 export enum STATUS {
+  DOWN = 0,
   UNAUTHORIZED = 401,
   FORBIDDEN = 403,
   NOT_FOUND = 404,
@@ -37,7 +38,11 @@ export class ErrorInterceptor implements HttpInterceptor {
         skipLocationChange: true,
       });
     } else {
-      if (error.status === STATUS.UNAUTHORIZED) {
+      if (error.status === STATUS.DOWN) {
+    return throwError('Underlying service is unavailable, please try again in some time. If issue persist, reach out to support');
+    // this.toast.error('Underlying service seems to be down, please try again in some time. If issue persist, reach out to support');
+      }
+      else if (error.status === STATUS.UNAUTHORIZED) {
         this.toast.error(getMessage(error));
         this.router.navigateByUrl('/auth/login');
       }

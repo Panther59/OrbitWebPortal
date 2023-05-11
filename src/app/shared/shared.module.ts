@@ -24,6 +24,8 @@ import { ToObservablePipe } from './pipes/to-observable.pipe';
 import { BlockwaitingComponent, WaitingComponent } from './components/waiting';
 import { ConfirmDialog, MessageDialog } from '../app-dialogs';
 import { MessageService } from 'app/_services';
+import { AppDialogsModule } from 'app/app-dialogs/app-dialog.module';
+import { FillPipe } from './pipes/fill.pipe';
 
 const MODULES: any[] = [
   CommonModule,
@@ -40,6 +42,7 @@ const MODULES: any[] = [
   NgxPermissionsModule,
   ToastrModule,
   TranslateModule,
+  AppDialogsModule
 ];
 const COMPONENTS: any[] = [
   BreadcrumbComponent,
@@ -51,7 +54,7 @@ const COMPONENTS: any[] = [
 
 const COMPONENTS_DYNAMIC: any[] = [];
 const DIRECTIVES: any[] = [DisableControlDirective];
-const PIPES: any[] = [SafeUrlPipe, ToObservablePipe];
+const PIPES: any[] = [SafeUrlPipe, ToObservablePipe, FillPipe];
 const SERVICES: any[] = [MessageService];
 
 @NgModule({

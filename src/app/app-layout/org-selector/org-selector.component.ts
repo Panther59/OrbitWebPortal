@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { OrgType, Organization, User } from 'app/_models';
+import { OrgType, Organization, User, UserSettings } from 'app/_models';
 import {
   AuthService,
   OrganizationService,
@@ -33,25 +33,12 @@ export class OrgSelectorComponent implements OnInit {
         tap(user => {
           this.user = user;
           if (user.id !== undefined) {
-            const orgsApiCall = this.organizationService.getAll();
-            const permissionApiCall = this.permissionsService.getAllForUser(user.id);
-            forkJoin([permissionApiCall, orgsApiCall]).subscribe(results => {
-              const permissions = results[0];
-              this.organizations = results[1].filter(x =>
-                permissions.some(p => p.organizationID === x.id)
-              );
-              const userSettings = this.settings.getUserSetting(user.id!);
-              if (userSettings) {
-                userSettings.selectedOrganization = this.organizations?.find(
-                  x => x.id === userSettings.selectedOrganization?.id
-                );
-                if (user.id) {
-                  this.settings.setUserSetting(user.id, userSettings);
-                }
-              }
-              this.loaded = true;
-              this.cdr.detectChanges();
-            });
+            const userSettings = this.settings.getUserSetting(user.id!);
+            if (userSettings) {
+              this.setOrg(userSettings);
+            }
+            this.loaded = true;
+            this.cdr.detectChanges();
           } else {
             this.organization = undefined;
             this.cdr.detectChanges();
@@ -62,14 +49,17 @@ export class OrgSelectorComponent implements OnInit {
       .subscribe(() => this.cdr.detectChanges());
 
     this.settings.notifyUserSetting.subscribe(x => {
-      if (this.user && this.user.id === x.userId) {
-        this.organization = x.selectedOrganization;
-      } else {
-        this.organization = undefined;
-      }
-
+      this.setOrg(x);
       this.cdr.detectChanges();
     });
+  }
+
+  setOrg(userSetting: UserSettings) {
+    if (this.user && this.user.id === userSetting.userId) {
+      this.organization = userSetting.selectedOrganization;
+    } else {
+      this.organization = undefined;
+    }
   }
 
   selectOrg(organization: Organization) {

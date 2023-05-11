@@ -19,10 +19,11 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
 }
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './app.routing.module';
+import appRoutes from './app.routes';
 import { AppLayoutModule } from './app-layout/app-layout.module';
 import { BASE_URL, httpInterceptorProviders } from './_interceptors';
 import { appInitializerProviders } from './initializers';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +31,10 @@ import { appInitializerProviders } from './initializers';
     BrowserModule,
     HttpClientModule,
     AppLayoutModule,
-    AppRoutingModule,
+    RouterModule.forRoot(appRoutes, {
+      useHash: environment.useHash,
+      enableTracing: false
+    }),
     FormlyConfigModule.forRoot(),
     NgxPermissionsModule.forRoot(),
     ToastrModule.forRoot(),

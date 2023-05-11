@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OrgType, Organization } from 'app/_models';
 import { OrganizationService } from 'app/_services';
+import { DialogMessageService } from 'app/app-dialogs';
 
 @Component({
   selector: 'app-add-organization',
@@ -16,18 +17,24 @@ export class AddOrganizationDialog {
   org: Organization = {};
   form: FormGroup = this.fb.group({});
   organizationService!: OrganizationService;
+  dialogMessageService?: DialogMessageService;
   constructor(
     private _ngZone: NgZone,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<AddOrganizationDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    if (data && data.org) {
-      this.org = data.org;
-    }
+    if (data) {
+      if (data.org) {
+        this.org = data.org;
+      }
 
-    if (data && data.type) {
-      this.type = data.type;
+      if (data.dialogMessageService) {
+        this.dialogMessageService = data.dialogMessageService;
+      }
+      if (data.type) {
+        this.type = data.type;
+      }
     }
 
     this.organizationService = data.service as OrganizationService;
@@ -67,10 +74,11 @@ export class AddOrganizationDialog {
         },
         error: e => {
           this.isSubmitting = false;
-          console.error(e);
-        },
-        complete: () => {
-          console.info('complete');
+          if (this.dialogMessageService) {
+            this.dialogMessageService.error('Save Segment', e);
+          } else {
+            console.error(e);
+          }
         },
       });
     }

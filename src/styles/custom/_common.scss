@@ -6,6 +6,15 @@
   transform: scale(1.05);
 }
 
+.hover-opacity-30-to-100 {
+  transition: transform 0.2s; /* Animation */
+  opacity: 0.3;
+}
+
+.hover-opacity-30-to-100:hover {
+  opacity: 1;
+}
+
 .small-icon-button {
   width: 24px !important;
   height: 24px !important;
@@ -14,19 +23,19 @@
   align-items: center;
   justify-content: center;
 
-  & > *[role=img] {
-     width: 16px;
-     height: 16px;
-     font-size: 16px;
+  & > *[role='img'] {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
 
-     svg {
-        width: 16px;
-        height: 16px;
-     }
+    svg {
+      width: 16px;
+      height: 16px;
+    }
   }
 
   .mat-mdc-button-touch-target {
-     width: 24px !important;
-     height: 24px !important;
+    width: 24px !important;
+    height: 24px !important;
   }
 }

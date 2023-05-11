@@ -1,12 +1,10 @@
-import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { environment } from '@env/environment';
 
 import { AdminLayoutComponent } from './app-layout/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './app-layout/auth-layout/auth-layout.component';
 import { AuthGuard } from './_guards/auth.guard';
 
-const routes: Routes = [
+const appRoutes: Routes = [
   {
     path: '',
     component: AdminLayoutComponent,
@@ -29,6 +27,10 @@ const routes: Routes = [
         path: 'permissions',
         loadChildren: () => import('./permissions/permissions.module').then(m => m.PermissionsModule),
       },
+      {
+        path: 'item-master',
+        loadChildren: () => import('./item-master/item-master.module').then(m => m.ItemMasterModule),
+      },
     ],
   },
   {
@@ -48,13 +50,4 @@ const routes: Routes = [
   },
 ];
 
-@NgModule({
-  imports: [
-    RouterModule.forRoot(routes, {
-      useHash: environment.useHash,
-      enableTracing: false
-    }),
-  ],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}
+export default appRoutes;

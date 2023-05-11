@@ -33,6 +33,7 @@ export class BaseListComponent implements OnInit {
         type: this.type,
         displayName: this.displayName,
         service: this.organizationService,
+        dialogMessageService: this.dialogMessageService,
         org,
       },
       disableClose: true,

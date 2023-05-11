@@ -6,6 +6,7 @@ declare global {
     groupBy(prop: string): Array<Group<T>>;
     max(prop: string): number;
     min(prop: string): number;
+    insertAt(index: number, ...elementsArray: Array<T>): Array<T>;
   }
 
   interface String {
@@ -32,13 +33,13 @@ export function logMessageData(m: any) {
 export function getMessage(error: any) {
   if (error.error?.message) {
     return error.error.message;
-  }
-
-  if (error.error?.msg) {
+  } else if (error.error?.msg) {
     return error.error.msg;
+  } else if (error.status && error.statusText) {
+    return `${error.status} ${error.statusText}`;
+  } else {
+    return error;
   }
-
-  return `${error.status} ${error.statusText}`;
 }
 
 export class Group<T> {
@@ -64,6 +65,10 @@ Array.prototype.max = function (prop: string) {
     groups = groups || 0;
     return groups > val ? groups : val;
   }, {});
+};
+
+Array.prototype.insertAt = function insertAt(index: number, ...elementsArray: Array<any>) {
+  return this.splice(index, 0, ...elementsArray);
 };
 
 const groupByFunction = function (array: Array<any>, prop: string): Array<Group<any>> {

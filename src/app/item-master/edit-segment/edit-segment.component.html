@@ -1,0 +1,92 @@
+<div class="d-flex w-full h-full">
+  <mat-card class="m-auto" style="max-width: 380px">
+    <mat-card-header class="m-b-24">
+      <mat-card-title
+        >{{ (isEdit ? 'edit_segment' : 'add_new_segment') | translate }}!</mat-card-title
+      >
+    </mat-card-header>
+
+    <mat-card-content>
+      <form class="form-field-full" [formGroup]="form">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'name' | translate }}: </mat-label>
+          <input
+            matInput
+            placeholder="{{ 'name' | translate }}"
+            formControlName="name"
+            type="name"
+            required
+          />
+          <mat-error *ngIf="form.get('name')!.invalid">
+            <span *ngIf="form.get('name')!.errors?.required"
+              >{{ 'please_enter' | translate }}
+              <strong>{{ 'name' | translate }}</strong>
+            </span>
+            <span *ngIf="form.get('name')!.errors?.remote">{{
+              form.get('name')!.errors?.remote
+            }}</span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'maxLength' | translate }}: </mat-label>
+          <input
+            matInput
+            placeholder="{{ 'maxLength' | translate }}"
+            formControlName="maxLength"
+            type="number"
+            required
+          />
+          <mat-error *ngIf="form.get('maxLength')!.invalid">
+            <span *ngIf="form.get('maxLength')!.errors?.required"
+              >{{ 'maxLength' | translate }}
+              <strong>{{ 'maxLength' | translate }}</strong>
+            </span>
+            <span *ngIf="form.get('maxLength')!.errors?.remote">{{
+              form.get('maxLength')!.errors?.remote
+            }}</span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngIf="showParentSegments">
+          <mat-label>{{ 'perent' | translate }}</mat-label>
+          <mat-select matNativeControl formControlName="perentSegment" name="perentSegment">
+            <mat-option [value]="0">{{ 'root' | translate }} {{ 'segment' | translate }}</mat-option>
+            <mat-option *ngFor="let seg of segments" [value]="seg.sequence">
+              <span>{{ seg.name }}</span>
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="form.get('perentSegment')!.invalid">
+            <span *ngIf="form.get('perentSegment')!.errors?.required"
+              >{{ 'perentSegment' | translate }}
+              <strong>{{ 'perentSegment' | translate }}</strong>
+            </span>
+            <span *ngIf="form.get('perentSegment')!.errors?.remote">{{
+              form.get('perentSegment')!.errors?.remote
+            }}</span>
+          </mat-error>
+        </mat-form-field>
+
+        <div class="w-full m-y-16">
+          <button
+            class="m-x-16"
+            mat-raised-button
+            color="primary"
+            [disabled]="!!form.invalid"
+            [loading]="isSubmitting"
+            (click)="saveData()"
+          >
+            {{ 'save' | translate }}
+          </button>
+
+          <button class="m-x-16" mat-raised-button color="primary" (click)="cancelSaving()">
+            {{ 'cancel' | translate }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="d-flex w-full h-full"></div>

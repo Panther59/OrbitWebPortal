@@ -35,6 +35,15 @@
       "permissions": {
         "only": "ManageAllPermissions"
       }
+    },
+    {
+      "route": "item-master",
+      "name": "itemMaster",
+      "type": "link",
+      "icon": "list_alt",
+      "permissions": {
+        "only": "ManageItemMaster"
+      }
     }
   ]
 }
