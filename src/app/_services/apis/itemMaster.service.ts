@@ -22,4 +22,8 @@ import { ItemCodeSegment } from 'app/_models';
   delete(segment: ItemCodeSegment) {
     return this.http.delete(`${this.baseUrl}api/itemMaster/segments/${segment.id}`);
   }
+
+  upload(id:number, formData: FormData) {
+    return this.http.post<Array<string>>(`${this.baseUrl}api/itemMaster/mappings/${id}`, formData);
+  }
 }

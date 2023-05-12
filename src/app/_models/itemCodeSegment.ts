@@ -4,5 +4,5 @@ export interface ItemCodeSegment {
 		name?: string;
 		maxLength?: number;
 		sequence?: number;
-    perentSegment?: number;
+    parentID?: number;
 }

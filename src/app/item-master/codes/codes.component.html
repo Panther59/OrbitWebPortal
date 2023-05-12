@@ -1,0 +1,12 @@
+<div class="attachPanel">
+  <button type="button" color="primary" mat-raised-button (click)="fileInput.click()">
+    <mat-icon>attachment</mat-icon> {{ 'attach' | translate }} {{ 'file' | translate }}
+  </button>
+  <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".xls,.xlsx" />
+  <span class="file-name">{{ selectedFile?.name }}</span>
+</div>
+<div>
+  <button type="button" color="primary" mat-raised-button (click)="upload()">
+    <mat-icon>upload</mat-icon> {{ 'upload' | translate }}
+  </button>
+</div>

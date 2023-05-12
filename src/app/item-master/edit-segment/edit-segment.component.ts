@@ -16,12 +16,13 @@ export class EditSegmentComponent {
   segment?: ItemCodeSegment;
   originalSegment?: ItemCodeSegment;
   segments: ItemCodeSegment[] = [];
+  displaySegments: ItemCodeSegment[] = [];
   itemMasterService?: ItemMasterService;
   dialogMessageService?: DialogMessageService;
   form: FormGroup = this.fb.group({
     name: ['', [Validators.required]],
     maxLength: ['', [Validators.required]],
-    perentSegment: [null, [Validators.required]],
+    parentID: [null, [Validators.required]],
   });
   constructor(
     private _ngZone: NgZone,
@@ -40,21 +41,20 @@ export class EditSegmentComponent {
 
       if (data.segments) {
         this.segments = data.segments;
+        this.displaySegments = this.segments.filter(x => !data.segment || x.id !== data.segment.id);
       }
 
       if (data.segment) {
         this.isEdit = true;
-        this.segments = this.segments.filter(x => x.id !== data.segment.id);
         this.segment = Object.assign({}, data.segment);
         this.originalSegment = data.segment;
-        this.originalSegment!.perentSegment = data.segment.sequence - 1;
       } else {
         this.segment = {};
       }
     }
 
     if (this.segments.length === 0) {
-      this.form.removeControl('perentSegment');
+      this.form.removeControl('parentID');
     } else {
       this.showParentSegments = true;
     }
@@ -63,7 +63,13 @@ export class EditSegmentComponent {
       if (!this.segment.sequence) {
         this.segment.sequence = this.segments.length + 1;
       }
-      this.segment.perentSegment = this.isEdit ? this.segment.sequence! - 1 : this.segments.length;
+      if (!this.isEdit && this.segments.length > 0) {
+        this.segment.parentID = this.segments.lastOrDefault()?.id;
+      }
+
+      if (!this.segment.parentID) {
+        this.segment.parentID = 0;
+      }
 
       this.form.patchValue(this.segment);
     }
@@ -75,13 +81,18 @@ export class EditSegmentComponent {
       this.isSubmitting = true;
       this.segment.maxLength = this.form.value.maxLength;
       this.segment.name = this.form.value.name;
-      this.segment.sequence = this.showParentSegments ? this.form.value.perentSegment + 1 : 1;
+      this.segment.parentID =
+        this.showParentSegments && this.form.value.parentID !== 0
+          ? this.form.value.parentID
+          : undefined;
       if (
         (this.isEdit === true &&
           this.originalSegment &&
-          this.originalSegment.perentSegment !== undefined &&
-          this.originalSegment.perentSegment !== this.form.value.perentSegment) ||
-        (this.isEdit === false && this.form.value.perentSegment < this.segments.length)
+          this.originalSegment.parentID !== undefined &&
+          this.originalSegment.parentID !== this.form.value.parentID) ||
+        (this.isEdit === false &&
+          this.segments.lastOrDefault()?.id &&
+          this.form.value.parentID !== this.segments.lastOrDefault()!.id!)
       ) {
         const result = await this.dialogMessageService?.confirm(
           'Segment Saving',
@@ -91,13 +102,14 @@ export class EditSegmentComponent {
           this.isSubmitting = false;
           return;
         }
-        if (this.originalSegment && this.originalSegment.perentSegment) {
-          this.segments.insertAt(this.originalSegment.perentSegment, this.segment);
-          this.segments.splice(this.originalSegment.perentSegment, 1);
-        }
-        this.segments.insertAt(this.form.value.perentSegment, this.segment);
+        // if (this.originalSegment && this.originalSegment.parentID) {
+        //   this.segments.insertAt(this.originalSegment.parentID, this.segment);
+        //   this.segments.splice(this.originalSegment.parentID, 1);
+        // }
+        const parentIndex = this.segments.findIndex(x => x.id === this.form.value.parentID);
+        this.segments.insertAt(parentIndex + 1, this.segment);
         for (let i = 0; i < this.segments.length; i++) {
-          this.segments[i].perentSegment = i;
+          this.segments[i].parentID = i - 1 < 0 ? undefined : this.segments[i - 1].id;
           this.segments[i].sequence = i + 1;
         }
         segs.push(...this.segments);

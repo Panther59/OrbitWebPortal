@@ -4,6 +4,7 @@ import { ItemCodeSegment } from 'app/_models';
 import { EditSegmentComponent } from '../edit-segment/edit-segment.component';
 import { ItemMasterService } from 'app/_services/apis/itemMaster.service';
 import { DialogMessageService } from 'app/app-dialogs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-viewer',
@@ -14,14 +15,17 @@ export class ViewerComponent implements OnInit {
   loading = false;
   segments: ItemCodeSegment[] = [];
   isSubmitting = false;
-
+  selectedSegment?: ItemCodeSegment;
+  showMappingRecordsPanel = false;
   constructor(
+    private router: Router,
     private dialogMessageService: DialogMessageService,
     private itemMasterService: ItemMasterService,
     public dialog: MatDialog
   ) {}
   ngOnInit(): void {
     this.loadData();
+
   }
   addNewSegment(segment?: ItemCodeSegment) {
     const dialogRef = this.dialog.open(EditSegmentComponent, {
@@ -55,11 +59,11 @@ export class ViewerComponent implements OnInit {
     );
   }
 
-  editSegment(segment: ItemCodeSegment) {
-    this.addNewSegment(segment);
+  editSegment() {
+    this.addNewSegment(this.selectedSegment);
   }
 
-  async deleteSegment(segment: ItemCodeSegment) {
+  async deleteSegment() {
     const result = await this.dialogMessageService?.confirm(
       'Segment Delete',
       'Deleting segment may affect the order of segment, if you proceed with the change then any mapping related to current segment will be lost. Are you sure you want to proceed?'
@@ -69,7 +73,7 @@ export class ViewerComponent implements OnInit {
     }
     this.isSubmitting = true;
 
-    this.itemMasterService?.delete(segment).subscribe(
+    this.itemMasterService?.delete(this.selectedSegment!).subscribe(
       x => {
         this.isSubmitting = false;
         this.loadData();
@@ -83,5 +87,22 @@ export class ViewerComponent implements OnInit {
         }
       }
     );
+  }
+
+  segmentSelectionChanged(segment: ItemCodeSegment) {
+    console.log(`${this.selectedSegment!.name}`);
+    console.log(`${segment.name}`);
+  }
+
+  addMasterRecords() {}
+
+  viewSegmentDetail() {
+    if (this.selectedSegment) {
+      this.router.navigate(['/item-master/codes', this.selectedSegment.id]);
+    }
+  }
+
+  addMappingRecords() {
+    this.showMappingRecordsPanel = true;
   }
 }

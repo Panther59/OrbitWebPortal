@@ -3,8 +3,6 @@ import { Menu, MenuChildrenItem } from 'app/_models';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
 
-
-
 @Injectable({
   providedIn: 'root',
 })
@@ -63,6 +61,11 @@ export class MenuService {
     return cond0 || cond1 || cond2;
   }
 
+  private isMenuParam(item: MenuChildrenItem): boolean {
+    const cond0 = item.type === 'param-sub';
+    return cond0;
+  }
+
   // Deep clone object could be jsonized
   private deepClone(obj: any): any {
     return JSON.parse(JSON.stringify(obj));
@@ -104,12 +107,38 @@ export class MenuService {
               realRouteArr: currentRealRouteArr,
             }));
             nextUnhandledLayer = nextUnhandledLayer.concat(wrappedChildren);
+          } else if (
+            this.isMenuParam(eachItem) &&
+            this.isParentsMathcing(routeArr, currentRealRouteArr)
+          ) {
+            const finalIds = this.getIds(routeArr, currentRealRouteArr);
+            tmpArr = currentNamePathList;
+            tmpArr.push(...finalIds);
+            break;
           }
         }
         unhandledLayer = nextUnhandledLayer;
       }
     });
     return tmpArr;
+  }
+  isParentsMathcing(routeArr: string[], currentRealRouteArr: any) {
+    let isMatching = true;
+    for (let index = 0; index < currentRealRouteArr.length; index++) {
+      if (routeArr[index] !== currentRealRouteArr[index]) {
+        isMatching = false;
+        break;
+      }
+    }
+
+    return isMatching;
+  }
+
+  getIds(routeArr: string[], currentRealRouteArr: string[]) {
+    return routeArr.splice(
+      currentRealRouteArr.length,
+      routeArr.length - currentRealRouteArr.length
+    );
   }
 
   /** Add namespace for translation. */

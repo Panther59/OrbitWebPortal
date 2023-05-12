@@ -50,20 +50,20 @@
 
         <mat-form-field appearance="outline" *ngIf="showParentSegments">
           <mat-label>{{ 'perent' | translate }}</mat-label>
-          <mat-select matNativeControl formControlName="perentSegment" name="perentSegment">
+          <mat-select matNativeControl formControlName="parentID" name="parentID">
             <mat-option [value]="0">{{ 'root' | translate }} {{ 'segment' | translate }}</mat-option>
-            <mat-option *ngFor="let seg of segments" [value]="seg.sequence">
+            <mat-option *ngFor="let seg of displaySegments" [value]="seg.id">
               <span>{{ seg.name }}</span>
             </mat-option>
           </mat-select>
 
-          <mat-error *ngIf="form.get('perentSegment')!.invalid">
-            <span *ngIf="form.get('perentSegment')!.errors?.required"
-              >{{ 'perentSegment' | translate }}
-              <strong>{{ 'perentSegment' | translate }}</strong>
+          <mat-error *ngIf="form.get('parentID')!.invalid">
+            <span *ngIf="form.get('parentID')!.errors?.required"
+              >{{ 'parentID' | translate }}
+              <strong>{{ 'parentID' | translate }}</strong>
             </span>
-            <span *ngIf="form.get('perentSegment')!.errors?.remote">{{
-              form.get('perentSegment')!.errors?.remote
+            <span *ngIf="form.get('parentID')!.errors?.remote">{{
+              form.get('parentID')!.errors?.remote
             }}</span>
           </mat-error>
         </mat-form-field>

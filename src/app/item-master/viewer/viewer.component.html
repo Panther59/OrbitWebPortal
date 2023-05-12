@@ -1,40 +1,73 @@
-<waiting *ngIf="loading" message="{{ 'Loading' + ('segment' | translate) + 'list...' }}"></waiting>
+<waiting
+  *ngIf="loading"
+  message="{{ 'Loading ' + ('segment' | translate) + ' list...' }}"
+></waiting>
 <div *ngIf="!loading">
+  <div class="segmentContainer">
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectedSegment">
+      <mat-button-toggle
+        class="item"
+        *ngFor="let seg of segments"
+        [value]="seg"
+        (change)="segmentSelectionChanged(seg)"
+      >
+        <div class="segmentHeader">
+          <span></span>
+          <span class="headerText">SEG {{ seg.sequence }}</span>
+          <span></span>
+        </div>
+        <mat-card-title>{{ seg.name }}</mat-card-title>
+        <div class="lengthDisplayContainer">
+          <div class="lengthDisplayContainerItem" *ngFor="let i of seg.maxLength | fill">X</div>
+        </div>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
   <div class="ItemMasterActionsContainer" *ngIf="!loading">
     <button class="hover-scale-5" color="primary" mat-raised-button (click)="addNewSegment()">
-      {{ 'add_new_segment' | translate }}
+      <mat-icon>library_add</mat-icon>
+      {{ 'add' | translate }} {{ 'segment' | translate }}
     </button>
+    <button
+      class="hover-scale-5"
+      color="primary"
+      mat-raised-button
+      (click)="editSegment()"
+      [disabled]="!selectedSegment"
+    >
+      <mat-icon>edit</mat-icon>
+      <span>{{ 'edit' | translate }} {{ 'segment' | translate }}</span>
+    </button>
+    <button
+      class="hover-scale-5"
+      color="primary"
+      mat-raised-button
+      (click)="deleteSegment()"
+      [disabled]="!selectedSegment"
+    >
+      <mat-icon>delete</mat-icon>
+      <span>{{ 'delete' | translate }} {{ 'segment' | translate }}</span>
+    </button>
+
   </div>
-  <div class="segmentContainer">
-    <mat-card class="item" *ngFor="let seg of segments">
-      <div class="segmentHeader">
-        <span>Segment {{ seg.sequence }}</span>
-        <button
-          class="segmentHeaderActionButton hover-opacity-30-to-100"
-          mat-icon-button
-          aria-label="Actions"
-          disableRipple="true"
-          [matMenuTriggerFor]="segMenu"
-          [matMenuTriggerData]="{seg}"
-        >
-          <mat-icon>more_vert</mat-icon>
-        </button>
-      </div>
-      <mat-card-title>{{ seg.name }}</mat-card-title>
-      <div class="lengthDisplayContainer">
-        <div class="lengthDisplayContainerItem" *ngFor="let i of seg.maxLength | fill">X</div>
-      </div>
-    </mat-card>
+  <div class="ItemMasterActionsContainer" *ngIf="!loading">
+
+    <button
+      class="hover-scale-5"
+      color="primary"
+      mat-raised-button
+      (click)="viewSegmentDetail()"
+      [disabled]="!selectedSegment"
+    >
+      <mat-icon>details</mat-icon>
+      {{ 'view' | translate }} {{ 'details' | translate }}
+    </button>
   </div>
 </div>
 
-<mat-menu #segMenu="matMenu">
-  <ng-template matMenuContent let-seg="seg">
-    <button mat-menu-item (click)="editSegment(seg)">
-      <span>Edit</span>
-    </button>
-    <button mat-menu-item (click)="deleteSegment(seg)">
-      <span>Delete</span>
-    </button>
-  </ng-template>
-</mat-menu>
+<div *ngIf="selectedSegment">
+  <div *ngIf="showMappingRecordsPanel">
+    Adding mapping records for segment {{ selectedSegment.name }}
+  </div>
+</div>

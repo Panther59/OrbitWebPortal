@@ -7,6 +7,7 @@ declare global {
     max(prop: string): number;
     min(prop: string): number;
     insertAt(index: number, ...elementsArray: Array<T>): Array<T>;
+    lastOrDefault(): T | undefined;
   }
 
   interface String {
@@ -69,6 +70,14 @@ Array.prototype.max = function (prop: string) {
 
 Array.prototype.insertAt = function insertAt(index: number, ...elementsArray: Array<any>) {
   return this.splice(index, 0, ...elementsArray);
+};
+
+Array.prototype.lastOrDefault = function lastOrDefault() {
+  if (this && this.length > 0) {
+    return this[this.length - 1];
+  }
+
+  return undefined;
 };
 
 const groupByFunction = function (array: Array<any>, prop: string): Array<Group<any>> {

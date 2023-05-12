@@ -24,14 +24,19 @@
 }
 
 .segmentHeader {
-  margin-left: 10px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   align-items: center;
+  grid-template-columns: 30px 1fr 30px;
 }
 
 .segmentHeaderActionButton {
   padding-left: 0px;
   padding-right: 0px;
   width: auto;
+}
+
+.ItemMasterActionsContainer {
+  margin-top: 20px;
+  display: flex;
+  column-gap: 10px;
 }

@@ -4,11 +4,13 @@ import { SharedModule } from '@shared';
 import itemMasterRoutes from './item-master.routes';
 import { RouterModule } from '@angular/router';
 import { EditSegmentComponent } from './edit-segment/edit-segment.component';
+import { CodesComponent } from './codes/codes.component';
 
 @NgModule({
   declarations: [
     ViewerComponent,
-    EditSegmentComponent
+    EditSegmentComponent,
+    CodesComponent
   ],
   imports: [
     SharedModule,

@@ -1,0 +1,63 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ItemMasterService } from 'app/_services';
+import { DialogMessageService } from 'app/app-dialogs';
+
+@Component({
+  selector: 'app-codes',
+  templateUrl: './codes.component.html',
+  styleUrls: ['./codes.component.scss'],
+})
+export class CodesComponent implements OnInit {
+  id?: number;
+  selectedFile: File | null = null;
+
+  constructor(
+    private dialogMessageService: DialogMessageService,
+    private itemMasterService: ItemMasterService,
+    private route: ActivatedRoute
+  ) {}
+
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0] ?? null;
+  }
+
+  upload() {
+    if (this.selectedFile !== null) {
+      const formData = new FormData();
+
+      formData.append(this.selectedFile.name, this.selectedFile);
+
+      this.itemMasterService.upload(this.id!, formData).subscribe(
+        async results => {
+          if (!results || results.length === 0) {
+            await this.dialogMessageService.showMessage(
+              'Upload Mapping',
+              'Mapping records uploaded successfully without errors'
+            );
+          } else {
+            const message = results.join('\r\n');
+            await this.dialogMessageService.error(
+              'Upload Mapping',
+              `Following warnings are present while uploading excel, please correct the same and try again\r\n\r\n${message}`
+            );
+          }
+        },
+        async err => {
+          console.error(err);
+          await this.dialogMessageService.error(
+            'Upload Mapping',
+            err
+          );
+        }
+      );
+    }
+  }
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.id = +params.id; // (+) converts string 'id' to a number
+
+      // In a real app: dispatch action to load the details here.
+    });
+  }
+}
