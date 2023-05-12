@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ItemCodeSegmentDetail } from 'app/_models';
 import { ItemMasterService } from 'app/_services';
 import { DialogMessageService } from 'app/app-dialogs';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -11,8 +12,10 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 })
 export class CodesComponent implements OnInit {
   id?: number;
+  loading = false;
   selectedFile: File | null = null;
   @BlockUI() blockUI?: NgBlockUI;
+  detail?: ItemCodeSegmentDetail;
 
   constructor(
     private dialogMessageService: DialogMessageService,
@@ -47,14 +50,10 @@ export class CodesComponent implements OnInit {
               `Following warnings are present while uploading excel, please correct the same and try again\r\n\r\n${message}`
             );
           }
-
         },
         async err => {
           this.blockUI?.stop();
-          await this.dialogMessageService.error(
-            'Upload Mapping',
-            err
-          );
+          await this.dialogMessageService.error('Upload Mapping', err);
         }
       );
     }
@@ -62,8 +61,21 @@ export class CodesComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.id = +params.id; // (+) converts string 'id' to a number
-
+      this.loadData();
       // In a real app: dispatch action to load the details here.
     });
+  }
+  loadData() {
+    this.loading = true;
+    this.itemMasterService.getSegmentDetail(this.id!).subscribe(
+      async result => {
+        this.detail = result;
+        this.loading = false;
+      },
+      async err => {
+        this.loading = false;
+        await this.dialogMessageService.error('Segment Detail', err);
+      }
+    );
   }
 }

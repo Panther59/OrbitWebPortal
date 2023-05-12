@@ -1,3 +1,5 @@
+import { ItemCodeDetail } from '.';
+
 export interface ItemCodeSegment {
 		id?: number;
 		organizationID?: number;
@@ -5,4 +7,8 @@ export interface ItemCodeSegment {
 		maxLength?: number;
 		sequence?: number;
     parentID?: number;
+}
+
+export interface ItemCodeSegmentDetail extends ItemCodeSegment{
+  codes: Array<ItemCodeDetail>;
 }

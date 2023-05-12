@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import { ItemCodeSegment } from 'app/_models';
+import { ItemCodeSegment, ItemCodeSegmentDetail } from 'app/_models';
 
 @Injectable({
   providedIn: 'root',
 })export class ItemMasterService {
+
 
   baseUrl = '';
   constructor(protected http: HttpClient) {
@@ -25,5 +26,9 @@ import { ItemCodeSegment } from 'app/_models';
 
   upload(id:number, formData: FormData) {
     return this.http.post<Array<string>>(`${this.baseUrl}api/itemMaster/mappings/${id}`, formData);
+  }
+
+  getSegmentDetail(id: number) {
+    return this.http.get<ItemCodeSegmentDetail>(`${this.baseUrl}api/itemMaster/codes/${id}`);
   }
 }

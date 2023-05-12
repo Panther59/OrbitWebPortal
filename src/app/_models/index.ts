@@ -7,3 +7,4 @@ export * from './user';
 export * from './orgnanization';
 export * from './role';
 export * from './itemCodeSegment';
+export * from './itemCode';
