@@ -36,6 +36,7 @@
     "devextreme-angular": "22.2.6",
     "google-one-tap": "^1.0.6",
     "moment": "^2.29.4",
+    "ng-block-ui": "^3.0.2",
     "ng-matero": "^15.2.3",
     "ngx-permissions": "^15.0.0",
     "ngx-progressbar": "^9.0.0",

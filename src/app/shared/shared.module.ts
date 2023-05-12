@@ -26,6 +26,7 @@ import { ConfirmDialog, MessageDialog } from '../app-dialogs';
 import { MessageService } from 'app/_services';
 import { AppDialogsModule } from 'app/app-dialogs/app-dialog.module';
 import { FillPipe } from './pipes/fill.pipe';
+import { BlockUIModule } from 'ng-block-ui';
 
 const MODULES: any[] = [
   CommonModule,
@@ -42,7 +43,8 @@ const MODULES: any[] = [
   NgxPermissionsModule,
   ToastrModule,
   TranslateModule,
-  AppDialogsModule
+  AppDialogsModule,
+  BlockUIModule.forRoot()
 ];
 const COMPONENTS: any[] = [
   BreadcrumbComponent,
@@ -51,6 +53,7 @@ const COMPONENTS: any[] = [
   BlockwaitingComponent,
   ErrorCodeComponent,
 ];
+
 
 const COMPONENTS_DYNAMIC: any[] = [];
 const DIRECTIVES: any[] = [DisableControlDirective];

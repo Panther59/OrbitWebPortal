@@ -6,7 +6,13 @@
   <span class="file-name">{{ selectedFile?.name }}</span>
 </div>
 <div>
-  <button type="button" color="primary" mat-raised-button (click)="upload()">
+  <button
+    type="button"
+    color="primary"
+    mat-raised-button
+    (click)="upload()"
+    [disabled]="!selectedFile"
+  >
     <mat-icon>upload</mat-icon> {{ 'upload' | translate }}
   </button>
 </div>

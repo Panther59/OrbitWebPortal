@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ItemMasterService } from 'app/_services';
 import { DialogMessageService } from 'app/app-dialogs';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
   selector: 'app-codes',
@@ -11,6 +12,7 @@ import { DialogMessageService } from 'app/app-dialogs';
 export class CodesComponent implements OnInit {
   id?: number;
   selectedFile: File | null = null;
+  @BlockUI() blockUI?: NgBlockUI;
 
   constructor(
     private dialogMessageService: DialogMessageService,
@@ -28,13 +30,16 @@ export class CodesComponent implements OnInit {
 
       formData.append(this.selectedFile.name, this.selectedFile);
 
+      this.blockUI?.start('Uploading mapping files...');
       this.itemMasterService.upload(this.id!, formData).subscribe(
         async results => {
+          this.blockUI?.stop();
           if (!results || results.length === 0) {
             await this.dialogMessageService.showMessage(
               'Upload Mapping',
               'Mapping records uploaded successfully without errors'
             );
+            this.selectedFile = null;
           } else {
             const message = results.join('\r\n');
             await this.dialogMessageService.error(
@@ -42,9 +47,10 @@ export class CodesComponent implements OnInit {
               `Following warnings are present while uploading excel, please correct the same and try again\r\n\r\n${message}`
             );
           }
+
         },
         async err => {
-          console.error(err);
+          this.blockUI?.stop();
           await this.dialogMessageService.error(
             'Upload Mapping',
             err

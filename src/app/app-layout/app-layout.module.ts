@@ -45,6 +45,8 @@ import { OrgSelectorComponent } from './org-selector/org-selector.component';
     UserComponent,
     OrgSelectorComponent,
   ],
-  imports: [SharedModule],
+  imports: [
+    SharedModule
+  ],
 })
 export class AppLayoutModule {}

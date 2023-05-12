@@ -10,64 +10,66 @@
   }"
   [dir]="options.dir"
 >
-  <ng-progress></ng-progress>
+  <block-ui [template]="blockTemplate">
+    <ng-progress></ng-progress>
 
-  <!-- Header Above -->
-  <app-header
-    *ngIf="options.showHeader && options.headerPos === 'above'"
-    [showBranding]="true"
-    (toggleSidenav)="sidenav.toggle()"
-    (toggleSidenavNotice)="sidenavNotice.toggle()"
-  >
-  </app-header>
-
-  <mat-sidenav-container class="matero-container" autosize autoFocus>
-    <mat-sidenav
-      #sidenav
-      class="matero-sidenav"
-      [mode]="isOver ? 'over' : 'side'"
-      [opened]="options.navPos === 'side' && options.sidenavOpened && !isOver"
-      (openedChange)="onSidenavOpenedChange($event)"
-      (closedStart)="onSidenavClosedStart()"
+    <!-- Header Above -->
+    <app-header
+      *ngIf="options.showHeader && options.headerPos === 'above'"
+      [showBranding]="true"
+      (toggleSidenav)="sidenav.toggle()"
+      (toggleSidenavNotice)="sidenavNotice.toggle()"
     >
-      <app-sidebar
-        [showToggle]="!isOver"
-        [showUser]="!!options.showUserPanel"
-        [showHeader]="options.headerPos !== 'above'"
-        (toggleCollapsed)="toggleCollapsed()"
-        [toggleChecked]="!!options.sidenavCollapsed"
+    </app-header>
+
+    <mat-sidenav-container class="matero-container" autosize autoFocus>
+      <mat-sidenav
+        #sidenav
+        class="matero-sidenav"
+        [mode]="isOver ? 'over' : 'side'"
+        [opened]="options.navPos === 'side' && options.sidenavOpened && !isOver"
+        (openedChange)="onSidenavOpenedChange($event)"
+        (closedStart)="onSidenavClosedStart()"
       >
-      </app-sidebar>
-    </mat-sidenav>
+        <app-sidebar
+          [showToggle]="!isOver"
+          [showUser]="!!options.showUserPanel"
+          [showHeader]="options.headerPos !== 'above'"
+          (toggleCollapsed)="toggleCollapsed()"
+          [toggleChecked]="!!options.sidenavCollapsed"
+        >
+        </app-sidebar>
+      </mat-sidenav>
 
-    <mat-sidenav #sidenavNotice position="end" mode="over">
-      <app-sidebar-notice></app-sidebar-notice>
-    </mat-sidenav>
+      <mat-sidenav #sidenavNotice position="end" mode="over">
+        <app-sidebar-notice></app-sidebar-notice>
+      </mat-sidenav>
 
-    <mat-sidenav-content #content class="matero-content-wrap">
-      <app-header
-        *ngIf="options.showHeader && options.headerPos !== 'above'"
-        [showToggle]="!options.sidenavCollapsed && options.navPos !== 'top'"
-        [showBranding]="options.navPos === 'top'"
-        (toggleSidenav)="sidenav.toggle()"
-        (toggleSidenavNotice)="sidenavNotice.toggle()"
-      >
-      </app-header>
+      <mat-sidenav-content #content class="matero-content-wrap">
+        <app-header
+          *ngIf="options.showHeader && options.headerPos !== 'above'"
+          [showToggle]="!options.sidenavCollapsed && options.navPos !== 'top'"
+          [showBranding]="options.navPos === 'top'"
+          (toggleSidenav)="sidenav.toggle()"
+          (toggleSidenavNotice)="sidenavNotice.toggle()"
+        >
+        </app-header>
 
-      <app-topmenu *ngIf="options.navPos === 'top'"></app-topmenu>
+        <app-topmenu *ngIf="options.navPos === 'top'"></app-topmenu>
 
-      <!-- <div class="matero-content" [@contextTransitions]="o && o.activatedRouteData && o.activatedRouteData['animation']">
+        <!-- <div class="matero-content" [@contextTransitions]="o && o.activatedRouteData && o.activatedRouteData['animation']">
         <page-header [hideTitle]="true"></page-header>
         <router-outlet #o="outlet"></router-outlet>
       </div> -->
 
-      <div class="matero-content">
-        <page-header [hideTitle]="true"></page-header>
-        <router-outlet></router-outlet>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+        <div class="matero-content">
+          <page-header [hideTitle]="true"></page-header>
+          <router-outlet></router-outlet>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
 
-  <!-- Demo purposes only -->
-  <app-customizer></app-customizer>
+    <!-- Demo purposes only -->
+    <app-customizer></app-customizer>
+  </block-ui>
 </div>
