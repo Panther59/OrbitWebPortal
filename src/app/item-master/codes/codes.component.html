@@ -1,18 +1,187 @@
-<div class="attachPanel">
-  <button type="button" color="primary" mat-raised-button (click)="fileInput.click()">
-    <mat-icon>attachment</mat-icon> {{ 'attach' | translate }} {{ 'file' | translate }}
-  </button>
-  <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".xls,.xlsx" />
-  <span class="file-name">{{ selectedFile?.name }}</span>
+<waiting *ngIf="loading" message="Loading user codes..."></waiting>
+<div *ngIf="!loading && detail" class="topSection">
+  <div class="summary">
+    <label>Name</label>
+    <h2 class="value">{{ detail.name }}</h2>
+    <label>Max code length</label>
+    <span class="value">{{ detail.maxLength }}</span>
+  </div>
+  <span></span>
+  <div class="summary">
+    <label *ngIf="detail.parentSegment">Parent segment</label>
+    <button
+      *ngIf="detail.parentSegment"
+      mat-raised-button
+      class="value"
+      type="button"
+      (click)="navigateToChild()"
+    >
+      {{ detail.parentSegment.name }}
+    </button>
+
+    <label *ngIf="detail.childSegment">Child segment</label>
+    <button
+      *ngIf="detail.childSegment"
+      mat-raised-button
+      class="value"
+      type="button"
+      (click)="navigateToChild()"
+    >
+      {{ detail.childSegment.name }}
+    </button>
+  </div>
 </div>
-<div>
-  <button
-    type="button"
-    color="primary"
-    mat-raised-button
-    (click)="upload()"
-    [disabled]="!selectedFile"
-  >
-    <mat-icon>upload</mat-icon> {{ 'upload' | translate }}
-  </button>
-</div>
+
+<mat-tab-group *ngIf="!loading && detail" mat-stretch-tabs="false" mat-align-tabs="start">
+  <mat-tab label="Codes">
+    <div *ngIf="!loading && detail && detail.codes">
+      <dx-data-grid
+        id="codeGrid"
+        [dataSource]="detail.codes"
+        (onRowRemoving)="codeRecordDeleted($event)"
+      >
+        <dxo-toolbar>
+          <dxi-item location="before">
+            <span>Codes</span>
+          </dxi-item>
+          <dxi-item location="after">
+            <div *dxTemplate>
+              <dx-button
+                icon="trash"
+                hint="Delete Selected Code Mappings"
+                [disabled]="
+                  this.codesDataGrid === undefined ||
+                  this.codesDataGrid.selectedRowKeys === undefined ||
+                  this.codesDataGrid.selectedRowKeys.length === 0
+                "
+                (onClick)="deleteSelectedCodes($event)"
+              >
+              </dx-button>
+            </div>
+          </dxi-item>
+        </dxo-toolbar>
+        <dxo-selection
+          selectAllMode="allPages"
+          showCheckBoxesMode="always"
+          mode="multiple"
+        ></dxo-selection>
+        <dxo-editing [allowUpdating]="true" [allowDeleting]="true"> </dxo-editing>
+        <dxo-export
+          [allowExportSelectedData]="true"
+          fileName="{{ this.detail.name }}-Codes-Mapping"
+          [enabled]="true"
+        ></dxo-export>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxi-column dataField="code"></dxi-column>
+        <dxi-column dataField="name"></dxi-column>
+      </dx-data-grid>
+    </div>
+  </mat-tab>
+  <mat-tab label="Child Mappings">
+    <div *ngIf="showUploadSection" @slideInOut>
+      <div class="flexButtons">
+        <button type="button" color="primary" mat-raised-button (click)="fileInput.click()">
+          <mat-icon>attachment</mat-icon> {{ 'attach' | translate }} {{ 'file' | translate }}
+        </button>
+        <input
+          hidden
+          (change)="onFileSelected($event)"
+          #fileInput
+          type="file"
+          accept=".xls,.xlsx"
+        />
+        <span class="file-name">{{ selectedFile?.name }}</span>
+      </div>
+      <div class="flexButtons">
+        <button
+          type="button"
+          color="primary"
+          mat-raised-button
+          (click)="upload()"
+          [disabled]="!selectedFile"
+        >
+          <mat-icon>upload</mat-icon> {{ 'upload' | translate }}
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          (click)="selectedFile = null; showUploadSection = false"
+        >
+          <mat-icon>cancel</mat-icon> {{ 'cancel' | translate }}
+        </button>
+      </div>
+    </div>
+    <div
+      *ngIf="
+        !loading &&
+        detail &&
+        detail.mappings &&
+        detail.codes &&
+        detail.childSegment &&
+        detail.childSegment.codes
+      "
+    >
+      <dx-data-grid
+        id="mappingGrid"
+        [dataSource]="detail.mappings"
+        (onRowRemoving)="recordDeleted($event)"
+      >
+        <dxo-toolbar>
+          <dxi-item location="before">
+            <span>Child Mappings</span>
+          </dxi-item>
+          <dxi-item location="after">
+            <div *dxTemplate>
+              <dx-button
+                icon="trash"
+                hint="Delete Selected Code Mappings"
+                [disabled]="
+                  this.mappingDataGrid === undefined ||
+                  this.mappingDataGrid.selectedRowKeys === undefined ||
+                  this.mappingDataGrid.selectedRowKeys.length === 0
+                "
+                (onClick)="deleteSelectedRows($event)"
+              >
+              </dx-button>
+            </div>
+          </dxi-item>
+          <dxi-item location="after">
+            <div *dxTemplate>
+              <dx-button icon="upload" hint="Upload Mappings" (onClick)="showUploadSection = true">
+              </dx-button>
+            </div>
+          </dxi-item>
+          <dxi-item name="exportButton"></dxi-item>
+          <dxi-item name="columnChooserButton"></dxi-item>
+        </dxo-toolbar>
+        <dxo-selection
+          selectAllMode="allPages"
+          showCheckBoxesMode="always"
+          mode="multiple"
+        ></dxo-selection>
+        <dxo-editing [allowUpdating]="false" [allowDeleting]="true"> </dxo-editing>
+        <dxo-export
+          [allowExportSelectedData]="true"
+          fileName="{{ this.detail.name }}-Codes-Mapping"
+          [enabled]="true"
+        ></dxo-export>
+        <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxi-column dataField="parentID" caption="Code">
+          <dxo-lookup [dataSource]="detail.codes" displayExpr="code" valueExpr="id"> </dxo-lookup>
+        </dxi-column>
+        <dxi-column dataField="parentID" caption="Name">
+          <dxo-lookup [dataSource]="detail.codes" displayExpr="name" valueExpr="id"> </dxo-lookup>
+        </dxi-column>
+        <dxi-column dataField="childID" caption="Child Code">
+          <dxo-lookup [dataSource]="detail.childSegment.codes" displayExpr="code" valueExpr="id">
+          </dxo-lookup>
+        </dxi-column>
+        <dxi-column dataField="childID" caption="Child Name">
+          <dxo-lookup [dataSource]="detail.childSegment.codes" displayExpr="name" valueExpr="id">
+          </dxo-lookup>
+        </dxi-column>
+      </dx-data-grid>
+    </div>
+  </mat-tab>
+</mat-tab-group>

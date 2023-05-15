@@ -1,4 +1,4 @@
-import { ItemCodeDetail } from '.';
+import { ItemCode, ItemCodeDetail, ItemCodeMapping, ItemCodeMappingDetail } from '.';
 
 export interface ItemCodeSegment {
 		id?: number;
@@ -10,5 +10,8 @@ export interface ItemCodeSegment {
 }
 
 export interface ItemCodeSegmentDetail extends ItemCodeSegment{
-  codes: Array<ItemCodeDetail>;
+  codes: Array<ItemCode>;
+  childSegment: ItemCodeSegmentDetail;
+  parentSegment: ItemCodeSegmentDetail;
+  mappings: Array<ItemCodeMapping>;
 }

@@ -5,6 +5,7 @@ import itemMasterRoutes from './item-master.routes';
 import { RouterModule } from '@angular/router';
 import { EditSegmentComponent } from './edit-segment/edit-segment.component';
 import { CodesComponent } from './codes/codes.component';
+import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,8 @@ import { CodesComponent } from './codes/codes.component';
   ],
   imports: [
     SharedModule,
+    DxDataGridModule,
+    DxButtonModule,
     RouterModule.forChild(itemMasterRoutes),
   ]
 })

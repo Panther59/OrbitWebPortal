@@ -3,6 +3,31 @@
 }
 
 .attachPanel {
+  display: grid;
+  row-gap: 5px;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.topSection {
+  width: 100%;
+  display: inline-grid;
+  grid-template-columns: auto 1fr auto;
+}
+
+.summary {
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 10px;
+  row-gap: 3px;
+  align-items: center;
+  text-align: end;
+
+  label{
+    opacity: 0.6;
+  }
+  .value {
+    margin: 0;
+    text-align: start;
+  }
 }

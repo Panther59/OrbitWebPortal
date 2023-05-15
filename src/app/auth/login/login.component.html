@@ -6,10 +6,12 @@
 
     <mat-card-content>
       <div class="actionButton">
+        <mat-checkbox [(ngModel)]="continueLastOrgSelection"
+          >Use last organization selection</mat-checkbox
+        >
         <div>
           <div id="loginBtn"></div>
         </div>
-
         <span *ngIf="showImpersonate"><strong> OR </strong></span>
 
         <form *ngIf="showImpersonate" class="form-field-full" [formGroup]="loginImpForm">
@@ -35,18 +37,14 @@
           >
             {{ 'impersonate' | translate }}
           </button>
-
         </form>
 
         <form class="m-y-16 form-field-full" [formGroup]="loginForm" *ngIf="showOrgSelection">
-          <mat-form-field appearance="outline" >
+          <mat-form-field appearance="outline">
             <mat-label>{{ 'org' | translate }}</mat-label>
             <mat-select matNativeControl formControlName="org" name="org">
               <mat-option value="" selected></mat-option>
-              <mat-optgroup
-                *ngFor="let group of orgGroups"
-                [label]="group.key"
-              >
+              <mat-optgroup *ngFor="let group of orgGroups" [label]="group.key">
                 <mat-option *ngFor="let org of group.value" [value]="org.id">
                   {{ org.name }}
                 </mat-option>
@@ -75,11 +73,7 @@
             {{ 'login' | translate }}
           </button>
 
-          <button
-            class="w-full m-y-16"
-            mat-raised-button
-            (click)="resetUser()"
-          >
+          <button class="w-full m-y-16" mat-raised-button (click)="resetUser()">
             {{ 'reset' | translate }}
           </button>
         </form>

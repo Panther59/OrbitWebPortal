@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import { ItemCodeSegment, ItemCodeSegmentDetail } from 'app/_models';
+import { ItemCodeMapping, ItemCodeSegment, ItemCodeSegmentDetail } from 'app/_models';
 
 @Injectable({
   providedIn: 'root',
@@ -30,5 +30,10 @@ import { ItemCodeSegment, ItemCodeSegmentDetail } from 'app/_models';
 
   getSegmentDetail(id: number) {
     return this.http.get<ItemCodeSegmentDetail>(`${this.baseUrl}api/itemMaster/codes/${id}`);
+  }
+
+  deleteCodeMappings(mappings: Array<ItemCodeMapping>){
+    return this.http.post<ItemCodeSegmentDetail>(`${this.baseUrl}api/itemMaster/mappings/bulkDelete`, mappings);
+
   }
 }

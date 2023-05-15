@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   returnUrl = '';
   userId?: number;
   showOrgSelection = false;
+  continueLastOrgSelection = true;
   allowImpersonate = !environment.production;
   showImpersonate = this.allowImpersonate;
   loginForm = this.fb.nonNullable.group({
@@ -112,7 +113,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
           setting.selectedOrganization = org;
           this.settingsService.setUserSetting(this.userId!, setting);
           if (!this.returnUrl || this.returnUrl === '' || this.returnUrl === 'auth/login') {
-              this.returnUrl = '/';
+            this.returnUrl = '/';
           }
 
           this.router.navigateByUrl(this.returnUrl);
@@ -137,25 +138,31 @@ export class LoginComponent implements OnInit, AfterViewInit {
             this.userId = x.userID;
             this.tokenService.partialSave(x);
             this.permissionsService.getAllOrgsForUser(x.userID).subscribe(orgs => {
-              this.organizations = orgs;
               this.orgGroups = orgs.groupBy('type');
               this.showImpersonate = false;
               const userSettings = this.settingsService.getUserSetting(x.userID!);
               let selectedOrganization: Organization | undefined;
-              if (this.organizations.length === 1) {
-                selectedOrganization = this.organizations[0];
+              if (orgs.length === 1) {
+                selectedOrganization = orgs[0];
                 this.loginForOrgData(selectedOrganization);
+                return;
               } else {
                 if (userSettings) {
                   if (userSettings.selectedOrganization) {
-                    selectedOrganization = this.organizations.find(
+                    selectedOrganization = orgs.find(
                       x =>
                         x.type == userSettings.selectedOrganization!.type &&
                         x.id == userSettings.selectedOrganization!.id
                     );
+                    if (this.continueLastOrgSelection && selectedOrganization) {
+                      this.loginForOrgData(selectedOrganization);
+                      return;
+                    }
                   }
                 }
               }
+
+              this.organizations = orgs;
 
               if (selectedOrganization?.id) {
                 this.loginForm.patchValue({ org: selectedOrganization?.id });

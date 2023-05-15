@@ -16,7 +16,6 @@ import { debounceTime, forkJoin, tap } from 'rxjs';
 export class OrgSelectorComponent implements OnInit {
   loaded = false;
   organization?: Organization;
-  organizations?: Organization[];
   user?: User;
   constructor(
     private auth: AuthService,
@@ -27,6 +26,11 @@ export class OrgSelectorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.settings.notifyUserSetting.subscribe(x => {
+      this.setOrg(x);
+      this.cdr.detectChanges();
+    });
+
     this.auth
       .user()
       .pipe(
@@ -38,20 +42,16 @@ export class OrgSelectorComponent implements OnInit {
               this.setOrg(userSettings);
             }
             this.loaded = true;
-            this.cdr.detectChanges();
           } else {
             this.organization = undefined;
-            this.cdr.detectChanges();
           }
+
+          this.cdr.detectChanges();
         }),
         debounceTime(10)
       )
       .subscribe(() => this.cdr.detectChanges());
 
-    this.settings.notifyUserSetting.subscribe(x => {
-      this.setOrg(x);
-      this.cdr.detectChanges();
-    });
   }
 
   setOrg(userSetting: UserSettings) {

@@ -8,3 +8,16 @@ export interface ItemCode {
 export interface ItemCodeDetail extends ItemCode {
   children: Array<ItemCode>;
 }
+
+export interface ItemCodeMappingDetail extends ItemCode  {
+  displayCode?: string;
+  childId?: number;
+  childCode?: string;
+  childName?: string;
+}
+
+
+export interface ItemCodeMapping   {
+  childId?: number;
+  parentId?: number;
+}
