@@ -9,7 +9,7 @@ export class NavAccordionItemDirective implements OnInit, OnDestroy {
   protected isExpanded = false;
 
   @Input() route = '';
-  @Input() type: 'link' | 'sub' | 'extLink' | 'extTabLink' = 'link';
+  @Input() type: 'link' | 'sub' | 'extLink' | 'extTabLink' | 'param-link' = 'link';
 
   @HostBinding('class.expanded')
   @Input()

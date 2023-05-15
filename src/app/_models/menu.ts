@@ -11,7 +11,7 @@ export interface MenuPermissions {
 export interface MenuChildrenItem {
   route: string;
   name: string;
-  type: 'link' | 'sub' | 'extLink' | 'extTabLink' | 'param-sub';
+  type: 'link' | 'sub' | 'extLink' | 'extTabLink' | 'param-link';
   children?: MenuChildrenItem[];
   permissions?: MenuPermissions;
 }
@@ -19,7 +19,7 @@ export interface MenuChildrenItem {
 export interface Menu {
   route: string;
   name: string;
-  type: 'link' | 'sub' | 'extLink' | 'extTabLink' | 'param-sub';
+  type: 'link' | 'sub' | 'extLink' | 'extTabLink' | 'param-link';
   icon: string;
   label?: MenuTag;
   badge?: MenuTag;

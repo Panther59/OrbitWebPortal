@@ -28,7 +28,7 @@ const appRoutes: Routes = [
         loadChildren: () => import('./permissions/permissions.module').then(m => m.PermissionsModule),
       },
       {
-        path: 'item-master',
+        path: 'item-codes',
         loadChildren: () => import('./item-master/item-master.module').then(m => m.ItemMasterModule),
       },
     ],

@@ -37,18 +37,10 @@
       }
     },
     {
-      "route": "item-master",
-      "name": "itemMaster",
-      "type": "link",
+      "route": "item-codes",
+      "name": "itemCodes",
+      "type": "param-link",
       "icon": "list_alt",
-      "children": [
-        {
-          "route": "codes",
-          "name": "codes",
-          "type": "param-sub",
-          "icon": "list_alt"
-        }
-      ],
       "permissions": {
         "only": "ManageItemMaster"
       }

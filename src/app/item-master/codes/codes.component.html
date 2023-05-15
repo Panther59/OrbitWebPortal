@@ -14,7 +14,7 @@
       mat-raised-button
       class="value"
       type="button"
-      (click)="navigateToChild()"
+      (click)="navigateToParent()"
     >
       {{ detail.parentSegment.name }}
     </button>
@@ -38,12 +38,12 @@
       <dx-data-grid
         id="codeGrid"
         [dataSource]="detail.codes"
+        (onRowInserting)="codeRecordInserting($event)"
         (onRowRemoving)="codeRecordDeleted($event)"
+        (onRowUpdating)="codeRecordUpdaing($event)"
       >
         <dxo-toolbar>
-          <dxi-item location="before">
-            <span>Codes</span>
-          </dxi-item>
+          <dxi-item name="addRowButton"></dxi-item>
           <dxi-item location="after">
             <div *dxTemplate>
               <dx-button
@@ -59,21 +59,35 @@
               </dx-button>
             </div>
           </dxi-item>
+          <dxi-item name="exportButton"></dxi-item>
         </dxo-toolbar>
+        <dxo-export
+          [allowExportSelectedData]="true"
+          fileName="{{ this.detail.name }}-Codes-Mapping"
+          [enabled]="true"
+        ></dxo-export>
         <dxo-selection
           selectAllMode="allPages"
           showCheckBoxesMode="always"
           mode="multiple"
         ></dxo-selection>
-        <dxo-editing [allowUpdating]="true" [allowDeleting]="true"> </dxo-editing>
+        <dxo-editing [allowAdding]="true" [allowUpdating]="true" [allowDeleting]="true">
+          <dxo-texts
+            confirmDeleteMessage="Are you sure, you want to delete this code. It will also remove all the associated mappings?"
+          ></dxo-texts>
+        </dxo-editing>
         <dxo-export
           [allowExportSelectedData]="true"
           fileName="{{ this.detail.name }}-Codes-Mapping"
           [enabled]="true"
         ></dxo-export>
         <dxo-filter-row [visible]="true"></dxo-filter-row>
-        <dxi-column dataField="code"></dxi-column>
-        <dxi-column dataField="name"></dxi-column>
+        <dxi-column dataField="code" [editorOptions]="{ maxLength: this.detail.maxLength }">
+          <dxi-validation-rule type="required"></dxi-validation-rule>
+        </dxi-column>
+        <dxi-column dataField="name">
+          <dxi-validation-rule type="required"></dxi-validation-rule>
+        </dxi-column>
       </dx-data-grid>
     </div>
   </mat-tab>
@@ -127,9 +141,6 @@
         (onRowRemoving)="recordDeleted($event)"
       >
         <dxo-toolbar>
-          <dxi-item location="before">
-            <span>Child Mappings</span>
-          </dxi-item>
           <dxi-item location="after">
             <div *dxTemplate>
               <dx-button

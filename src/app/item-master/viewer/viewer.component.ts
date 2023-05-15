@@ -98,7 +98,7 @@ export class ViewerComponent implements OnInit {
 
   viewSegmentDetail() {
     if (this.selectedSegment) {
-      this.router.navigate(['/item-master/codes', this.selectedSegment.id]);
+      this.router.navigate(['/item-codes', this.selectedSegment.name]);
     }
   }
 

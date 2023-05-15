@@ -62,7 +62,7 @@ export class MenuService {
   }
 
   private isMenuParam(item: MenuChildrenItem): boolean {
-    const cond0 = item.type === 'param-sub';
+    const cond0 = item.type === 'param-link';
     return cond0;
   }
 

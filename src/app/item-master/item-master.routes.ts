@@ -8,7 +8,7 @@ const itemMasterRoutes: Routes = [
     component: ViewerComponent,
   },
   {
-    path: 'codes/:id',
+    path: ':id',
     component: CodesComponent,
   },
 ];

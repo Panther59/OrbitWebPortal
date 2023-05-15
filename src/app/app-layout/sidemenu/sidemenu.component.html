@@ -13,7 +13,7 @@
 
           <a class="menu-heading"
              [routerLink]="buildRoute(parentRoute.concat([menuItem.route]))"
-             *ngIf="menuItem.type==='link'" matRipple [matRippleDisabled]="!ripple">
+             *ngIf="menuItem.type==='link' || menuItem.type === 'param-link'" matRipple [matRippleDisabled]="!ripple">
             <ng-container [ngTemplateOutlet]="linkTypeTpl"
                           [ngTemplateOutletContext]="{item: menuItem, level: level}">
             </ng-container>
@@ -59,7 +59,7 @@
   <span class="menu-name">{{item.name | translate}}</span>
   <span class="menu-label bg-{{item.label.color}}" *ngIf="item.label">{{item.label.value}}</span>
   <span class="menu-badge bg-{{item.badge.color}}" *ngIf="item.badge">{{item.badge.value}}</span>
-  <mat-icon class="menu-caret" *ngIf="item.type!=='link'">
+  <mat-icon class="menu-caret" *ngIf="item.type!=='link' && item.type!=='param-link'">
     {{item.type==='sub' ? 'arrow_drop_down' : 'launch'}}
   </mat-icon>
 </ng-template>

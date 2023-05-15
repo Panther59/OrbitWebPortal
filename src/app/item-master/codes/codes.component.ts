@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { slideInOut } from 'app/_animations';
 import {
@@ -8,7 +15,7 @@ import {
   ItemCodeMappingDetail,
   ItemCodeSegmentDetail,
 } from 'app/_models';
-import { ItemMasterService } from 'app/_services';
+import { ItemCodesService, ItemMasterService } from 'app/_services';
 import { DialogMessageService } from 'app/app-dialogs';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { DxiDataGridColumn } from 'devextreme-angular/ui/nested/base/data-grid-column-dxi';
@@ -20,10 +27,11 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
   styleUrls: ['./codes.component.scss'],
   animations: [slideInOut],
 })
-export class CodesComponent implements OnInit {
-  @ViewChild('mappingGrid') mappingDataGrid?: DxDataGridComponent;
-  @ViewChild('codeGrid') codesDataGrid?: DxDataGridComponent;
-  id?: number;
+export class CodesComponent implements OnInit, AfterViewInit {
+  @ViewChildren(DxDataGridComponent) grids?: QueryList<DxDataGridComponent>;
+  mappingDataGrid?: DxDataGridComponent;
+  codesDataGrid?: DxDataGridComponent;
+
   loading = false;
   showUploadSection = false;
   selectedFile: File | null = null;
@@ -33,22 +41,31 @@ export class CodesComponent implements OnInit {
   constructor(
     private dialogMessageService: DialogMessageService,
     private itemMasterService: ItemMasterService,
+    private itemCodesService: ItemCodesService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
+  ngAfterViewInit(): void {
+    this.grids?.changes.subscribe(x => {
+      if (x.length > 1) {
+        this.codesDataGrid = x.get(0);
+        this.mappingDataGrid = x.get(1);
+      }
+    });
+  }
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0] ?? null;
   }
 
   upload() {
-    if (this.selectedFile !== null) {
+    if (this.selectedFile !== null && this.detail) {
       const formData = new FormData();
 
       formData.append(this.selectedFile.name, this.selectedFile);
 
       this.blockUI?.start('Uploading mapping files...');
-      this.itemMasterService.upload(this.id!, formData).subscribe(
+      this.itemMasterService.upload(this.detail.id!, formData).subscribe(
         async results => {
           this.blockUI?.stop();
           if (!results || results.length === 0) {
@@ -58,7 +75,7 @@ export class CodesComponent implements OnInit {
             );
             this.showUploadSection = false;
             this.selectedFile = null;
-            this.loadData();
+            this.loadData(this.detail?.id);
           } else {
             const message = results.join('\r\n');
             await this.dialogMessageService.error(
@@ -76,23 +93,30 @@ export class CodesComponent implements OnInit {
   }
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.id = +params.id; // (+) converts string 'id' to a number
-      this.loadData();
+      const id = +params.id; // (+) converts string 'id' to a number
+      if (id) {
+        this.loadData(id);
+      } else {
+        this.loadData(params.id);
+      }
       // In a real app: dispatch action to load the details here.
     });
   }
-  loadData() {
-    this.loading = true;
-    this.itemMasterService.getSegmentDetail(this.id!).subscribe(
-      async result => {
-        this.detail = result;
-        this.loading = false;
-      },
-      async err => {
-        this.loading = false;
-        await this.dialogMessageService.error('Segment Detail', err);
-      }
-    );
+  loadData(id: any) {
+
+    if (id) {
+      this.loading = true;
+      this.itemCodesService.getSegmentDetail(id).subscribe(
+        result => {
+          this.detail = result;
+          this.loading = false;
+        },
+        async err => {
+          this.loading = false;
+          await this.dialogMessageService.error('Segment Detail', err);
+        }
+      );
+    }
   }
 
   recordDeleted(e: any) {
@@ -121,7 +145,7 @@ export class CodesComponent implements OnInit {
     this.itemMasterService.deleteCodeMappings(mappings).subscribe(
       async result => {
         this.blockUI?.stop();
-        this.loadData();
+        this.loadData(this.detail?.id);
       },
       async err => {
         this.blockUI?.stop();
@@ -129,16 +153,79 @@ export class CodesComponent implements OnInit {
       }
     );
   }
-  codeRecordDeleted(e: any) {}
-  deleteSelectedCodes(e: any) {}
+  codeRecordUpdaing(e: any) {
+    e.cancel = true;
+    const finalData = Object.assign(e.oldData, e.newData);
+    this.blockUI?.start(`Updating code ${e.oldData.name}`);
+
+    this.itemCodesService.saveItemCode(finalData).subscribe(
+      async result => {
+        this.blockUI?.stop();
+        this.loadData(this.detail?.id);
+      },
+      async err => {
+        this.blockUI?.stop();
+        await this.dialogMessageService.error('Update code', err);
+      }
+    );
+  }
+  codeRecordInserting(e: any) {
+    e.cancel = true;
+    this.blockUI?.start(`Adding code ${e.data.name}`);
+    e.data.segmentId = this.detail?.id;
+    this.itemCodesService.saveItemCode(e.data).subscribe(
+      async result => {
+        this.blockUI?.stop();
+        this.loadData(this.detail?.id);
+      },
+      async err => {
+        this.blockUI?.stop();
+        await this.dialogMessageService.error('Add code', err);
+      }
+    );
+  }
+  codeRecordDeleted(e: any) {
+    if (e && e.data) {
+      const recs: Array<ItemCode> = [];
+      recs.push(e.data);
+      this.deleteCodes(recs);
+      e.cancel = true;
+    }
+  }
+
+  deleteCodes(codes: Array<ItemCode>) {
+    this.blockUI?.start('Deleting code mappings...');
+    this.itemCodesService.deleteItemCode(codes).subscribe(
+      async result => {
+        this.blockUI?.stop();
+        this.loadData(this.detail?.id);
+      },
+      async err => {
+        this.blockUI?.stop();
+        await this.dialogMessageService.error('Delete Mappings', err);
+      }
+    );
+  }
+
+  async deleteSelectedCodes(e: any) {
+    if (this.codesDataGrid?.selectedRowKeys) {
+      const result = await this.dialogMessageService.confirm(
+        'Delete Mappings',
+        'Are you sure you want to delete all the selected codes, it will also delete its related mappings?'
+      );
+      if (result) {
+        this.deleteCodes(this.codesDataGrid?.selectedRowKeys);
+      }
+    }
+  }
   navigateToChild() {
     if (this.detail && this.detail?.childSegment) {
-      this.router.navigate(['/item-master/codes', this.detail?.childSegment.id]);
+      this.router.navigate(['/item-codes', this.detail?.childSegment.name]);
     }
   }
   navigateToParent() {
     if (this.detail && this.detail?.parentSegment) {
-      this.router.navigate(['/item-master/codes', this.detail?.parentSegment.id]);
+      this.router.navigate(['/item-codes', this.detail?.parentSegment.name]);
     }
   }
 }

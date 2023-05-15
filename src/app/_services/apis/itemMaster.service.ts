@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import { ItemCodeMapping, ItemCodeSegment, ItemCodeSegmentDetail } from 'app/_models';
+import { ItemCode, ItemCodeMapping, ItemCodeSegment, ItemCodeSegmentDetail } from 'app/_models';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,15 @@ import { ItemCodeMapping, ItemCodeSegment, ItemCodeSegmentDetail } from 'app/_mo
   }
 
   getSegmentDetail(id: number) {
-    return this.http.get<ItemCodeSegmentDetail>(`${this.baseUrl}api/itemMaster/codes/${id}`);
+    return this.http.get<ItemCodeSegmentDetail>(`${this.baseUrl}api/itemcodes/${id}`);
+  }
+
+  updateItemCode(item: ItemCode) {
+    return this.http.put<ItemCode>(`${this.baseUrl}api/itemcodes`, item);
+  }
+
+  deleteItemCode(item: ItemCode) {
+    return this.http.delete<ItemCode>(`${this.baseUrl}api/itemcodes/${item.id}`);
   }
 
   deleteCodeMappings(mappings: Array<ItemCodeMapping>){

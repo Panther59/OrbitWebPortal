@@ -3,7 +3,7 @@
     <ng-template [ngxPermissionsOnly]="menuItem.permissions?.only!"
                  [ngxPermissionsExcept]="menuItem.permissions?.except!">
 
-      <a *ngIf="menuItem.type === 'link'" mat-button
+      <a *ngIf="menuItem.type === 'link' || menuItem.type === 'param-link'" mat-button
          [routerLink]="buildRoute([menuItem.route])" routerLinkActive="active">
         <ng-container [ngTemplateOutlet]="linkTypeTpl" [ngTemplateOutletContext]="{item: menuItem}">
         </ng-container>
@@ -43,7 +43,7 @@
   <span class="menu-name">{{item.name | translate}}</span>
   <span class="menu-label bg-{{item.label.color}}" *ngIf="item.label">{{item.label.value}}</span>
   <span class="menu-badge bg-{{item.badge.color}}" *ngIf="item.badge">{{item.badge.value}}</span>
-  <mat-icon class="menu-caret" *ngIf="item.type!=='link'">
+  <mat-icon class="menu-caret" *ngIf="item.type!=='link' && item.type!=='param-link'">
     {{item.type==='sub' ? 'arrow_drop_down' : 'launch'}}
   </mat-icon>
 </ng-template>
