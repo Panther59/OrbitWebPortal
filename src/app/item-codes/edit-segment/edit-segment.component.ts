@@ -1,7 +1,8 @@
 import { Component, Inject, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ItemCodeSegment } from 'app/_models';
+import { ItemCodeList, ItemCodeSegment } from 'app/_models';
+import { ItemCodesService } from 'app/_services';
 import { ItemMasterService } from 'app/_services/apis/itemMaster.service';
 import { DialogMessageService } from 'app/app-dialogs';
 
@@ -14,15 +15,19 @@ export class EditSegmentComponent {
   isSubmitting = false;
   showParentSegments = false;
   segment?: ItemCodeSegment;
+  lists?: ItemCodeList[];
   originalSegment?: ItemCodeSegment;
   segments: ItemCodeSegment[] = [];
   displaySegments: ItemCodeSegment[] = [];
+  itemCodesService?: ItemCodesService;
   itemMasterService?: ItemMasterService;
   dialogMessageService?: DialogMessageService;
   form: FormGroup = this.fb.group({
     name: ['', [Validators.required]],
     maxLength: ['', [Validators.required]],
     parentID: [null, [Validators.required]],
+    isLinkedCodeList: [null, [Validators.required]],
+    itemCodeListID: [null, [Validators.required]],
   });
   constructor(
     private _ngZone: NgZone,
@@ -33,6 +38,13 @@ export class EditSegmentComponent {
     if (data) {
       if (data && data.itemMasterService) {
         this.itemMasterService = data.itemMasterService;
+      }
+
+      if (data && data.itemCodesService) {
+        this.itemCodesService = data.itemCodesService;
+        if (this.itemCodesService) {
+          this.itemCodesService.getAllCodeLists().subscribe(x => (this.lists = x));
+        }
       }
 
       if (data && data.dialogMessageService) {
@@ -81,6 +93,8 @@ export class EditSegmentComponent {
       this.isSubmitting = true;
       this.segment.maxLength = this.form.value.maxLength;
       this.segment.name = this.form.value.name;
+      this.segment.isLinkedCodeList = this.form.value.isLinkedCodeList;
+      this.segment.itemCodeListID = this.form.value.itemCodeListID;
       this.segment.parentID =
         this.showParentSegments && this.form.value.parentID !== 0
           ? this.form.value.parentID
@@ -134,6 +148,23 @@ export class EditSegmentComponent {
     }
   }
 
+  addNewCodeList() {
+    const codeList: ItemCodeList = {
+      name: `${this.form.value.name}s`,
+    };
+    this.itemCodesService?.saveCodeList(codeList).subscribe(
+      x => {
+        this.itemCodesService?.getAllCodeLists().subscribe(x => (this.lists = x));
+      },
+      err => {
+        if (this.dialogMessageService) {
+          this.dialogMessageService.error('Save Segment', err);
+        } else {
+          console.error(err);
+        }
+      }
+    );
+  }
   cancelSaving() {
     this.dialogRef.close(false);
   }

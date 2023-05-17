@@ -1,4 +1,4 @@
-<waiting *ngIf="loading" message="Loading user codes..."></waiting>
+<waiting *ngIf="loading" message="Loading item codes..."></waiting>
 <div *ngIf="!loading && detail" class="topSection">
   <div class="summary">
     <label>Name</label>
@@ -91,7 +91,7 @@
       </dx-data-grid>
     </div>
   </mat-tab>
-  <mat-tab label="Child Mappings">
+  <mat-tab label="Child Mappings" *ngIf="showChildMapping">
     <div *ngIf="showUploadSection" @slideInOut>
       <div class="flexButtons">
         <button type="button" color="primary" mat-raised-button (click)="fileInput.click()">

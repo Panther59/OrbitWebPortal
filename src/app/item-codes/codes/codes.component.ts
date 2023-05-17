@@ -38,6 +38,7 @@ export class CodesComponent implements OnInit, AfterViewInit {
   @BlockUI() blockUI?: NgBlockUI;
   detail?: ItemCodeSegmentDetail;
   codes?: ItemCode[];
+  showChildMapping = false;
   constructor(
     private dialogMessageService: DialogMessageService,
     private itemMasterService: ItemMasterService,
@@ -65,7 +66,7 @@ export class CodesComponent implements OnInit, AfterViewInit {
       formData.append(this.selectedFile.name, this.selectedFile);
 
       this.blockUI?.start('Uploading mapping files...');
-      this.itemMasterService.upload(this.detail.id!, formData).subscribe(
+      this.itemCodesService.upload(this.detail.id!, formData).subscribe(
         async results => {
           this.blockUI?.stop();
           if (!results || results.length === 0) {
@@ -103,12 +104,20 @@ export class CodesComponent implements OnInit, AfterViewInit {
     });
   }
   loadData(id: any) {
-
     if (id) {
       this.loading = true;
       this.itemCodesService.getSegmentDetail(id).subscribe(
         result => {
           this.detail = result;
+          if (
+            this.detail.childSegment &&
+            this.detail.childSegment.isLinkedCodeList &&
+            this.detail.isLinkedCodeList
+          ) {
+            this.showChildMapping = true;
+          } else {
+            this.showChildMapping = false;
+          }
           this.loading = false;
         },
         async err => {
@@ -142,7 +151,7 @@ export class CodesComponent implements OnInit, AfterViewInit {
 
   deleteMappings(mappings: Array<ItemCodeMapping>) {
     this.blockUI?.start('Deleting code mappings...');
-    this.itemMasterService.deleteCodeMappings(mappings).subscribe(
+    this.itemCodesService.deleteCodeMappings(mappings).subscribe(
       async result => {
         this.blockUI?.stop();
         this.loadData(this.detail?.id);
@@ -172,7 +181,7 @@ export class CodesComponent implements OnInit, AfterViewInit {
   codeRecordInserting(e: any) {
     e.cancel = true;
     this.blockUI?.start(`Adding code ${e.data.name}`);
-    e.data.segmentId = this.detail?.id;
+    e.data.listID = this.detail?.itemCodeListID;
     this.itemCodesService.saveItemCode(e.data).subscribe(
       async result => {
         this.blockUI?.stop();

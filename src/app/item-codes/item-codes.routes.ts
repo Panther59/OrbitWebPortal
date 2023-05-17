@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { ViewerComponent } from './viewer/viewer.component';
 import { CodesComponent } from './codes/codes.component';
 
-const itemMasterRoutes: Routes = [
+const itemCodesRoutes: Routes = [
   {
     path: '',
     component: ViewerComponent,
@@ -13,4 +13,4 @@ const itemMasterRoutes: Routes = [
   },
 ];
 
-export default itemMasterRoutes;
+export default itemCodesRoutes;

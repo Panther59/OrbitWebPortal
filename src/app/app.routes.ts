@@ -29,7 +29,7 @@ const appRoutes: Routes = [
       },
       {
         path: 'item-codes',
-        loadChildren: () => import('./item-master/item-master.module').then(m => m.ItemMasterModule),
+        loadChildren: () => import('./item-codes/item-codes.module').then(m => m.ItemCodesModule),
       },
     ],
   },

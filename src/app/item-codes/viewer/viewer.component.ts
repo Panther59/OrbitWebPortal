@@ -5,6 +5,7 @@ import { EditSegmentComponent } from '../edit-segment/edit-segment.component';
 import { ItemMasterService } from 'app/_services/apis/itemMaster.service';
 import { DialogMessageService } from 'app/app-dialogs';
 import { Router } from '@angular/router';
+import { ItemCodesService } from 'app/_services';
 
 @Component({
   selector: 'app-viewer',
@@ -21,6 +22,7 @@ export class ViewerComponent implements OnInit {
     private router: Router,
     private dialogMessageService: DialogMessageService,
     private itemMasterService: ItemMasterService,
+    private itemCodesService: ItemCodesService,
     public dialog: MatDialog
   ) {}
   ngOnInit(): void {
@@ -31,6 +33,7 @@ export class ViewerComponent implements OnInit {
     const dialogRef = this.dialog.open(EditSegmentComponent, {
       data: {
         itemMasterService: this.itemMasterService,
+        itemCodesService: this.itemCodesService,
         dialogMessageService: this.dialogMessageService,
         segments: this.segments,
         segment,
@@ -47,7 +50,7 @@ export class ViewerComponent implements OnInit {
 
   loadData() {
     this.loading = true;
-    this.itemMasterService.getAll().subscribe(
+    this.itemMasterService.getAll<ItemCodeSegment>().subscribe(
       segments => {
         this.segments = segments;
         this.loading = false;

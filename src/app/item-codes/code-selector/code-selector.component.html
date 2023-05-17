@@ -1,0 +1,37 @@
+<p>Item Code Selector: {{itemCode}}</p>
+<div class="segContainer">
+  <div *ngFor="let seg of segments; let si = index">
+    <div *ngIf="seg.isLinkedCodeList">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ seg.name }}</mat-label>
+        <mat-select
+          matNativeControl
+          [(ngModel)]="seg.selectedCode"
+          (selectionChange)="selectionChangeStaticSeg($event.value, si)"
+        >
+          <mat-option [value]="0"></mat-option>
+          <mat-option *ngFor="let code of seg.codes" [value]="code.id">
+            <span>{{ code.code }}-{{ code.name }}</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="flexContainer" *ngIf="!seg.isLinkedCodeList">
+      <div *ngFor="let pi of seg.maxLength | fill">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ seg.name }} {{ pi + 1 }}</mat-label>
+          <mat-select
+            matNativeControl
+            [(ngModel)]="seg.selectedPositionCodes[pi]"
+            (selectionChange)="selectionChangeDynamicSeg($event.value, pi, si)"
+          >
+            <mat-option [value]="0">None</mat-option>
+            <mat-option *ngFor="let code of seg.positionCodes[pi]" [value]="code.id">
+              <span>{{ code.name }}</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

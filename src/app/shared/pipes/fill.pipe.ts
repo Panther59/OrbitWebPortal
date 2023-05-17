@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'fill'
+  name: 'fill',
 })
 export class FillPipe implements PipeTransform {
   transform(value: any) {
-    return (new Array(value)).fill(1);
+    return new Array(value).fill(1).map((x, i) => i);
   }
 }

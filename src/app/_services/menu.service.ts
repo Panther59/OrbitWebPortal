@@ -138,7 +138,7 @@ export class MenuService {
     return routeArr.splice(
       currentRealRouteArr.length,
       routeArr.length - currentRealRouteArr.length
-    );
+    ).map(x => decodeURI(x));
   }
 
   /** Add namespace for translation. */

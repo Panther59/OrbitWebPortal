@@ -7,6 +7,15 @@ export interface ItemCodeSegment {
 		maxLength?: number;
 		sequence?: number;
     parentID?: number;
+    isLinkedCodeList?: boolean;
+    itemCodeListID?: number;
+}
+
+export interface SelectorItemCodeSegment extends ItemCodeSegment {
+  selectedCode?: number;
+  codes: Array<ItemCode>;
+  positionCodes: any;
+  selectedPositionCodes: any;
 }
 
 export interface ItemCodeSegmentDetail extends ItemCodeSegment{

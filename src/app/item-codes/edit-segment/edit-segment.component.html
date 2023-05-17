@@ -68,6 +68,37 @@
           </mat-error>
         </mat-form-field>
 
+
+        <mat-form-field appearance="outline" *ngIf="lists">
+          <mat-label>{{ 'itemCodeListID' | translate }}</mat-label>
+          <mat-select matNativeControl formControlName="itemCodeListID" name="itemCodeListID">
+            <mat-option [value]="0"></mat-option>
+            <mat-option *ngFor="let list of lists" [value]="list.id">
+              <span>{{ list.name }}</span>
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="form.get('itemCodeListID')!.invalid">
+            <span *ngIf="form.get('itemCodeListID')!.errors?.required"
+              >{{ 'itemCodeListID' | translate }}
+              <strong>{{ 'itemCodeListID' | translate }}</strong>
+            </span>
+            <span *ngIf="form.get('itemCodeListID')!.errors?.remote">{{
+              form.get('itemCodeListID')!.errors?.remote
+            }}</span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-slide-toggle formControlName="isLinkedCodeList">{{ 'isLinkedCodeList' | translate }}</mat-slide-toggle>
+
+        <button
+          class="m-x-16"
+          mat-raised-button
+          color="primary"
+          (click)="addNewCodeList()"
+        >
+          Setup new code list
+        </button>
         <div class="w-full m-y-16">
           <button
             class="m-x-16"
@@ -80,7 +111,9 @@
             {{ 'save' | translate }}
           </button>
 
-          <button class="m-x-16" mat-raised-button color="primary" (click)="cancelSaving()">
+
+
+          <button class="m-x-16" mat-raised-button color="accent" (click)="cancelSaving()">
             {{ 'cancel' | translate }}
           </button>
         </div>

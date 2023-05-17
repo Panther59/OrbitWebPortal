@@ -4,7 +4,7 @@
     "company": "Company",
     "clients": "Clients",
     "itemCodes": "Item Codes",
-    "permissions": "Permissions",
+    "permissions": "Permissions"
   },
   "validations": {
     "required": "This field is required",
@@ -85,6 +85,8 @@
   "view": "View",
   "details": "Details",
   "maxLength": "Max Length",
+  "isLinkedCodeList": "Is Linked Codes",
+  "itemCodeListID": "Codes List Name",
   "after_segment": "After Segment",
   "edit_segment": "Edit Segment",
   "segment": "Segment",

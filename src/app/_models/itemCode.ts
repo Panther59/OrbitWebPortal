@@ -2,7 +2,12 @@ export interface ItemCode {
   id?: number;
   code?: string;
   name?: string;
-  segmentID?: number;
+  listID?: number;
+}
+
+export interface ItemCodeList {
+  id?: number;
+  name?: string;
 }
 
 export interface ItemCodeDetail extends ItemCode {

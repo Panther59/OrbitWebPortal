@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { ViewerComponent } from './viewer/viewer.component';
 import { SharedModule } from '@shared';
-import itemMasterRoutes from './item-master.routes';
+import itemCodesRoutes from './item-codes.routes';
 import { RouterModule } from '@angular/router';
 import { EditSegmentComponent } from './edit-segment/edit-segment.component';
 import { CodesComponent } from './codes/codes.component';
 import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
+import { CodeSelectorComponent } from './code-selector/code-selector.component';
 
 @NgModule({
   declarations: [
+    CodeSelectorComponent,
     ViewerComponent,
     EditSegmentComponent,
     CodesComponent
@@ -17,7 +19,7 @@ import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
     SharedModule,
     DxDataGridModule,
     DxButtonModule,
-    RouterModule.forChild(itemMasterRoutes),
+    RouterModule.forChild(itemCodesRoutes),
   ]
 })
-export class ItemMasterModule { }
+export class ItemCodesModule { }
